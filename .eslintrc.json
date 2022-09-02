@@ -4,9 +4,6 @@
     "es2021": true,
     "jest": true
   },
-  "react": {
-    "version": "detect"
-  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
