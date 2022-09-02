@@ -4,6 +4,9 @@
     "es2021": true,
     "jest": true
   },
+  "react": {
+    "version": "detect"
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -23,9 +26,10 @@
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
-    "quotes": ["error", "single"],
+    "quotes": "off",
     "no-duplicate-imports": "error",
-    "no-explicit-any": 1
+    "@typescript-eslint/no-explicit-any": 0,
+    "quote-props": 0
   },
   "settings": {
     "import/resolver": {
