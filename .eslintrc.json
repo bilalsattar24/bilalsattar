@@ -26,7 +26,8 @@
     "quotes": "off",
     "no-duplicate-imports": "error",
     "@typescript-eslint/no-explicit-any": 0,
-    "quote-props": 0
+    "quote-props": 0,
+    "@typescript-eslint/no-empty-interface": 0
   },
   "settings": {
     "import/resolver": {
