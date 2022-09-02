@@ -2,10 +2,10 @@
 import Twilio from './Twilio';
 
 export default {
-  title: "Twilio",
+  title: 'Twilio',
 };
 
-export const Default = () => <Twilio />;
+export const Default = () => <Twilio homeClick={console.log} />;
 
 Default.story = {
   name: 'default',

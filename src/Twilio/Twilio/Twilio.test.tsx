@@ -5,8 +5,8 @@ import Twilio from './Twilio';
 
 describe('<Twilio />', () => {
   test('it should mount', () => {
-    render(<Twilio />);
-    
+    render(<Twilio homeClick={console.log} />);
+
     const twilio = screen.getByTestId('Twilio');
 
     expect(twilio).toBeInTheDocument();
