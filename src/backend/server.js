@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const localPort = 4160;
 
-app.use(express.static(path_join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get('/ping', (req, res) => {
   return res.send('pong');
