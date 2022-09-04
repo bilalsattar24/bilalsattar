@@ -11,7 +11,7 @@
       "type": "node-terminal"
     },
     {
-      "command": "npm run start",
+      "command": "npm run backend",
       "name": "backend local",
       "request": "launch",
       "type": "node-terminal"
