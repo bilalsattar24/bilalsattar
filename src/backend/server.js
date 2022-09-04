@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const localPort = 4160;
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path_join(__dirname, '../client/build')));
 
 app.get('/ping', (req, res) => {
   return res.send('pong');
@@ -15,8 +15,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/react', (req, res) => {
-  console.log('checking at: ', path.join(__dirname, 'build', 'index.html'));
-  //res.sendFile('build/index.html');
   res.sendFile('build/index.html', { root: '.' });
 });
 
