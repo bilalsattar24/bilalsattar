@@ -13,9 +13,9 @@ app.get('/', (req, res) => {
   return res.send('homepage works');
 });
 
-app.get('/react', (req, res) => {
+/*app.get('/react', (req, res) => {
   res.sendFile('build/index.html', { root: '.' });
-});
+});*/
 
 app.listen(process.env.PORT || localPort, () => {
   console.log(`bilalsattar backend running locally at http://localhost:${localPort}`);
