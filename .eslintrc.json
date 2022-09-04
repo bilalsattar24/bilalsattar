@@ -23,8 +23,11 @@
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
-    "quotes": ["error", "single"],
-    "no-duplicate-imports": "error"
+    "quotes": "off",
+    "no-duplicate-imports": "error",
+    "@typescript-eslint/no-explicit-any": 0,
+    "quote-props": 0,
+    "@typescript-eslint/no-empty-interface": 0
   },
   "settings": {
     "import/resolver": {
