@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   // res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/', (req, res) => {
+app.get('/react', (req, res) => {
   console.log('checking at: ', path.join(__dirname, 'build', 'index.html'));
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
