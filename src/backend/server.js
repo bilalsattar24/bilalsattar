@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 
 app.get('/react', (req, res) => {
   console.log('checking at: ', path.join(__dirname, 'build', 'index.html'));
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile('build/index.html');
 });
 
 app.listen(process.env.PORT || localPort, () => {
