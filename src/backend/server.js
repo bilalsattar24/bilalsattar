@@ -14,6 +14,11 @@ app.get('/', (req, res) => {
   // res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+app.get('/', (req, res) => {
+  console.log('checking at: ', path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.listen(process.env.PORT || localPort, () => {
   console.log(`bilalsattar backend running locally at http://localhost:${localPort}`);
 });
