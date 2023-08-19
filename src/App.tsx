@@ -4,6 +4,7 @@ import './App.css';
 import Twilio from './Twilio/Twilio';
 import Button from '@mui/material/Button';
 import { Container } from '@mui/system';
+import TriviaGame from './TriviaGame';
 
 function App() {
   const [currentComponent, setCurrentComponent] = useState('home');
@@ -17,7 +18,8 @@ function App() {
   const getCurrentComponent = () => {
     switch (currentComponent) {
       case 'home':
-        return (
+        return <TriviaGame />;
+      /* return (
           <Container>
             <div className='App'>
               <header className='App-header'>
@@ -29,7 +31,7 @@ function App() {
               </header>
             </div>
           </Container>
-        );
+        );*/
       case 'twilio':
         return (
           <Container>
