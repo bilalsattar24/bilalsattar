@@ -12,6 +12,7 @@ const TriviaGame: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(8);
+  const [userAnswer, setUserAnswer] = useState('');
   const [answerStatus, setAnswerStatus] = useState<'correct' | 'incorrect' | 'none'>('none');
 
   const handleAnswerClick = (selectedAnswer: string) => {
@@ -26,11 +27,15 @@ const TriviaGame: React.FC = () => {
 
     setScore(score + earnedScore);
     setAnswerStatus(status);
+    setUserAnswer(selectedAnswer);
+  };
 
+  const handleNextQuestion = () => {
     if (currentQuestionIndex + 1 < triviaQuestions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setTimeRemaining(8);
       setAnswerStatus('none');
+      setUserAnswer('');
     }
   };
 
@@ -41,12 +46,15 @@ const TriviaGame: React.FC = () => {
       }, 1000);
       return () => clearTimeout(timer);
     } else {
-      handleAnswerClick(''); // Automatically select no answer when time is up
+      if (userAnswer === '') {
+        handleAnswerClick(''); // Automatically select no answer when time is up
+      }
     }
   }, [timeRemaining]);
 
   const currentQuestion: Question = triviaQuestions[currentQuestionIndex];
   const isFinished: boolean = currentQuestionIndex === triviaQuestions.length - 1;
+  const hasAnswered: boolean = userAnswer !== '';
 
   return (
     <div>
@@ -69,11 +77,18 @@ const TriviaGame: React.FC = () => {
             Time Remaining: {timeRemaining} second{timeRemaining !== 1 ? 's' : ''}
           </p>
           <p>Score: {score}</p>
-          {answerStatus === 'correct' && <p>Correct!</p>}
-          {answerStatus === 'incorrect' && (
-            <p>Incorrect. The correct answer is {currentQuestion.correctAnswer}.</p>
+          {hasAnswered && (
+            <>
+              {answerStatus === 'correct' && <p className='correct-answer'>Correct!</p>}
+              {answerStatus === 'incorrect' && (
+                <p className='incorrect-answer'>
+                  Incorrect. The correct answer is {currentQuestion.correctAnswer}.
+                </p>
+              )}
+              {userAnswer && <p>Your Answer: {userAnswer}</p>}
+              <button onClick={handleNextQuestion}>Next Question</button>
+            </>
           )}
-          <p>{triviaQuestions.length - currentQuestionIndex - 1} questions left</p>
         </div>
       ) : (
         <div>
