@@ -1,5 +1,5 @@
 // TriviaGame.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { triviaQuestions } from './constants';
 
 interface Question {
@@ -11,21 +11,18 @@ interface Question {
 const TriviaGame: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(8);
   const [userAnswer, setUserAnswer] = useState('');
   const [answerStatus, setAnswerStatus] = useState<'correct' | 'incorrect' | 'none'>('none');
 
   const handleAnswerClick = (selectedAnswer: string) => {
     const currentQuestion: Question = triviaQuestions[currentQuestionIndex];
-    let earnedScore = 0;
     let status: 'correct' | 'incorrect' = 'incorrect';
 
     if (currentQuestion.correctAnswer === selectedAnswer) {
-      earnedScore = timeRemaining <= 8 ? 1.25 : 0.75;
+      setScore(score + 1);
       status = 'correct';
     }
 
-    setScore(score + earnedScore);
     setAnswerStatus(status);
     setUserAnswer(selectedAnswer);
   };
@@ -33,26 +30,13 @@ const TriviaGame: React.FC = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex + 1 < triviaQuestions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimeRemaining(8);
       setAnswerStatus('none');
       setUserAnswer('');
     }
   };
 
-  useEffect(() => {
-    if (timeRemaining > 0) {
-      const timer = setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      if (userAnswer === '') {
-        handleAnswerClick(''); // Automatically select no answer when time is up
-      }
-    }
-  }, [timeRemaining]);
-
   const currentQuestion: Question = triviaQuestions[currentQuestionIndex];
+  const remainingQuestions: number = triviaQuestions.length - currentQuestionIndex - 1;
   const isFinished: boolean = currentQuestionIndex === triviaQuestions.length - 1;
   const hasAnswered: boolean = userAnswer !== '';
 
@@ -73,9 +57,6 @@ const TriviaGame: React.FC = () => {
               </button>
             ))}
           </div>
-          <p>
-            Time Remaining: {timeRemaining} second{timeRemaining !== 1 ? 's' : ''}
-          </p>
           <p>Score: {score}</p>
           {hasAnswered && (
             <>
@@ -89,6 +70,7 @@ const TriviaGame: React.FC = () => {
               <button onClick={handleNextQuestion}>Next Question</button>
             </>
           )}
+          <p>Questions remaining: {remainingQuestions}</p>
         </div>
       ) : (
         <div>
