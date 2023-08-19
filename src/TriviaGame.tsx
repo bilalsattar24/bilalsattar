@@ -24,6 +24,14 @@ const localCurrentIndex = parseFloat(localStorage.getItem('currentQuestionIndex'
 const localScore = parseFloat(localStorage.getItem('score') ?? '0');
 const localGameOver = localStorage.getItem('gameOver') === 'true';
 localStorage.getItem('currentQuestionIndex');
+
+const resetLocalValues = () => {
+  localStorage.removeItem('currentQuestionIndex');
+  localStorage.removeItem('score');
+  localStorage.removeItem('gameOver');
+  window.location.reload();
+};
+
 const TriviaGame: React.FC = () => {
   console.log(localCurrentIndex);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(localCurrentIndex);
@@ -56,8 +64,11 @@ const TriviaGame: React.FC = () => {
   if (gameOver) {
     return (
       <div className='App'>
-        <h1>Summer With the Sattars!</h1>
+        <h1 onDoubleClick={resetLocalValues}>SWTS Trivia</h1>
         <h2>Final Score: {score}</h2>
+        <h3>
+          Show this to Bilal to get your {score} ticket{score > 1 ? 's' : ''}!
+        </h3>
       </div>
     );
   }
@@ -66,7 +77,7 @@ const TriviaGame: React.FC = () => {
 
   return (
     <div className='App'>
-      <h1>Summer With the Sattars!</h1>
+      <h1>SWTS Trivia</h1>
       <p>
         Question {currentQuestionIndex + 1} of {questions.length}
       </p>
