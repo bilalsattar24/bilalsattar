@@ -43,9 +43,17 @@ function App() {
               <li>Anything about LA on your clothes - 2 tickets</li>
             </ol>
 
-            <Button variant='contained' onClick={handleTriviaClick}>
-              Play Trivia
+            <Button disabled variant='contained' onClick={handleTriviaClick}>
+              Play Trivia (Available after 7pm)
             </Button>
+            <div>
+              <h3>Prizes</h3>
+              <ol>
+                <li>Massage session gift card</li>
+                <li>Dinner gift card</li>
+                <li>3x starbucks gift cards</li>
+              </ol>
+            </div>
           </Container>
         );
       case 'twilio':
