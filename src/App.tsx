@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Twilio from './Twilio/Twilio';
 import Button from '@mui/material/Button';
@@ -26,7 +25,7 @@ function App() {
         return (
           <Container>
             <h1>Summer with the Sattars!</h1>
-            <h3>How to earn raffle tickets</h3>
+            <h3>Ways to earn raffle tickets</h3>
             <ol>
               <li>First to arrive - 4 tickets</li>
               <li>Show up! - 1 ticket</li>
@@ -35,8 +34,13 @@ function App() {
               <li>Make Bilal or Maymah laugh - 2 tickets</li>
               <li>Just ask for an extra - 1 ticket</li>
               <li>Best dressed votes - 1 per 2 votes</li>
+              <li>You drive a Tesla - 3 tickets</li>
               <li>Challenge someone to something - variable</li>
               <li>Predict Fight winner - 2 per prediction</li>
+              <li>You have a palm tree on your clothes - 2 tickets</li>
+              <li>You have a Lakers logo on your clothes - 4 tickets</li>
+              <li>You have a Dodgers logo on your clothes - 4 tickets</li>
+              <li>Anything about LA on your clothes - 2 tickets</li>
             </ol>
 
             <Button variant='contained' onClick={handleTriviaClick}>
