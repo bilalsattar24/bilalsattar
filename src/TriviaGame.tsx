@@ -1,83 +1,90 @@
-// TriviaGame.tsx
 import React, { useState } from 'react';
-import { triviaQuestions } from './constants';
+import { Button } from '@mui/material';
+import './App.css';
 
 interface Question {
-  question: string;
+  questionText: string;
   options: string[];
-  correctAnswer: string;
+  correctOptionIndex: number;
 }
 
+const questions: Question[] = [
+  {
+    questionText: 'When did the Sattar family move here?',
+    options: ['2001', '2011', '2008', '2014'],
+    correctOptionIndex: 2,
+  },
+  {
+    questionText: 'Which city did Maymah grow up in?',
+    options: ['Culver City', 'Torrance', 'Hawthorne', 'Marina Del Rey'],
+    correctOptionIndex: 0,
+  },
+];
+const localCurrentIndex = parseFloat(localStorage.getItem('currentQuestionIndex') ?? '0');
+const localScore = parseFloat(localStorage.getItem('score') ?? '0');
+const localGameOver = localStorage.getItem('gameOver') === 'true';
+localStorage.getItem('currentQuestionIndex');
 const TriviaGame: React.FC = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [userAnswer, setUserAnswer] = useState('');
-  const [answerStatus, setAnswerStatus] = useState<'correct' | 'incorrect' | 'none'>('none');
+  console.log(localCurrentIndex);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(localCurrentIndex);
+  const [score, setScore] = useState(localScore);
+  const [gameOver, setGameOver] = useState(localGameOver);
 
-  const handleAnswerClick = (selectedAnswer: string) => {
-    const currentQuestion: Question = triviaQuestions[currentQuestionIndex];
-    let status: 'correct' | 'incorrect' = 'incorrect';
+  const handleOptionClick = (selectedOptionIndex: number) => {
+    if (gameOver) {
+      return; // Don't allow clicking options after the game is over
+    }
 
-    if (currentQuestion.correctAnswer === selectedAnswer) {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    if (currentQuestion.correctOptionIndex === selectedOptionIndex) {
       setScore(score + 1);
-      status = 'correct';
+      localStorage.setItem('score', `${score + 1}`);
+      console.log('correct answer');
     }
 
-    setAnswerStatus(status);
-    setUserAnswer(selectedAnswer);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex + 1 < triviaQuestions.length) {
+    if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setAnswerStatus('none');
-      setUserAnswer('');
+      localStorage.setItem('currentQuestionIndex', `${currentQuestionIndex + 1}`);
+    } else {
+      // Game over
+      setGameOver(true);
+      localStorage.setItem('gameOver', 'true');
     }
   };
 
-  const currentQuestion: Question = triviaQuestions[currentQuestionIndex];
-  const remainingQuestions: number = triviaQuestions.length - currentQuestionIndex - 1;
-  const isFinished: boolean = currentQuestionIndex === triviaQuestions.length - 1;
-  const hasAnswered: boolean = userAnswer !== '';
+  if (gameOver) {
+    return (
+      <div className='App'>
+        <h1>Summer With the Sattars!</h1>
+        <h2>Final Score: {score}</h2>
+      </div>
+    );
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div>
-      {!isFinished ? (
-        <div>
-          <h2>Question {currentQuestionIndex + 1}</h2>
-          <p>{currentQuestion.question}</p>
-          <div>
-            {currentQuestion.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswerClick(option)}
-                disabled={answerStatus !== 'none'}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          <p>Score: {score}</p>
-          {hasAnswered && (
-            <>
-              {answerStatus === 'correct' && <p className='correct-answer'>Correct!</p>}
-              {answerStatus === 'incorrect' && (
-                <p className='incorrect-answer'>
-                  Incorrect. The correct answer is {currentQuestion.correctAnswer}.
-                </p>
-              )}
-              {userAnswer && <p>Your Answer: {userAnswer}</p>}
-              <button onClick={handleNextQuestion}>Next Question</button>
-            </>
-          )}
-          <p>Questions remaining: {remainingQuestions}</p>
-        </div>
-      ) : (
-        <div>
-          <h2>Trivia Game Completed!</h2>
-          <p>Your Final Score: {score}</p>
-        </div>
-      )}
+    <div className='App'>
+      <h1>Summer With the Sattars!</h1>
+      <p>
+        Question {currentQuestionIndex + 1} of {questions.length}
+      </p>
+      <p>Score: {score}</p>
+      <h2>{currentQuestion.questionText}</h2>
+      <div className='options'>
+        {currentQuestion.options.map((option, index) => (
+          <Button
+            key={index}
+            onClick={() => handleOptionClick(index)}
+            fullWidth
+            variant='contained'
+            style={{ marginBottom: '10px' }}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 };
