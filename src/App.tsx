@@ -51,6 +51,10 @@ function App() {
                 chip? You'll earn an impressive 8 tickets for your bold taste adventure! 🔥🌶️🎫
               </li>
               <li>
+                <strong>Photo Op Pro:</strong> Snap a selfie with any of the hosts and collect 1
+                ticket for your selfie spree! 📸🎫
+              </li>
+              <li>
                 <strong>Giggle Generator:</strong> Make Bilal or Maymah laugh, and you'll be
                 laughing your way to 2 extra tickets. Bring on the humor! 😂🎫
               </li>
