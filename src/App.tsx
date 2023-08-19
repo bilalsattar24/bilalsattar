@@ -25,26 +25,77 @@ function App() {
         return (
           <Container>
             <h1>Summer with the Sattars!</h1>
-            <h3>Ways to earn raffle tickets</h3>
+            <p>
+              Get ready to have a blast at "Summer with the Sattars" tonight, starting at 6 pm! 🎉
+              There will be a thrilling raffle with fantastic prizes waiting for you as the night
+              winds down. But hey, that's not all – your chances to score those awesome raffle
+              tickets are practically endless!{' '}
+              <strong>Here's the lowdown on how to stack the odds in your favor:</strong>
+            </p>
             <ol>
-              <li>First to arrive - 4 tickets</li>
-              <li>Show up! - 1 ticket</li>
-              <li>Play Trivia - 1 ticket per point</li>
-              <li>Eat part of a hot chip - 8 tickets</li>
-              <li>Make Bilal or Maymah laugh - 2 tickets</li>
-              <li>Just ask for an extra - 1 ticket</li>
-              <li>Best dressed votes - 1 per 2 votes</li>
-              <li>You drive a Tesla - 3 tickets</li>
-              <li>Challenge someone to something - variable</li>
-              <li>Predict Fight winner - 2 per prediction</li>
-              <li>You have a palm tree on your clothes - 2 tickets</li>
-              <li>You have a Lakers logo on your clothes - 4 tickets</li>
-              <li>You have a Dodgers logo on your clothes - 4 tickets</li>
-              <li>Anything about LA on your clothes - 2 tickets</li>
+              <li>
+                <strong>Early Bird Bonus:</strong> Be the first to kick off the party – snag 4 shiny
+                tickets right at the start! 🕓🎫
+              </li>
+              <li>
+                <strong>Party Starter:</strong> Just by showing up, you're earning a cool ticket.
+                Your presence matters, and so does your ticket count! 🎉🎫
+              </li>
+              <li>
+                <strong>Trivia Whiz:</strong> Prove your brainpower in our thrilling trivia. Each
+                correct answer means another ticket to add to your growing stash! Play trivia
+                below🧠🎫
+              </li>
+              <li>
+                <strong>Spicy Challenger:</strong> Brave enough to munch on a piece of the fiery hot
+                chip? You'll earn an impressive 8 tickets for your bold taste adventure! 🔥🌶️🎫
+              </li>
+              <li>
+                <strong>Giggle Generator:</strong> Make Bilal or Maymah laugh, and you'll be
+                laughing your way to 2 extra tickets. Bring on the humor! 😂🎫
+              </li>
+              <li>
+                <strong>Ticket Beggar:</strong> Sometimes, it's okay to ask for an extra ticket.
+                We've got you covered with one ticket just for the ask! 💁‍♂️💬🎫
+              </li>
+              <li>
+                <strong>Fashion Guru:</strong> Strut your style and gather votes for the best
+                dressed! Every 2 votes earn you another snazzy ticket. Show us your fashion finesse!
+                👗👔👗🎫
+              </li>
+              <li>
+                <strong>Tesla Driver:</strong> Cruising in a Tesla? You're not just driving in style
+                – you're earning 3 tickets too! 🚗🎫
+              </li>
+              <li>
+                <strong>Challenge Commander:</strong> Challenge someone to a game or dare, and the
+                ticket reward is yours to negotiate. It's time to show off your competitive spirit!
+                🏆🎫
+              </li>
+              <li>
+                <strong>Fight Predictor:</strong> Channel your inner psychic – predict a fight
+                winner and pocket 2 tickets for every correct guess! 🔮🎫
+              </li>
+              <li>
+                <strong>Tropical Touch:</strong> If you're rocking a palm tree on your outfit,
+                you've earned 2 tickets that'll make your style shine even brighter! 🌴🎫
+              </li>
+              <li>
+                <strong>Lakers Legend:</strong> A Lakers logo on your clothes earns you a slam dunk
+                of 4 tickets. It's time to show your team pride! 🏀🎫
+              </li>
+              <li>
+                <strong>Dodgers Devotee:</strong> Sporting a Dodgers logo? You've just scored 4
+                tickets, hitting a home run for your raffle chances! ⚾🎫
+              </li>
+              <li>
+                <strong>LA Enthusiast:</strong> Anything repping LA on your outfit? That's worth 2
+                tickets – let your attire tell your story! 🌆🎫
+              </li>
             </ol>
 
             <Button disabled variant='contained' onClick={handleTriviaClick}>
-              Play Trivia (Available after 7pm)
+              Play Trivia (Available after you arrive)
             </Button>
             <div>
               <h3>Prizes</h3>
