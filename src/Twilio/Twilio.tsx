@@ -2,9 +2,9 @@ import { Button } from '@mui/material';
 import { FC } from 'react';
 import styles from './Twilio.module.css';
 
-interface TwilioProps {
+type TwilioProps = {
   homeClick: () => void;
-}
+};
 
 const Twilio: FC<TwilioProps> = (props) => (
   <div className={styles.Twilio} data-testid='Twilio'>

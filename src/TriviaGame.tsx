@@ -1,25 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import './App.css';
+import { rayanBirthdayQuestions } from './questions';
 
-interface Question {
-  questionText: string;
-  options: string[];
-  correctOptionIndex: number;
-}
-
-const questions: Question[] = [
-  {
-    questionText: 'When did the Sattar family move here?',
-    options: ['2001', '2011', '2008', '2014'],
-    correctOptionIndex: 2,
-  },
-  {
-    questionText: 'Which city did Maymah grow up in?',
-    options: ['Culver City', 'Torrance', 'Hawthorne', 'Marina Del Rey'],
-    correctOptionIndex: 0,
-  },
-];
+const questions = [...rayanBirthdayQuestions];
 const localCurrentIndex = parseFloat(localStorage.getItem('currentQuestionIndex') ?? '0');
 const localScore = parseFloat(localStorage.getItem('score') ?? '0');
 const localGameOver = localStorage.getItem('gameOver') === 'true';
