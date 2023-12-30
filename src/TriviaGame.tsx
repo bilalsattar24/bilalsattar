@@ -48,7 +48,7 @@ const TriviaGame: React.FC = () => {
   if (gameOver) {
     return (
       <div className='App'>
-        <h1 onDoubleClick={resetLocalValues}>SWTS Trivia</h1>
+        <h1 onDoubleClick={resetLocalValues}>Rayan Trivia</h1>
         <h2>Final Score: {score}</h2>
         <h3>
           Show this to Bilal to get your {score} ticket{score > 1 ? 's' : ''}!
@@ -61,7 +61,7 @@ const TriviaGame: React.FC = () => {
 
   return (
     <div className='App'>
-      <h1>SWTS Trivia</h1>
+      <h1>Rayan Trivia</h1>
       <p>
         Question {currentQuestionIndex + 1} of {questions.length}
       </p>
