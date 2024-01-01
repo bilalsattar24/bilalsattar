@@ -3,21 +3,21 @@ import { Button } from '@mui/material';
 import './App.css';
 import { rayanBirthdayQuestions } from './questions';
 
+// randize the order of rayanBirthdayQuestions and set to questions
 const questions = [...rayanBirthdayQuestions];
-const localCurrentIndex = parseFloat(localStorage.getItem('currentQuestionIndex') ?? '0');
-const localScore = parseFloat(localStorage.getItem('score') ?? '0');
-const localGameOver = localStorage.getItem('gameOver') === 'true';
-localStorage.getItem('currentQuestionIndex');
+const localCurrentIndex = parseFloat(localStorage.getItem('rayan-currentQuestionIndex') ?? '0');
+const localScore = parseFloat(localStorage.getItem('rayan-score') ?? '0');
+const localGameOver = localStorage.getItem('rayan-gameOver') === 'true';
+localStorage.getItem('rayan-currentQuestionIndex');
 
 const resetLocalValues = () => {
-  localStorage.removeItem('currentQuestionIndex');
-  localStorage.removeItem('score');
-  localStorage.removeItem('gameOver');
+  localStorage.removeItem('rayan-currentQuestionIndex');
+  localStorage.removeItem('rayan-score');
+  localStorage.removeItem('rayan-gameOver');
   window.location.reload();
 };
 
 const TriviaGame: React.FC = () => {
-  console.log(localCurrentIndex);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(localCurrentIndex);
   const [score, setScore] = useState(localScore);
   const [gameOver, setGameOver] = useState(localGameOver);
@@ -31,17 +31,17 @@ const TriviaGame: React.FC = () => {
 
     if (currentQuestion.correctOptionIndex === selectedOptionIndex) {
       setScore(score + 1);
-      localStorage.setItem('score', `${score + 1}`);
+      localStorage.setItem('rayan-score', `${score + 1}`);
       console.log('correct answer');
     }
 
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      localStorage.setItem('currentQuestionIndex', `${currentQuestionIndex + 1}`);
+      localStorage.setItem('rayan-currentQuestionIndex', `${currentQuestionIndex + 1}`);
     } else {
       // Game over
       setGameOver(true);
-      localStorage.setItem('gameOver', 'true');
+      localStorage.setItem('rayan-gameOver', 'true');
     }
   };
 
@@ -51,7 +51,7 @@ const TriviaGame: React.FC = () => {
         <h1 onDoubleClick={resetLocalValues}>Rayan Trivia</h1>
         <h2>Final Score: {score}</h2>
         <h3>
-          Show this to Bilal to get your {score} ticket{score > 1 ? 's' : ''}!
+          Show this to Bilal or Maymah to get your {score} ticket{score > 1 ? 's' : ''}!
         </h3>
       </div>
     );

@@ -7,6 +7,7 @@ import TriviaGame from './TriviaGame';
 
 function App() {
   const [currentComponent, setCurrentComponent] = useState('rayan');
+  const isPastGameTime = new Date() < new Date('2023-12-30T12:30:00');
   const handleTwilioClick = () => {
     setCurrentComponent('twilio');
   };
@@ -30,6 +31,22 @@ function App() {
               12/29! 🎈🎂 Prepare for a day filled with joy, games, and delightful surprises. Plus,
               we have an exciting raffle with amazing prizes for everyone. Here's how you can
               increase your chances to win:
+            </p>
+            <p>
+              <strong>Location:</strong>{' '}
+              <a href='https://maps.app.goo.gl/hQ6N3mMdHKUwKaLV7' target='blank'>
+                Chevron Park
+              </a>
+            </p>
+            <Button
+              variant='contained'
+              onClick={handleTriviaClick}
+              disabled={isPastGameTime}
+              style={{ height: '60px', width: '100%', marginBottom: '20px' }}
+            >
+              Play Trivia {isPastGameTime ? '(Opens at 12:30)' : ''}
+            </Button>
+            <p>
               <strong>Here's your guide to winning those coveted raffle tickets:</strong>
             </p>
             <ol>
@@ -55,23 +72,27 @@ function App() {
                 driving in style - you're earning 2 tickets too! 🚗🎫
               </li>
               <li>
-                <strong>Autograph Ace:</strong> Sign a special baseball for Rayan. You signature
+                <strong>Autograph Ace:</strong> Sign a special baseball for Rayan. Your signature
                 earns you a ticket as a token of appreciation for adding a personal touch to Rayan's
                 birthday keepsake! ⚾🖊️🎫
               </li>
+              <li>
+                <strong>Ping Pong Splash</strong> Toss a ping pong ball into a cup with flair and
+                discover your ticket treasure! 🥤🏓🎫 (3 attempts, one cup max)
+              </li>
+              <li>
+                <strong>Birthday Message</strong> Record a video birthday message on Bilal or
+                Maymah's phone and earn two tickets 🎙️🤳🏽🎫
+              </li>
+              <li>
+                <strong>Laugh Leader</strong> Make Rayan laugh for 2 tickets 😆🎫
+              </li>
+              <li>
+                <strong>Urdu Laughter Challenge</strong> Share a hilarious joke in Urdu with Yousaf,
+                Shahid, Anita, or Samina and earn your giggle-worthy ticket if they burst into
+                laughter! 😄🎫"
+              </li>
             </ol>
-
-            <Button variant='contained' onClick={handleTriviaClick}>
-              Play Trivia
-            </Button>
-            <div>
-              <h3>Prizes</h3>
-              <ol>
-                <li>Massage session gift card</li>
-                <li>Dinner gift card</li>
-                <li>3x starbucks gift cards</li>
-              </ol>
-            </div>
           </Container>
         );
       case 'twilio':

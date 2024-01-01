@@ -82,23 +82,68 @@ export const rayanBirthdayQuestions: Question[] = [
     correctOptionIndex: 1,
   },
   {
-    questionText: "What is Rayan's first word(s)",
+    questionText: "What is Rayan's first word(s)?",
     options: ['Car', 'Wow', 'Mama', 'Doodoo'],
     correctOptionIndex: 2,
   },
   {
-    questionText: "What is Rayan's height",
+    questionText: "What is Rayan's height?",
     options: ['34"', '30"', '32"', '36"'],
     correctOptionIndex: 0,
   },
   {
-    questionText: 'How does Rayan pronounce Cybertruck',
+    questionText: 'How many houses has Rayan lived in?',
+    options: ['1', '2', '3', '4'],
+    correctOptionIndex: 1,
+  },
+  {
+    questionText: 'Which hospital was Rayan born in?',
+    options: ['Torrance Memorial', 'Cedars Sinai', 'UCLA', 'Kaiser'],
+    correctOptionIndex: 0,
+  },
+  {
+    questionText: 'How does Rayan pronounce Cybertruck?',
     options: ['shyber', 'sychuck', 'cyber truck', 'chuck'],
     correctOptionIndex: 1,
   },
   {
-    questionText: "What is Rayan's actual birthday",
+    questionText: "What is Rayan's actual birthday?",
     options: ['December 31st', 'December 25th', 'December 30th', 'December 29th'],
+    correctOptionIndex: 3,
+  },
+  {
+    questionText: "What does Rayan call the color 'Orange'?",
+    options: ['Orange', 'Oro', 'Ono', 'Ora'],
+    correctOptionIndex: 2,
+  },
+  {
+    questionText: 'How old is Rayan now?',
+    options: ['1', '2', '3', '4'],
+    correctOptionIndex: 1,
+  },
+  {
+    questionText: "What is Ryan's middle name?",
+    options: ['Yousaf', 'Muhammad', 'Bilal', 'Qasim'],
+    correctOptionIndex: 2,
+  },
+  {
+    questionText: "What is Rayan's favorite TV show?",
+    options: ['Paw Patrol', 'Miss Rachel', 'Leo The Truck', 'Cocomelon'],
+    correctOptionIndex: 2,
+  },
+  {
+    questionText: 'What was the weather like when Rayan was born?',
+    options: ['Sunny', 'Rainy', 'Overcast', 'Partly Cloudy'],
+    correctOptionIndex: 1,
+  },
+  {
+    questionText: "What color is Rayan's bike?",
+    options: ['Yellow', 'Blue', 'Green', 'Orange'],
+    correctOptionIndex: 1,
+  },
+  {
+    questionText: 'What time does Rayan usually wake up in the morning?',
+    options: ['6am', '7am', '8am', '9am'],
     correctOptionIndex: 3,
   },
 ];
