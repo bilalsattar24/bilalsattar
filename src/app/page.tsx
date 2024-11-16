@@ -19,50 +19,50 @@ import {
 
 const projects = [
   {
-    title: "E-commerce Platform",
+    title: "Trestle CRM Platform",
     description:
-      "Built a scalable marketplace handling thousands of daily transactions. Implemented secure payment processing, real-time inventory management, and analytics dashboard.",
-    image: "/projects/ecommerce.jpg",
-    tags: ["Next.js", "AWS", "PostgreSQL", "Stripe"],
-    link: "https://github.com/bilalsattar24/project-1",
-    year: "2023",
+      "Building a comprehensive custom CRM using Next.js and React to manage election candidate relationships. Established a library of 100+ reusable Chakra UI components and implemented data pipelines for 2,500+ users.",
+    image: "/projects/trestle.jpg",
+    tags: ["Next.js", "React", "Chakra UI", "TypeScript"],
+    link: "https://github.com/bilalsattar24/trestle-crm",
+    year: "2023-Present",
   },
   {
-    title: "AI-Powered Analytics",
+    title: "Fantasy Basketball Wzrd",
     description:
-      "Developed a real-time data processing platform using machine learning to provide predictive insights. Features include automated reporting and anomaly detection.",
-    image: "/projects/analytics.jpg",
-    tags: ["Python", "TensorFlow", "React", "AWS Lambda"],
-    link: "https://github.com/bilalsattar24/project-2",
-    year: "2023",
+      "Developed a profitable Chrome extension with 10k+ weekly active users. Built a Python Django backend for live basketball statistics and led a team of developers. Created a thriving community with thousands of users.",
+    image: "/projects/basketball.jpg",
+    tags: ["Python", "Django", "Chrome Extension", "JavaScript"],
+    link: "https://github.com/bilalsattar24/fantasy-basketball-wzrd",
+    year: "2017-Present",
   },
   {
-    title: "FinTech Mobile App",
+    title: "Real Estate Lead Generation Platform",
     description:
-      "Created a cross-platform financial management application with features for budgeting, investment tracking, and expense analytics.",
-    image: "/projects/fintech.jpg",
-    tags: ["React Native", "Node.js", "MongoDB", "Firebase"],
-    link: "https://github.com/bilalsattar24/project-3",
-    year: "2022",
+      "Spearheaded development of a React and Express home search portal at Ylopo, significantly boosting lead generation. Implemented critical features including area search auto-complete and user registration.",
+    image: "/projects/realestate.jpg",
+    tags: ["React", "Express", "JavaScript", "Analytics"],
+    link: "https://github.com/bilalsattar24/real-estate-platform",
+    year: "2022-2023",
   },
 ];
 
 const skills = [
   {
     category: "Frontend",
-    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    technologies: ["React", "TypeScript", "Vue", "Angular", "HTML/CSS"],
   },
   {
     category: "Backend",
-    technologies: ["Node.js", "Python", "Go", "GraphQL"],
+    technologies: ["Node.js", "Python", "Java", "C#", "Django"],
   },
   {
-    category: "Cloud",
-    technologies: ["AWS", "Docker", "Kubernetes", "Terraform"],
+    category: "Cloud & Tools",
+    technologies: ["AWS", "Azure", "MongoDB", "REST APIs", "Git"],
   },
   {
-    category: "Database",
-    technologies: ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
+    category: "Other",
+    technologies: ["Agile", "Team Leadership", "Mentoring", "CI/CD"],
   },
 ];
 
@@ -145,9 +145,11 @@ export default function Home() {
                     maxWidth: 600,
                     lineHeight: 1.8,
                   }}>
-                  Crafting innovative digital solutions through elegant code and
-                  scalable architecture. Specialized in building
-                  high-performance applications that make a difference.
+                  Motivated software engineer with over 7 years of experience
+                  building scalable web applications and leading development
+                  teams. Specialized in full-stack development with React,
+                  TypeScript, and cloud technologies. Currently building
+                  innovative solutions at Trestle Collaborative.
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <Button
