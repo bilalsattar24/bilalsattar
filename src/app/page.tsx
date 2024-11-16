@@ -13,36 +13,6 @@ import {
   IconButton,
 } from "@mui/material";
 
-const projects = [
-  {
-    title: "Trestle CRM Platform",
-    description:
-      "Building a comprehensive custom CRM using Next.js and React to manage election candidate relationships. Established a library of 100+ reusable Chakra UI components and implemented data pipelines for 2,500+ users.",
-    image: "/projects/trestle.jpg",
-    tags: ["Next.js", "React", "Chakra UI", "TypeScript"],
-    link: "https://github.com/bilalsattar24/trestle-crm",
-    year: "2023-Present",
-  },
-  {
-    title: "Fantasy Basketball Wzrd",
-    description:
-      "Developed a profitable Chrome extension with 10k+ weekly active users. Built a Python Django backend for live basketball statistics and led a team of developers. Created a thriving community with thousands of users.",
-    image: "/projects/basketball.jpg",
-    tags: ["Python", "Django", "Chrome Extension", "JavaScript"],
-    link: "https://github.com/bilalsattar24/fantasy-basketball-wzrd",
-    year: "2017-Present",
-  },
-  {
-    title: "Real Estate Lead Generation Platform",
-    description:
-      "Spearheaded development of a React and Express home search portal at Ylopo, significantly boosting lead generation. Implemented critical features including area search auto-complete and user registration.",
-    image: "/projects/realestate.jpg",
-    tags: ["React", "Express", "JavaScript", "Analytics"],
-    link: "https://github.com/bilalsattar24/real-estate-platform",
-    year: "2022-2023",
-  },
-];
-
 const skills = [
   {
     category: "Frontend",
@@ -415,7 +385,7 @@ export default function Home() {
                 description:
                   "Integrated multiple external web services into an existing Java codebase for insurance policy quoting, focusing on performance and maintainability. I represented the PolicyCenter team during company-wide releases and successfully built a new policy type, Commercial Umbrella, within a four-month timeframe.",
               },
-            ].map((experience, index) => (
+            ].map((experience) => (
               <Box
                 key={experience.company}
                 sx={{
