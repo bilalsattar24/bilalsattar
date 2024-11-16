@@ -1,7 +1,6 @@
 "use client";
 
 import { FaCode, FaDatabase, FaMobile, FaCloud } from "react-icons/fa";
-import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Container,
@@ -63,8 +62,6 @@ const recentWork = [
 ];
 
 export default function Home() {
-  const theme = useTheme();
-
   return (
     <Container maxWidth="lg">
       <Box sx={{ py: 8 }}>
