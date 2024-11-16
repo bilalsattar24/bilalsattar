@@ -7,33 +7,43 @@ import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Container,
-  Grid,
   Typography,
   Button,
+  Grid,
   IconButton,
+  Card,
+  CardContent,
+  Chip,
+  Fade,
 } from "@mui/material";
 
 const projects = [
   {
     title: "E-commerce Platform",
-    description: "Scalable marketplace with thousands of daily transactions",
+    description:
+      "Built a scalable marketplace handling thousands of daily transactions. Implemented secure payment processing, real-time inventory management, and analytics dashboard.",
     image: "/projects/ecommerce.jpg",
-    tags: ["Next.js", "AWS", "PostgreSQL"],
-    link: "#",
+    tags: ["Next.js", "AWS", "PostgreSQL", "Stripe"],
+    link: "https://github.com/bilalsattar24/project-1",
+    year: "2023",
   },
   {
     title: "AI-Powered Analytics",
-    description: "Real-time data processing and visualization platform",
+    description:
+      "Developed a real-time data processing platform using machine learning to provide predictive insights. Features include automated reporting and anomaly detection.",
     image: "/projects/analytics.jpg",
-    tags: ["Python", "TensorFlow", "React"],
-    link: "#",
+    tags: ["Python", "TensorFlow", "React", "AWS Lambda"],
+    link: "https://github.com/bilalsattar24/project-2",
+    year: "2023",
   },
   {
     title: "FinTech Mobile App",
-    description: "Cross-platform financial management application",
+    description:
+      "Created a cross-platform financial management application with features for budgeting, investment tracking, and expense analytics.",
     image: "/projects/fintech.jpg",
-    tags: ["React Native", "Node.js", "MongoDB"],
-    link: "#",
+    tags: ["React Native", "Node.js", "MongoDB", "Firebase"],
+    link: "https://github.com/bilalsattar24/project-3",
+    year: "2022",
   },
 ];
 
@@ -262,47 +272,47 @@ export default function Home() {
       </Box>
 
       {/* Projects Section */}
-      <Box sx={{ py: 15 }}>
+      <Box sx={{ py: 15, bgcolor: "background.paper" }}>
         <Container maxWidth="lg">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}>
-            <Typography
-              variant="h3"
-              sx={{
-                mb: 8,
-                textAlign: "center",
-                fontWeight: 700,
-                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}>
-              Featured Projects
-            </Typography>
-            <Grid container spacing={4}>
-              {projects.map((project, index) => (
-                <Grid item xs={12} md={4} key={project.title}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}>
+          <Typography
+            variant="h3"
+            component="h2"
+            gutterBottom
+            sx={{
+              mb: 6,
+              textAlign: "center",
+              fontWeight: "bold",
+              background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+            Featured Projects
+          </Typography>
+
+          <Grid container spacing={4}>
+            {projects.map((project, index) => (
+              <Grid item xs={12} key={project.title}>
+                <Fade
+                  in={true}
+                  timeout={1000}
+                  style={{ transitionDelay: `${index * 100}ms` }}>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", md: "row" },
+                      overflow: "hidden",
+                      transition: "all 0.3s ease-in-out",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: theme.shadows[10],
+                      },
+                    }}>
                     <Box
                       sx={{
+                        width: { xs: "100%", md: "40%" },
+                        minHeight: { xs: 200, md: 300 },
                         position: "relative",
-                        borderRadius: 4,
                         overflow: "hidden",
-                        cursor: "pointer",
-                        "&:hover": {
-                          "& .project-overlay": {
-                            opacity: 1,
-                          },
-                          "& img": {
-                            transform: "scale(1.05)",
-                          },
-                        },
                       }}>
                       <Box
                         component="img"
@@ -310,60 +320,84 @@ export default function Home() {
                         alt={project.title}
                         sx={{
                           width: "100%",
-                          height: 300,
+                          height: "100%",
                           objectFit: "cover",
-                          transition: "transform 0.3s ease",
+                          transition: "transform 0.3s ease-in-out",
+                          "&:hover": {
+                            transform: "scale(1.05)",
+                          },
                         }}
                       />
+                    </Box>
+
+                    <CardContent sx={{ flex: 1, p: 4 }}>
                       <Box
-                        className="project-overlay"
                         sx={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          bgcolor: "rgba(0,0,0,0.7)",
-                          opacity: 0,
-                          transition: "opacity 0.3s ease",
                           display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          p: 3,
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          mb: 2,
                         }}>
                         <Typography
                           variant="h5"
-                          sx={{ color: "white", mb: 2, fontWeight: 600 }}>
+                          component="h3"
+                          fontWeight="bold">
                           {project.title}
                         </Typography>
-                        <Typography
-                          variant="body1"
-                          sx={{ color: "white", mb: 2 }}>
-                          {project.description}
+                        <Typography variant="subtitle1" color="text.secondary">
+                          {project.year}
                         </Typography>
-                        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                          {project.tags.map((tag) => (
-                            <Box
-                              key={tag}
-                              sx={{
-                                px: 2,
-                                py: 0.5,
-                                borderRadius: 2,
-                                bgcolor: "primary.main",
-                                color: "white",
-                                fontSize: "0.875rem",
-                              }}>
-                              {tag}
-                            </Box>
-                          ))}
-                        </Box>
                       </Box>
-                    </Box>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </motion.div>
+
+                      <Typography
+                        variant="body1"
+                        sx={{ mb: 3, color: "text.secondary" }}>
+                        {project.description}
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: 1,
+                          mb: 3,
+                        }}>
+                        {project.tags.map((tag) => (
+                          <Chip
+                            key={tag}
+                            label={tag}
+                            sx={{
+                              background: `linear-gradient(45deg, ${theme.palette.primary.main}20, ${theme.palette.primary.light}20)`,
+                              border: "1px solid",
+                              borderColor: "primary.main",
+                              color: "primary.main",
+                              fontWeight: 500,
+                            }}
+                          />
+                        ))}
+                      </Box>
+
+                      <Button
+                        href={project.link}
+                        target="_blank"
+                        variant="outlined"
+                        color="primary"
+                        endIcon={<FaGithub />}
+                        sx={{
+                          borderRadius: 2,
+                          textTransform: "none",
+                          "&:hover": {
+                            transform: "translateY(-2px)",
+                          },
+                        }}>
+                        View Code
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Fade>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
     </Box>
