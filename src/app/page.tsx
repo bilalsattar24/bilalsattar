@@ -59,7 +59,6 @@ const skills = [
 
 export default function Home() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
