@@ -2,15 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaArrowRight,
-  FaCode,
-  FaDatabase,
-  FaMobile,
-  FaCloud,
-} from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaArrowRight } from "react-icons/fa";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
