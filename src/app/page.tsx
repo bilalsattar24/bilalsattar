@@ -11,10 +11,6 @@ import {
   Button,
   Grid,
   IconButton,
-  Card,
-  CardContent,
-  Chip,
-  Fade,
 } from "@mui/material";
 
 const projects = [
@@ -92,9 +88,11 @@ export default function Home() {
       <Box
         sx={{
           position: "relative",
-          height: "100vh",
+          height: { xs: "auto", md: "100vh" },
+          minHeight: { xs: "80vh", md: "100vh" },
           display: "flex",
-          alignItems: "center",
+          alignItems: { xs: "flex-start", md: "center" },
+          paddingTop: { xs: "2rem", md: 0 },
           overflow: "hidden",
           "&::before": {
             content: '""',
@@ -202,6 +200,24 @@ export default function Home() {
               </Grid>
             </Grid>
           </motion.div>
+          <Box
+            sx={{
+              mt: 4,
+              bgcolor: "background.default",
+              p: 3,
+              borderRadius: 2,
+            }}>
+            <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+              About Me
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              I am passionate about leveraging technology to create impactful
+              solutions. My experience spans various domains, including cloud
+              architecture, web development, and team leadership. I thrive in
+              collaborative environments and am committed to continuous learning
+              and improvement.
+            </Typography>
+          </Box>
         </Container>
       </Box>
 
