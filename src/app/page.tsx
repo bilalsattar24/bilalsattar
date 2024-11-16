@@ -11,7 +11,6 @@ import {
   Typography,
   Button,
   IconButton,
-  useMediaQuery,
 } from "@mui/material";
 
 const projects = [
