@@ -1,3 +1,9 @@
+"use client";
+
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./theme"; // Import your theme file
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +11,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
