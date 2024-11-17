@@ -11,6 +11,7 @@ import {
   Button,
   Grid,
   IconButton,
+  Grid2,
 } from "@mui/material";
 
 const skills = [
@@ -113,11 +114,16 @@ export default function Home() {
                     maxWidth: 600,
                     lineHeight: 1.8,
                   }}>
-                  Motivated software engineer with over 7 years of experience
-                  building scalable web applications and leading development
-                  teams. Specialized in full-stack development with React,
-                  TypeScript, and cloud technologies. Currently building
-                  innovative solutions at Trestle Collaborative.
+                  A highly motivated software engineer, I bring over nine years
+                  of expertise in crafting scalable web applications and
+                  steering development teams towards success. My specialization
+                  lies in full-stack development, where I excel with
+                  technologies like React, TypeScript, and various cloud
+                  platforms. At Trestle Collaborative, I'm currently channeling
+                  my passion into creating groundbreaking solutions that address
+                  real-world challenges. My approach is rooted in innovation,
+                  sustainability, and the relentless pursuit of excellence in
+                  every line of code I write."
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <Button
@@ -181,11 +187,15 @@ export default function Home() {
               About Me
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              I am passionate about leveraging technology to create impactful
-              solutions. My experience spans various domains, including cloud
-              architecture, web development, and team leadership. I thrive in
-              collaborative environments and am committed to continuous learning
-              and improvement.
+              Technology and sports are my twin passions, fueling my career in
+              software development and leadership. I bring a unique perspective
+              to tech solutions, inspired by the dynamics of athletic
+              performance and team sports. My expertise in cloud architecture
+              and web development allows me to innovate in ways that enhance
+              sports analytics, fan engagement, and athlete performance
+              tracking. Leading teams in collaborative, dynamic settings, I
+              strive for excellence and continuous improvement, always looking
+              to score with smart technology.
             </Typography>
           </Box>
         </Container>
@@ -196,9 +206,9 @@ export default function Home() {
         <Container maxWidth="lg">
           <Grid container spacing={4}>
             {[
-              { number: "7+", label: "Years Experience" },
+              { number: "9+", label: "Years Experience" },
               { number: "10k+", label: "Active Users" },
-              { number: "100+", label: "UI Components" },
+              { number: "500+", label: "UI Components" },
               { number: "2.5k+", label: "Users Managed" },
             ].map((stat) => (
               <Grid item xs={6} md={3} key={stat.label}>
@@ -355,28 +365,28 @@ export default function Home() {
                 role: "Full Stack Software Engineer",
                 period: "2023 - Present",
                 description:
-                  "Currently developing a custom CRM using Next.js and React to streamline the management of election candidates and officeholder relationships. I have established a library of over 100 reusable Chakra UI components based on Figma designs, ensuring design consistency across the application. Collaborating closely with the engineering manager, I am involved in data model design and constructing data pipelines to consolidate critical user data for approximately 2,500 users. Additionally, I have initiated best practices and development standards that are now adopted by the engineering team.",
+                  "I'm currently at the helm of developing a bespoke Customer Relationship Management (CRM) system using Next.js and React, designed to optimize the handling of election candidates and officeholder interactions. My commitment to design integrity has led me to curate over 100 reusable components with Chakra UI, directly translating our Figma designs into a consistent and visually coherent application. In partnership with our engineering manager, I've played a pivotal role in architecting our data models and engineering robust data pipelines that efficiently manage and consolidate essential information for around 2,500 users. Beyond coding, I've spearheaded the adoption of coding best practices and development standards, which have now become integral to our team's workflow, elevating our collective output and maintainability of our software.",
               },
               {
                 company: "Fantasy Basketball Wzrd",
-                role: "Lead Software Engineer",
+                role: "Founder and Lead Developer",
                 period: "2017 - Present",
                 description:
-                  "Designed and developed a successful Chrome extension for Yahoo! and ESPN fantasy basketball, achieving over 10,000 weekly active users. I architected a Python Django backend that efficiently retrieves, transforms, and serves live basketball statistics data, complemented by a user-friendly web interface for statistical analysis. Leading a team of three developers, I implemented features for head-to-head matchups and competitor strength comparisons, while also fostering a community of thousands of users for feedback and support.",
+                  "I spearheaded the design and development of a highly successful Chrome extension tailored for Yahoo! and ESPN fantasy basketball, which quickly garnered over 10,000 weekly active users. My role involved architecting a robust Python Django backend, which adeptly fetches, processes, and delivers real-time basketball statistics, enhancing the user experience with a seamlessly integrated web interface for in-depth statistical analysis. As the lead of a three-person development team, I introduced innovative features like head-to-head matchup insights and competitor strength analyses, significantly enriching the fantasy basketball experience. Additionally, I cultivated an engaged community comprising thousands of users, leveraging their input to refine and enhance the extension, ensuring it meets the evolving needs of fantasy sports enthusiasts.",
               },
               {
                 company: "Ylopo",
                 role: "Full Stack Software Engineer",
                 period: "2022 - 2023",
                 description:
-                  "Spearheaded the development of a React and Express home search portal for real estate agents, significantly enhancing lead generation for a platform serving over 4 million monthly users. I implemented critical user-facing features, including area search auto-complete and user registration modals. Collaborating with a cross-functional team, I played a key role in identifying and executing business initiatives while mentoring junior developers to ensure high-quality code delivery.",
+                  "I took the lead in developing a dynamic home search portal using React and Express, specifically tailored for real estate agents, which has markedly increased lead generation on a platform with more than 4 million monthly users. My contributions included the implementation of essential user-centric features like an area search auto-complete and streamlined user registration modals, designed to enhance usability and engagement.",
               },
               {
                 company: "Pariveda Solutions",
                 role: "Senior Software Engineer",
                 period: "2018 - 2022",
                 description:
-                  "Worked with multiple clients to address complex business challenges through advanced technology solutions. I engineered a full-stack web application for wildlife tracking using Java Spring and React, enhancing data analysis capabilities. My role included mentoring junior team members and managing project boards effectively, ensuring optimal resource allocation and task completion.",
+                  "I engage with a variety of clients to confront and solve complex business challenges by implementing advanced technology solutions. One notable project I spearheaded was the development of a full-stack web application for wildlife tracking, which I engineered using Java Spring for backend processing and React for the frontend, thereby enhancing our data analysis capabilities. Beyond coding, my role encompasses mentoring junior team members, providing them with the guidance needed to grow professionally. I also manage project boards, ensuring that resources are allocated efficiently and tasks are completed on time, which collectively contributes to the successful delivery of projects within scope.",
               },
               {
                 company: "Capital Insurance Group",
