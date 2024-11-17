@@ -118,11 +118,11 @@ export default function Home() {
                   steering development teams towards success. My specialization
                   lies in full-stack development, where I excel with
                   technologies like React, TypeScript, and various cloud
-                  platforms. At Trestle Collaborative, I'm currently channeling
-                  my passion into creating groundbreaking solutions that address
-                  real-world challenges. My approach is rooted in innovation,
-                  sustainability, and the relentless pursuit of excellence in
-                  every line of code I write."
+                  platforms. At Trestle Collaborative, I&apos;m currently
+                  channeling my passion into creating groundbreaking solutions
+                  that address real-world challenges. My approach is rooted in
+                  innovation, sustainability, and the relentless pursuit of
+                  excellence in every line of code I write.
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <Button
