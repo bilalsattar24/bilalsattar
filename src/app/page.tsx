@@ -11,7 +11,6 @@ import {
   Button,
   Grid,
   IconButton,
-  Grid2,
 } from "@mui/material";
 
 const skills = [
