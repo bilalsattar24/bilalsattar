@@ -165,12 +165,102 @@ export default function Home() {
               <Grid item xs={12} md={6}>
                 <Box
                   sx={{
-                    position: "relative",
                     height: "100%",
-                    minHeight: 400,
-                    display: { xs: "none", md: "block" },
+                    display: { xs: "none", md: "flex" },
+                    flexDirection: "column",
+                    gap: 3,
                   }}>
-                  {/* Add a 3D illustration or custom animation here */}
+                  <Box
+                    sx={{
+                      p: 4,
+                      borderRadius: 4,
+                      bgcolor: "background.paper",
+                      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                      border: `1px solid ${theme.palette.primary.main}15`,
+                      position: "relative",
+                      overflow: "hidden",
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "4px",
+                        background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      },
+                    }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        mb: 2,
+                        fontWeight: 700,
+                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                      }}>
+                      Featured Project: Fantasy Basketball WZRD
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ mb: 2, color: "text.secondary" }}>
+                      A successful Chrome extension serving over 10,000 active
+                      users, helping fantasy basketball enthusiasts dominate
+                      their leagues with advanced analytics and automation.
+                    </Typography>
+                    <Box
+                      sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
+                      {["Python", "Django", "Chrome Extension", "React"].map(
+                        (tech) => (
+                          <Box
+                            key={tech}
+                            sx={{
+                              px: 2,
+                              py: 0.5,
+                              borderRadius: 2,
+                              bgcolor: `${theme.palette.primary.main}10`,
+                              color: "primary.main",
+                              fontSize: "0.875rem",
+                              fontWeight: 500,
+                            }}>
+                            {tech}
+                          </Box>
+                        )
+                      )}
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          fontWeight="bold">
+                          4.6★
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Rating
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          height: "24px",
+                          width: "1px",
+                          bgcolor: "divider",
+                        }}
+                      />
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          fontWeight="bold">
+                          10K+
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Active Users
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
