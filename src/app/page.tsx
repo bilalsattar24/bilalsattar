@@ -96,33 +96,26 @@ export default function Home() {
                   Bilal Sattar
                 </Typography>
                 <Typography
+                  component="h2"
                   variant="h2"
                   sx={{
                     fontSize: { xs: "1.5rem", md: "2rem" },
-                    fontWeight: 500,
                     mb: 3,
                     color: "text.secondary",
                   }}>
-                  Full-Stack Engineer & Cloud Architect
+                  Freelance Software Developer & Engineering Consultant
                 </Typography>
                 <Typography
                   variant="body1"
                   sx={{
-                    fontSize: { xs: "1rem", md: "1.2rem" },
                     mb: 4,
-                    maxWidth: 600,
-                    lineHeight: 1.8,
+                    fontSize: { xs: "1rem", md: "1.2rem" },
+                    color: "text.secondary",
+                    maxWidth: "600px",
                   }}>
-                  A highly motivated software engineer, I bring over nine years
-                  of expertise in crafting scalable web applications and
-                  steering development teams towards success. My specialization
-                  lies in full-stack development, where I excel with
-                  technologies like React, TypeScript, and various cloud
-                  platforms. At Trestle Collaborative, I&apos;m currently
-                  channeling my passion into creating groundbreaking solutions
-                  that address real-world challenges. My approach is rooted in
-                  innovation, sustainability, and the relentless pursuit of
-                  excellence in every line of code I write.
+                  Delivering high-impact software solutions for businesses worldwide. 
+                  Specializing in full-stack web development, cloud architecture, 
+                  and technical consulting. Let's transform your ideas into reality.
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <Button
@@ -334,12 +327,7 @@ export default function Home() {
       </Box>
 
       {/* Skills Section */}
-      <Box
-        sx={{
-          py: 8,
-          bgcolor: "background.paper",
-          background: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
-        }}>
+      <section aria-label="Technical Skills">
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -347,20 +335,14 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}>
             <Typography
-              variant="h3"
-              sx={{
-                mb: 4,
-                textAlign: "center",
-                fontWeight: 700,
-                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}>
-              Technical Expertise
+              component="h3"
+              variant="h4"
+              sx={{ mb: 3, mt: 6, fontWeight: 700 }}>
+              Expert Software Development Services
             </Typography>
             <Grid container spacing={3}>
               {skills.map((skillGroup, index) => (
-                <Grid item xs={12} sm={6} md={3} key={skillGroup.category}>
+                <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -369,45 +351,30 @@ export default function Home() {
                     <Box
                       sx={{
                         p: 3,
-                        borderRadius: 4,
-                        bgcolor: "background.paper",
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
                         height: "100%",
-                        transition: "transform 0.2s",
-                        position: "relative",
-                        overflow: "hidden",
-                        "&:hover": {
-                          transform: "translateY(-8px)",
-                        },
-                        "&::before": {
-                          content: '""',
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "4px",
-                          background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        border: 1,
+                        borderColor: "divider",
+                        borderRadius: 2,
+                        '&:hover': {
+                          boxShadow: 3,
+                          borderColor: 'primary.main',
                         },
                       }}>
-                      <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                      <Typography
+                        component="h4"
+                        variant="h6"
+                        sx={{ mb: 2, fontWeight: 600 }}>
                         {skillGroup.category}
                       </Typography>
-                      {skillGroup.technologies.map((tech) => (
-                        <Box
-                          key={tech}
-                          sx={{
-                            display: "inline-block",
-                            m: 0.5,
-                            px: 2,
-                            py: 0.5,
-                            borderRadius: 2,
-                            bgcolor: `${theme.palette.primary.main}10`,
-                            color: "primary.main",
-                            fontSize: "0.875rem",
-                          }}>
-                          {tech}
-                        </Box>
-                      ))}
+                      <ul style={{ paddingLeft: '20px' }}>
+                        {skillGroup.technologies.map((tech, i) => (
+                          <li key={i}>
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                              {tech}
+                            </Typography>
+                          </li>
+                        ))}
+                      </ul>
                     </Box>
                   </motion.div>
                 </Grid>
@@ -415,7 +382,7 @@ export default function Home() {
             </Grid>
           </motion.div>
         </Container>
-      </Box>
+      </section>
 
       {/* Experience Timeline Section */}
       <Box
