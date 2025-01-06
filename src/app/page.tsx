@@ -75,12 +75,14 @@ export default function Home() {
                         radial-gradient(circle at 70% 70%, ${theme.palette.secondary.main}20, transparent 60%)`,
             zIndex: 0,
           },
-        }}>
+        }}
+      >
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <motion.div
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            variants={containerVariants}>
+            variants={containerVariants}
+          >
             <Grid container spacing={4} alignItems="center">
               <Grid item xs={12} md={6}>
                 <Typography
@@ -92,7 +94,8 @@ export default function Home() {
                     background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                  }}>
+                  }}
+                >
                   Bilal Sattar
                 </Typography>
                 <Typography
@@ -102,7 +105,8 @@ export default function Home() {
                     fontSize: { xs: "1.5rem", md: "2rem" },
                     mb: 3,
                     color: "text.secondary",
-                  }}>
+                  }}
+                >
                   Freelance Software Developer & Engineering Consultant
                 </Typography>
                 <Typography
@@ -112,10 +116,12 @@ export default function Home() {
                     fontSize: { xs: "1rem", md: "1.2rem" },
                     color: "text.secondary",
                     maxWidth: "600px",
-                  }}>
-                  Delivering high-impact software solutions for businesses worldwide. 
-                  Specializing in full-stack web development, cloud architecture, 
-                  and technical consulting. Let's transform your ideas into reality.
+                  }}
+                >
+                  Delivering high-impact software solutions for businesses
+                  worldwide. Specializing in full-stack web development, cloud
+                  architecture, and technical consulting. Let&apos;s transform
+                  your ideas into reality.
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <Button
@@ -130,7 +136,8 @@ export default function Home() {
                       "&:hover": {
                         transform: "translateY(-2px)",
                       },
-                    }}>
+                    }}
+                  >
                     View Projects
                   </Button>
                   <IconButton
@@ -140,7 +147,8 @@ export default function Home() {
                       color: "text.primary",
                       transition: "transform 0.2s",
                       "&:hover": { transform: "translateY(-2px)" },
-                    }}>
+                    }}
+                  >
                     <FaGithub size={24} />
                   </IconButton>
                   <IconButton
@@ -150,7 +158,8 @@ export default function Home() {
                       color: "text.primary",
                       transition: "transform 0.2s",
                       "&:hover": { transform: "translateY(-2px)" },
-                    }}>
+                    }}
+                  >
                     <FaLinkedin size={24} />
                   </IconButton>
                 </Box>
@@ -162,7 +171,8 @@ export default function Home() {
                     display: { xs: "none", md: "flex" },
                     flexDirection: "column",
                     gap: 3,
-                  }}>
+                  }}
+                >
                   <Box
                     sx={{
                       p: 4,
@@ -181,7 +191,8 @@ export default function Home() {
                         height: "4px",
                         background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       },
-                    }}>
+                    }}
+                  >
                     <Typography
                       variant="h5"
                       sx={{
@@ -190,18 +201,21 @@ export default function Home() {
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
-                      }}>
+                      }}
+                    >
                       Featured Project: Fantasy Basketball WZRD
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ mb: 2, color: "text.secondary" }}>
+                      sx={{ mb: 2, color: "text.secondary" }}
+                    >
                       A successful Chrome extension serving over 10,000 active
                       users, helping fantasy basketball enthusiasts dominate
                       their leagues with advanced analytics and automation.
                     </Typography>
                     <Box
-                      sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
+                      sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}
+                    >
                       {["Python", "Django", "Chrome Extension", "React"].map(
                         (tech) => (
                           <Box
@@ -214,7 +228,8 @@ export default function Home() {
                               color: "primary.main",
                               fontSize: "0.875rem",
                               fontWeight: 500,
-                            }}>
+                            }}
+                          >
                             {tech}
                           </Box>
                         )
@@ -222,11 +237,13 @@ export default function Home() {
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                       <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
                         <Typography
                           variant="h6"
                           color="primary.main"
-                          fontWeight="bold">
+                          fontWeight="bold"
+                        >
                           4.6★
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -241,11 +258,13 @@ export default function Home() {
                         }}
                       />
                       <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
                         <Typography
                           variant="h6"
                           color="primary.main"
-                          fontWeight="bold">
+                          fontWeight="bold"
+                        >
                           10K+
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -264,7 +283,8 @@ export default function Home() {
               bgcolor: "background.default",
               p: 3,
               borderRadius: 2,
-            }}>
+            }}
+          >
             <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
               About Me
             </Typography>
@@ -305,7 +325,8 @@ export default function Home() {
                     "&:hover": {
                       transform: "translateY(-5px)",
                     },
-                  }}>
+                  }}
+                >
                   <Typography
                     variant="h3"
                     sx={{
@@ -313,7 +334,8 @@ export default function Home() {
                       background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
-                    }}>
+                    }}
+                  >
                     {stat.number}
                   </Typography>
                   <Typography variant="subtitle1" color="text.secondary">
@@ -333,11 +355,13 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}>
+            transition={{ duration: 0.6 }}
+          >
             <Typography
               component="h3"
               variant="h4"
-              sx={{ mb: 3, mt: 6, fontWeight: 700 }}>
+              sx={{ mb: 3, mt: 6, fontWeight: 700 }}
+            >
               Expert Software Development Services
             </Typography>
             <Grid container spacing={3}>
@@ -347,7 +371,8 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}>
+                    transition={{ delay: index * 0.1 }}
+                  >
                     <Box
                       sx={{
                         p: 3,
@@ -355,18 +380,20 @@ export default function Home() {
                         border: 1,
                         borderColor: "divider",
                         borderRadius: 2,
-                        '&:hover': {
+                        "&:hover": {
                           boxShadow: 3,
-                          borderColor: 'primary.main',
+                          borderColor: "primary.main",
                         },
-                      }}>
+                      }}
+                    >
                       <Typography
                         component="h4"
                         variant="h6"
-                        sx={{ mb: 2, fontWeight: 600 }}>
+                        sx={{ mb: 2, fontWeight: 600 }}
+                      >
                         {skillGroup.category}
                       </Typography>
-                      <ul style={{ paddingLeft: '20px' }}>
+                      <ul style={{ paddingLeft: "20px" }}>
                         {skillGroup.technologies.map((tech, i) => (
                           <li key={i}>
                             <Typography variant="body2" sx={{ mb: 1 }}>
@@ -400,7 +427,8 @@ export default function Home() {
             backgroundImage:
               "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)",
           },
-        }}>
+        }}
+      >
         <Container maxWidth="lg">
           <Typography
             variant="h3"
@@ -411,7 +439,8 @@ export default function Home() {
               background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-            }}>
+            }}
+          >
             Professional Journey
           </Typography>
           <Box sx={{ position: "relative" }}>
@@ -464,13 +493,15 @@ export default function Home() {
                   "&:hover": {
                     transform: "translateX(10px)",
                   },
-                }}>
+                }}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={3}>
                     <Typography
                       variant="subtitle1"
                       color="primary.main"
-                      fontWeight="bold">
+                      fontWeight="bold"
+                    >
                       {experience.period}
                     </Typography>
                   </Grid>
@@ -481,13 +512,15 @@ export default function Home() {
                     <Typography
                       variant="subtitle1"
                       color="secondary.main"
-                      gutterBottom>
+                      gutterBottom
+                    >
                       {experience.company}
                     </Typography>
                     <Typography
                       variant="body1"
                       color="text.secondary"
-                      sx={{ lineHeight: 1.7 }}>
+                      sx={{ lineHeight: 1.7 }}
+                    >
                       {experience.description}
                     </Typography>
                   </Grid>
@@ -504,7 +537,8 @@ export default function Home() {
           py: 8,
           bgcolor: "background.paper",
           background: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
-        }}></Box>
+        }}
+      ></Box>
     </Box>
   );
 }

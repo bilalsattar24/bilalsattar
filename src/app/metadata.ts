@@ -1,7 +1,7 @@
 export const metadata = {
   title: "Bilal Sattar | Freelance Software Developer & Engineering Consultant",
   description:
-    "Expert freelance software developer specializing in full-stack web development, React, Node.js, and cloud solutions. 10+ years of experience delivering high-quality software solutions for businesses worldwide.",
+    "Expert freelance software developer delivering high-impact solutions. Specializing in full-stack development, cloud architecture, and technical consulting. Transform your ideas into reality.",
   keywords: [
     "freelance software developer",
     "freelance web developer",
@@ -24,20 +24,29 @@ export const metadata = {
     locale: "en_US",
     url: "https://bilalsattar.com",
     siteName: "Bilal Sattar - Freelance Software Developer",
+    title: "Bilal Sattar | Expert Software Developer & Consultant",
+    description:
+      "Transform your ideas into reality with expert software development services. Specializing in full-stack development, cloud solutions, and technical consulting.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Bilal Sattar - Freelance Software Developer",
+        alt: "Bilal Sattar - Freelance Software Developer & Engineering Consultant",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bilal Sattar | Freelance Software Developer",
+    title: "Bilal Sattar | Expert Software Developer",
     description:
-      "Expert freelance software developer specializing in full-stack web development, React, Node.js, and cloud solutions.",
-    images: ["/og-image.jpg"],
+      "Transform your ideas into reality with expert software development services. Full-stack development, cloud solutions, and technical consulting.",
+    images: ["/og-image.svg"],
+    creator: "@bilalsattar",
+  },
+  other: {
+    "theme-color": "#3f51b5",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
 };
