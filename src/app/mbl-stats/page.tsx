@@ -230,91 +230,95 @@ const MBLStatsPage = () => {
               />
               MBL Player Stats
             </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: "rgba(255,255,255,0.9)",
-                maxWidth: 600,
-                mx: "auto",
-              }}>
-              Explore comprehensive player statistics across all seasons and
-              divisions
-            </Typography>
+            {!isMobile && (
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "rgba(255,255,255,0.9)",
+                  maxWidth: 600,
+                  mx: "auto",
+                }}>
+                Explore comprehensive player statistics across all seasons and
+                divisions
+              </Typography>
+            )}
           </Box>
         </motion.div>
 
         {/* Stats Overview Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}>
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                sx={{
-                  background: "linear-gradient(45deg, #FF6B6B, #FF8E8E)",
-                  color: "white",
-                  textAlign: "center",
-                }}>
-                <CardContent>
-                  <PersonIcon sx={{ fontSize: 40, mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {data.length}
-                  </Typography>
-                  <Typography variant="body2">Total Records</Typography>
-                </CardContent>
-              </Card>
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}>
+            <Grid container spacing={3} sx={{ mb: 4 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card
+                  sx={{
+                    background: "linear-gradient(45deg, #FF6B6B, #FF8E8E)",
+                    color: "white",
+                    textAlign: "center",
+                  }}>
+                  <CardContent>
+                    <PersonIcon sx={{ fontSize: 40, mb: 1 }} />
+                    <Typography variant="h4" fontWeight="bold">
+                      {data.length}
+                    </Typography>
+                    <Typography variant="body2">Total Records</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card
+                  sx={{
+                    background: "linear-gradient(45deg, #4ECDC4, #44A08D)",
+                    color: "white",
+                    textAlign: "center",
+                  }}>
+                  <CardContent>
+                    <TrendingUpIcon sx={{ fontSize: 40, mb: 1 }} />
+                    <Typography variant="h4" fontWeight="bold">
+                      {seasons.length}
+                    </Typography>
+                    <Typography variant="body2">Seasons</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card
+                  sx={{
+                    background: "linear-gradient(45deg, #A8E6CF, #7FCDCD)",
+                    color: "white",
+                    textAlign: "center",
+                  }}>
+                  <CardContent>
+                    <FilterIcon sx={{ fontSize: 40, mb: 1 }} />
+                    <Typography variant="h4" fontWeight="bold">
+                      {divisions.length}
+                    </Typography>
+                    <Typography variant="body2">Divisions</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card
+                  sx={{
+                    background: "linear-gradient(45deg, #FFD93D, #FF6B6B)",
+                    color: "white",
+                    textAlign: "center",
+                  }}>
+                  <CardContent>
+                    <SearchIcon sx={{ fontSize: 40, mb: 1 }} />
+                    <Typography variant="h4" fontWeight="bold">
+                      {filteredData.length}
+                    </Typography>
+                    <Typography variant="body2">Filtered Results</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                sx={{
-                  background: "linear-gradient(45deg, #4ECDC4, #44A08D)",
-                  color: "white",
-                  textAlign: "center",
-                }}>
-                <CardContent>
-                  <TrendingUpIcon sx={{ fontSize: 40, mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {seasons.length}
-                  </Typography>
-                  <Typography variant="body2">Seasons</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                sx={{
-                  background: "linear-gradient(45deg, #A8E6CF, #7FCDCD)",
-                  color: "white",
-                  textAlign: "center",
-                }}>
-                <CardContent>
-                  <FilterIcon sx={{ fontSize: 40, mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {divisions.length}
-                  </Typography>
-                  <Typography variant="body2">Divisions</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                sx={{
-                  background: "linear-gradient(45deg, #FFD93D, #FF6B6B)",
-                  color: "white",
-                  textAlign: "center",
-                }}>
-                <CardContent>
-                  <SearchIcon sx={{ fontSize: 40, mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {filteredData.length}
-                  </Typography>
-                  <Typography variant="body2">Filtered Results</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* Filters */}
         <motion.div
