@@ -74,7 +74,7 @@ const MBLStatsPage = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch('/mbl-stats/stats.csv');
+        const response = await fetch('/stats.csv');
         if (!response.ok) {
           throw new Error('Failed to load stats data');
         }
