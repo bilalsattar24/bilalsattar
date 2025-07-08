@@ -127,12 +127,12 @@ const MBLStatsPage = () => {
   const filteredData = useMemo(() => {
     return data.filter((player) => {
       // Search filter (first name or last name)
+      const searchTerms = searchTerm.toLowerCase().split(' ').filter(Boolean);
+      const fullName = `${player["First Name"] || ''} ${player["Last Name"] || ''}`.toLowerCase();
+
       const searchMatch =
         searchTerm === "" ||
-        player["First Name"]
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        player["Last Name"]?.toLowerCase().includes(searchTerm.toLowerCase());
+        searchTerms.every((term) => fullName.includes(term));
 
       // Season filter
       const seasonMatch =
