@@ -40,7 +40,6 @@ import { motion, AnimatePresence } from "framer-motion";
 interface PlayerStats {
   DIV: string;
   Season: string;
-  "Season.1": string;
   "Last Name": string;
   "First Name": string;
   Team: string;
@@ -81,8 +80,26 @@ const MBLStatsPage = () => {
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
+          transformHeader: (header, index) => {
+            if (header.toLowerCase() === 'season') {
+              const isSecondSeason = csvText.split('\n')[0].split(',').map(h => h.toLowerCase().trim()).indexOf('season', index + 1) === -1;
+              if (isSecondSeason) {
+                return 'Season';
+              }
+              return `ignore_season_${index}`;
+            }
+            return header;
+          },
           complete: (results) => {
-            setData(results.data as PlayerStats[]);
+            const cleanedData = results.data.map((row: any) => {
+                Object.keys(row).forEach(key => {
+                    if(key.startsWith('ignore_season_')) {
+                        delete row[key];
+                    }
+                });
+                return row;
+            })
+            setData(cleanedData as PlayerStats[]);
             setLoading(false);
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,9 +126,6 @@ const MBLStatsPage = () => {
       if (player.Season && player.Season.trim()) {
         seasonsSet.add(player.Season.trim());
       }
-      if (player["Season.1"] && player["Season.1"].trim()) {
-        seasonsSet.add(player["Season.1"].trim());
-      }
       if (player.DIV && player.DIV.trim()) {
         divisionsSet.add(player.DIV.trim());
       }
@@ -136,9 +150,7 @@ const MBLStatsPage = () => {
 
       // Season filter
       const seasonMatch =
-        selectedSeason === "all" ||
-        player.Season === selectedSeason ||
-        player["Season.1"] === selectedSeason;
+        selectedSeason === "all" || player.Season === selectedSeason;
 
       // Division filter
       const divisionMatch =
@@ -504,7 +516,7 @@ const MBLStatsPage = () => {
                         </TableCell>
                         <TableCell>
                           <Chip
-                            label={player.Season || player["Season.1"] || "N/A"}
+                            label={player.Season || "N/A"}
                             size="small"
                             color="primary"
                             variant="outlined"
