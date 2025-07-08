@@ -65,7 +65,8 @@ const MBLStatsPage = () => {
   const [selectedSeason, setSelectedSeason] = useState("all");
   const [selectedDivision, setSelectedDivision] = useState("all");
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
+
 
   // Load CSV data
   useEffect(() => {
@@ -395,8 +396,8 @@ const MBLStatsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}>
-          <Paper sx={{ borderRadius: 3, overflow: "hidden" }}>
-            <TableContainer sx={{ maxHeight: isMobile ? 400 : 600 }}>
+          <Paper sx={{ borderRadius: 3 }}>
+            <TableContainer>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
@@ -576,9 +577,8 @@ const MBLStatsPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rowsPerPageOptions={[10, 25, 50, 100]}
               component="div"
               count={filteredData.length}
               rowsPerPage={rowsPerPage}
