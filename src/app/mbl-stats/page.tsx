@@ -92,19 +92,19 @@ const MBLStatsPage = () => {
             return header;
           },
           complete: (results) => {
-            const cleanedData = results.data.map((row: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const cleanedData = (results.data as unknown[]).map((row: any) => {
                 Object.keys(row).forEach(key => {
                     if(key.startsWith('ignore_season_')) {
                         delete row[key];
                     }
                 });
-                return row;
-            })
-            setData(cleanedData as PlayerStats[]);
+                return row as PlayerStats;
+            });
+            setData(cleanedData);
             setLoading(false);
           },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          error: (error: any) => {
+          error: (error: Error) => {
             setError("Error parsing CSV data: " + error.message);
             setLoading(false);
           },
