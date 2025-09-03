@@ -1,17 +1,24 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Sphere, MeshDistortMaterial, Float, Text3D, Center } from "@react-three/drei";
+import {
+  OrbitControls,
+  Sphere,
+  MeshDistortMaterial,
+  Float,
+  Text3D,
+  Center,
+} from "@react-three/drei";
 import { useInView } from "react-intersection-observer";
 import Tilt from "react-parallax-tilt";
-import { 
-  FaGithub, 
-  FaLinkedin, 
-  FaArrowRight, 
-  FaCode, 
-  FaRocket, 
+import {
+  FaGithub,
+  FaLinkedin,
+  FaArrowRight,
+  FaCode,
+  FaRocket,
   FaLightbulb,
   FaStar,
   FaQuoteLeft,
@@ -23,21 +30,16 @@ import {
   FaPython,
   FaAws,
   FaDocker,
-  FaGitAlt,
-  FaDatabase,
-  FaMobile,
-  FaCloud,
   FaChartLine,
   FaUsers,
   FaTrophy,
   FaDownload,
   FaExternalLinkAlt,
-  FaPlay
 } from "react-icons/fa";
-import { 
-  SiTypescript, 
-  SiNextdotjs, 
-  SiMongodb, 
+import {
+  SiTypescript,
+  SiNextdotjs,
+  SiMongodb,
   SiPostgresql,
   SiTailwindcss,
   SiFramer,
@@ -45,7 +47,7 @@ import {
   SiVercel,
   SiGraphql,
   SiRedis,
-  SiKubernetes
+  SiKubernetes,
 } from "react-icons/si";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -60,15 +62,10 @@ import {
   Avatar,
   Chip,
   LinearProgress,
-  Divider,
   TextField,
   Paper,
   Stack,
-  Badge,
   Tooltip,
-  Zoom,
-  Fade,
-  Slide
 } from "@mui/material";
 import { keyframes } from "@emotion/react";
 
@@ -98,7 +95,7 @@ const skills = [
       { name: "TypeScript", level: 90, icon: <SiTypescript /> },
       { name: "Three.js", level: 85, icon: <SiThreedotjs /> },
       { name: "Tailwind CSS", level: 92, icon: <SiTailwindcss /> },
-      { name: "Framer Motion", level: 88, icon: <SiFramer /> }
+      { name: "Framer Motion", level: 88, icon: <SiFramer /> },
     ],
   },
   {
@@ -110,7 +107,7 @@ const skills = [
       { name: "Python/Django", level: 90, icon: <FaPython /> },
       { name: "GraphQL", level: 85, icon: <SiGraphql /> },
       { name: "PostgreSQL", level: 88, icon: <SiPostgresql /> },
-      { name: "MongoDB", level: 87, icon: <SiMongodb /> }
+      { name: "MongoDB", level: 87, icon: <SiMongodb /> },
     ],
   },
   {
@@ -122,7 +119,7 @@ const skills = [
       { name: "Docker", level: 85, icon: <FaDocker /> },
       { name: "Kubernetes", level: 80, icon: <SiKubernetes /> },
       { name: "Redis", level: 82, icon: <SiRedis /> },
-      { name: "Vercel", level: 90, icon: <SiVercel /> }
+      { name: "Vercel", level: 90, icon: <SiVercel /> },
     ],
   },
   {
@@ -134,7 +131,7 @@ const skills = [
       { name: "Project Management", level: 90, icon: <FaChartLine /> },
       { name: "Mentoring", level: 92, icon: <FaLightbulb /> },
       { name: "Architecture Design", level: 88, icon: <FaRocket /> },
-      { name: "Client Relations", level: 85, icon: <FaTrophy /> }
+      { name: "Client Relations", level: 85, icon: <FaTrophy /> },
     ],
   },
 ];
@@ -142,38 +139,48 @@ const skills = [
 const projects = [
   {
     title: "Fantasy Basketball WZRD",
-    description: "Chrome extension serving 10,000+ active users with advanced analytics and automation for fantasy basketball enthusiasts.",
+    description:
+      "Chrome extension serving 10,000+ active users with advanced analytics and automation for fantasy basketball enthusiasts.",
     image: "/api/placeholder/600/400",
-    technologies: ["Python", "Django", "Chrome Extension", "React", "PostgreSQL"],
+    technologies: [
+      "Python",
+      "Django",
+      "Chrome Extension",
+      "React",
+      "PostgreSQL",
+    ],
     stats: { users: "10K+", rating: "4.6★", revenue: "$50K+" },
     links: { live: "#", github: "#" },
-    featured: true
+    featured: true,
   },
   {
     title: "Enterprise CRM Platform",
-    description: "Bespoke CRM system for election management, handling 2,500+ users with advanced data pipelines and 100+ reusable components.",
+    description:
+      "Bespoke CRM system for election management, handling 2,500+ users with advanced data pipelines and 100+ reusable components.",
     image: "/api/placeholder/600/400",
     technologies: ["Next.js", "React", "Chakra UI", "Node.js", "PostgreSQL"],
     stats: { users: "2.5K+", components: "100+", uptime: "99.9%" },
     links: { live: "#", case: "#" },
-    featured: true
+    featured: true,
   },
   {
     title: "Real Estate Lead Portal",
-    description: "Dynamic home search platform serving 4M+ monthly users with advanced filtering and lead generation capabilities.",
+    description:
+      "Dynamic home search platform serving 4M+ monthly users with advanced filtering and lead generation capabilities.",
     image: "/api/placeholder/600/400",
     technologies: ["React", "Express", "MongoDB", "AWS", "Redis"],
     stats: { users: "4M+", leads: "50K+", conversion: "12%" },
-    links: { live: "#", github: "#" }
+    links: { live: "#", github: "#" },
   },
   {
     title: "Wildlife Tracking System",
-    description: "Full-stack application for wildlife conservation with real-time tracking, data visualization, and predictive analytics.",
+    description:
+      "Full-stack application for wildlife conservation with real-time tracking, data visualization, and predictive analytics.",
     image: "/api/placeholder/600/400",
     technologies: ["Java Spring", "React", "PostgreSQL", "D3.js", "AWS"],
     stats: { animals: "5K+", accuracy: "95%", conservation: "3 species" },
-    links: { live: "#", case: "#" }
-  }
+    links: { live: "#", case: "#" },
+  },
 ];
 
 const testimonials = [
@@ -182,22 +189,22 @@ const testimonials = [
     role: "CTO at TechCorp",
     avatar: "/api/placeholder/80/80",
     rating: 5,
-    text: "Bilal delivered exceptional results on our enterprise platform. His technical expertise and leadership skills are outstanding. The project was completed ahead of schedule with zero critical bugs."
+    text: "Bilal delivered exceptional results on our enterprise platform. His technical expertise and leadership skills are outstanding. The project was completed ahead of schedule with zero critical bugs.",
   },
   {
     name: "Michael Chen",
     role: "Product Manager at StartupXYZ",
     avatar: "/api/placeholder/80/80",
     rating: 5,
-    text: "Working with Bilal was a game-changer for our startup. He not only built an incredible product but also mentored our junior developers. His code quality is impeccable."
+    text: "Working with Bilal was a game-changer for our startup. He not only built an incredible product but also mentored our junior developers. His code quality is impeccable.",
   },
   {
     name: "Emily Rodriguez",
     role: "Founder at InnovateNow",
     avatar: "/api/placeholder/80/80",
     rating: 5,
-    text: "Bilal transformed our vision into reality with his full-stack expertise. The Fantasy Basketball WZRD extension he built has been a massive success with our users loving every feature."
-  }
+    text: "Bilal transformed our vision into reality with his full-stack expertise. The Fantasy Basketball WZRD extension he built has been a massive success with our users loving every feature.",
+  },
 ];
 
 // 3D Components
@@ -225,8 +232,7 @@ function FloatingCode() {
           font="/fonts/helvetiker_regular.typeface.json"
           size={0.3}
           height={0.1}
-          curveSegments={12}
-        >
+          curveSegments={12}>
           {`<Code />`}
           <meshStandardMaterial color="#10b981" />
         </Text3D>
@@ -238,22 +244,22 @@ function FloatingCode() {
 export default function Home() {
   const theme = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState("hero");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
     setIsLoaded(true);
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   const [heroRef, heroInView] = useInView({ threshold: 0.3 });
@@ -262,7 +268,13 @@ export default function Home() {
   const [testimonialsRef, testimonialsInView] = useInView({ threshold: 0.2 });
 
   return (
-    <Box ref={containerRef} sx={{ bgcolor: "background.default", minHeight: "100vh", overflow: "hidden" }}>
+    <Box
+      ref={containerRef}
+      sx={{
+        bgcolor: "background.default",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}>
       {/* Floating Navigation */}
       <motion.div
         initial={{ y: -100 }}
@@ -274,23 +286,39 @@ export default function Home() {
           zIndex: 1000,
           display: "flex",
           gap: "8px",
-        }}
-      >
-        {["hero", "skills", "projects", "testimonials", "contact"].map((section) => (
-          <Tooltip key={section} title={section.charAt(0).toUpperCase() + section.slice(1)}>
-            <IconButton
-              onClick={() => document.getElementById(section)?.scrollIntoView({ behavior: "smooth" })}
-              sx={{
-                bgcolor: activeSection === section ? "primary.main" : "background.paper",
-                color: activeSection === section ? "white" : "text.primary",
-                boxShadow: 3,
-                "&:hover": { transform: "scale(1.1)" },
-              }}
-            >
-              <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "currentColor" }} />
-            </IconButton>
-          </Tooltip>
-        ))}
+        }}>
+        {["hero", "skills", "projects", "testimonials", "contact"].map(
+          (section) => (
+            <Tooltip
+              key={section}
+              title={section.charAt(0).toUpperCase() + section.slice(1)}>
+              <IconButton
+                onClick={() =>
+                  document
+                    .getElementById(section)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                sx={{
+                  bgcolor:
+                    activeSection === section
+                      ? "primary.main"
+                      : "background.paper",
+                  color: activeSection === section ? "white" : "text.primary",
+                  boxShadow: 3,
+                  "&:hover": { transform: "scale(1.1)" },
+                }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    bgcolor: "currentColor",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
+          )
+        )}
       </motion.div>
 
       {/* Hero Section */}
@@ -304,10 +332,17 @@ export default function Home() {
           alignItems: "center",
           overflow: "hidden",
           background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, ${theme.palette.primary.main}10 100%)`,
-        }}
-      >
+        }}>
         {/* 3D Background */}
-        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0.6 }}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.6,
+          }}>
           <Canvas camera={{ position: [0, 0, 5] }}>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
@@ -336,8 +371,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 animate={heroInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
+                transition={{ duration: 0.8, delay: 0.2 }}>
                 <Typography
                   variant="h6"
                   sx={{
@@ -346,11 +380,10 @@ export default function Home() {
                     mb: 2,
                     textTransform: "uppercase",
                     letterSpacing: 2,
-                  }}
-                >
+                  }}>
                   Full-Stack Developer
                 </Typography>
-                
+
                 <Typography
                   variant="h1"
                   sx={{
@@ -361,8 +394,7 @@ export default function Home() {
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     lineHeight: 1.1,
-                  }}
-                >
+                  }}>
                   Bilal Sattar
                 </Typography>
 
@@ -373,8 +405,7 @@ export default function Home() {
                     fontWeight: 300,
                     mb: 4,
                     color: "text.secondary",
-                  }}
-                >
+                  }}>
                   Crafting Digital Excellence
                 </Typography>
 
@@ -386,11 +417,10 @@ export default function Home() {
                     color: "text.secondary",
                     maxWidth: "500px",
                     lineHeight: 1.6,
-                  }}
-                >
-                  Transforming ideas into powerful, scalable solutions. 
-                  Specialized in modern web technologies with a track record 
-                  of delivering exceptional results for 10,000+ users worldwide.
+                  }}>
+                  Transforming ideas into powerful, scalable solutions.
+                  Specialized in modern web technologies with a track record of
+                  delivering exceptional results for 10,000+ users worldwide.
                 </Typography>
 
                 <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
@@ -398,7 +428,11 @@ export default function Home() {
                     variant="contained"
                     size="large"
                     endIcon={<FaRocket />}
-                    onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                    onClick={() =>
+                      document
+                        .getElementById("projects")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
                     sx={{
                       borderRadius: "50px",
                       px: 4,
@@ -410,11 +444,10 @@ export default function Home() {
                         transform: "translateY(-3px)",
                         boxShadow: `0 12px 40px ${theme.palette.primary.main}60`,
                       },
-                    }}
-                  >
+                    }}>
                     View My Work
                   </Button>
-                  
+
                   <Button
                     variant="outlined"
                     size="large"
@@ -429,16 +462,23 @@ export default function Home() {
                         borderWidth: 2,
                         transform: "translateY(-3px)",
                       },
-                    }}
-                  >
+                    }}>
                     Download CV
                   </Button>
                 </Stack>
 
                 <Stack direction="row" spacing={3}>
                   {[
-                    { icon: <FaGithub />, href: "https://github.com/bilalsattar24", label: "GitHub" },
-                    { icon: <FaLinkedin />, href: "https://linkedin.com/in/bilalsattar24", label: "LinkedIn" },
+                    {
+                      icon: <FaGithub />,
+                      href: "https://github.com/bilalsattar24",
+                      label: "GitHub",
+                    },
+                    {
+                      icon: <FaLinkedin />,
+                      href: "https://linkedin.com/in/bilalsattar24",
+                      label: "LinkedIn",
+                    },
                   ].map((social) => (
                     <Tooltip key={social.label} title={social.label}>
                       <IconButton
@@ -452,8 +492,7 @@ export default function Home() {
                             transform: "translateY(-3px) scale(1.1)",
                             color: "primary.main",
                           },
-                        }}
-                      >
+                        }}>
                         {social.icon}
                       </IconButton>
                     </Tooltip>
@@ -466,8 +505,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={heroInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
+                transition={{ duration: 0.8, delay: 0.4 }}>
                 <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} perspective={1000}>
                   <Card
                     sx={{
@@ -477,8 +515,7 @@ export default function Home() {
                       border: `1px solid ${theme.palette.primary.main}20`,
                       borderRadius: 4,
                       boxShadow: `0 20px 60px ${theme.palette.primary.main}20`,
-                    }}
-                  >
+                    }}>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
                       <Avatar
                         sx={{
@@ -486,8 +523,7 @@ export default function Home() {
                           height: 60,
                           mr: 2,
                           background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                        }}
-                      >
+                        }}>
                         <FaCode size={24} />
                       </Avatar>
                       <Box>
@@ -501,29 +537,39 @@ export default function Home() {
                     </Box>
 
                     <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.6 }}>
-                      Chrome extension serving <strong>10,000+ active users</strong> with 
-                      advanced analytics and automation for fantasy basketball enthusiasts.
+                      Chrome extension serving{" "}
+                      <strong>10,000+ active users</strong> with advanced
+                      analytics and automation for fantasy basketball
+                      enthusiasts.
                     </Typography>
 
-                    <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: "wrap" }}>
-                      {["Python", "Django", "React", "Chrome API"].map((tech) => (
-                        <Chip
-                          key={tech}
-                          label={tech}
-                          size="small"
-                          sx={{
-                            bgcolor: `${theme.palette.primary.main}15`,
-                            color: "primary.main",
-                            fontWeight: 500,
-                          }}
-                        />
-                      ))}
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ mb: 3, flexWrap: "wrap" }}>
+                      {["Python", "Django", "React", "Chrome API"].map(
+                        (tech) => (
+                          <Chip
+                            key={tech}
+                            label={tech}
+                            size="small"
+                            sx={{
+                              bgcolor: `${theme.palette.primary.main}15`,
+                              color: "primary.main",
+                              fontWeight: 500,
+                            }}
+                          />
+                        )
+                      )}
                     </Stack>
 
                     <Grid container spacing={2}>
                       <Grid item xs={4}>
                         <Box sx={{ textAlign: "center" }}>
-                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                          <Typography
+                            variant="h6"
+                            color="primary.main"
+                            fontWeight="bold">
                             4.6★
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
@@ -533,7 +579,10 @@ export default function Home() {
                       </Grid>
                       <Grid item xs={4}>
                         <Box sx={{ textAlign: "center" }}>
-                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                          <Typography
+                            variant="h6"
+                            color="primary.main"
+                            fontWeight="bold">
                             10K+
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
@@ -543,7 +592,10 @@ export default function Home() {
                       </Grid>
                       <Grid item xs={4}>
                         <Box sx={{ textAlign: "center" }}>
-                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                          <Typography
+                            variant="h6"
+                            color="primary.main"
+                            fontWeight="bold">
                             $50K+
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
@@ -567,14 +619,12 @@ export default function Home() {
         sx={{
           py: 10,
           background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${theme.palette.primary.main}08 100%)`,
-        }}
-      >
+        }}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={skillsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             <Typography
               variant="h2"
               sx={{
@@ -584,8 +634,7 @@ export default function Home() {
                 background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-              }}
-            >
+              }}>
               Technical Expertise
             </Typography>
             <Typography
@@ -596,9 +645,9 @@ export default function Home() {
                 color: "text.secondary",
                 maxWidth: "600px",
                 mx: "auto",
-              }}
-            >
-              Mastering cutting-edge technologies to deliver exceptional digital experiences
+              }}>
+              Mastering cutting-edge technologies to deliver exceptional digital
+              experiences
             </Typography>
 
             <Grid container spacing={4}>
@@ -607,8 +656,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={skillsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
+                    transition={{ duration: 0.6, delay: index * 0.1 }}>
                     <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10}>
                       <Card
                         sx={{
@@ -623,9 +671,9 @@ export default function Home() {
                             boxShadow: `0 20px 40px ${skillGroup.color}30`,
                             border: `2px solid ${skillGroup.color}40`,
                           },
-                        }}
-                      >
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                        }}>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", mb: 3 }}>
                           <Avatar
                             sx={{
                               bgcolor: skillGroup.color,
@@ -633,8 +681,7 @@ export default function Home() {
                               mr: 2,
                               width: 50,
                               height: 50,
-                            }}
-                          >
+                            }}>
                             {skillGroup.icon}
                           </Avatar>
                           <Typography variant="h6" fontWeight="bold">
@@ -645,14 +692,24 @@ export default function Home() {
                         <Stack spacing={2}>
                           {skillGroup.technologies.map((tech, i) => (
                             <Box key={i}>
-                              <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  mb: 1,
+                                }}>
                                 <Box sx={{ mr: 1, color: skillGroup.color }}>
                                   {tech.icon}
                                 </Box>
-                                <Typography variant="body2" fontWeight="500" sx={{ flexGrow: 1 }}>
+                                <Typography
+                                  variant="body2"
+                                  fontWeight="500"
+                                  sx={{ flexGrow: 1 }}>
                                   {tech.name}
                                 </Typography>
-                                <Typography variant="caption" color="text.secondary">
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary">
                                   {tech.level}%
                                 </Typography>
                               </Box>
@@ -689,14 +746,12 @@ export default function Home() {
         sx={{
           py: 10,
           bgcolor: "background.paper",
-        }}
-      >
+        }}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={projectsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             <Typography
               variant="h2"
               sx={{
@@ -706,8 +761,7 @@ export default function Home() {
                 background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-              }}
-            >
+              }}>
               Featured Projects
             </Typography>
             <Typography
@@ -718,8 +772,7 @@ export default function Home() {
                 color: "text.secondary",
                 maxWidth: "600px",
                 mx: "auto",
-              }}
-            >
+              }}>
               Showcasing innovative solutions that drive real business impact
             </Typography>
 
@@ -729,8 +782,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={projectsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
+                    transition={{ duration: 0.6, delay: index * 0.1 }}>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5}>
                       <Card
                         sx={{
@@ -738,14 +790,15 @@ export default function Home() {
                           borderRadius: 4,
                           overflow: "hidden",
                           background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
-                          border: project.featured ? `2px solid ${theme.palette.primary.main}30` : "1px solid rgba(0,0,0,0.1)",
+                          border: project.featured
+                            ? `2px solid ${theme.palette.primary.main}30`
+                            : "1px solid rgba(0,0,0,0.1)",
                           transition: "all 0.3s ease",
                           "&:hover": {
                             transform: "translateY(-10px)",
                             boxShadow: `0 25px 50px ${theme.palette.primary.main}20`,
                           },
-                        }}
-                      >
+                        }}>
                         {project.featured && (
                           <Box
                             sx={{
@@ -760,12 +813,11 @@ export default function Home() {
                               borderRadius: 2,
                               fontSize: "0.75rem",
                               fontWeight: "bold",
-                            }}
-                          >
+                            }}>
                             FEATURED
                           </Box>
                         )}
-                        
+
                         <Box
                           sx={{
                             height: 200,
@@ -774,21 +826,32 @@ export default function Home() {
                             alignItems: "center",
                             justifyContent: "center",
                             position: "relative",
-                          }}
-                        >
-                          <FaRocket size={48} color={theme.palette.primary.main} />
+                          }}>
+                          <FaRocket
+                            size={48}
+                            color={theme.palette.primary.main}
+                          />
                         </Box>
 
                         <CardContent sx={{ p: 3 }}>
-                          <Typography variant="h5" fontWeight="bold" gutterBottom>
+                          <Typography
+                            variant="h5"
+                            fontWeight="bold"
+                            gutterBottom>
                             {project.title}
                           </Typography>
-                          
-                          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
+
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ mb: 3, lineHeight: 1.6 }}>
                             {project.description}
                           </Typography>
 
-                          <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: "wrap" }}>
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            sx={{ mb: 3, flexWrap: "wrap" }}>
                             {project.technologies.map((tech) => (
                               <Chip
                                 key={tech}
@@ -804,18 +867,26 @@ export default function Home() {
                           </Stack>
 
                           <Grid container spacing={2} sx={{ mb: 3 }}>
-                            {Object.entries(project.stats).map(([key, value]) => (
-                              <Grid item xs={4} key={key}>
-                                <Box sx={{ textAlign: "center" }}>
-                                  <Typography variant="h6" color="primary.main" fontWeight="bold">
-                                    {value}
-                                  </Typography>
-                                  <Typography variant="caption" color="text.secondary">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                  </Typography>
-                                </Box>
-                              </Grid>
-                            ))}
+                            {Object.entries(project.stats).map(
+                              ([key, value]) => (
+                                <Grid item xs={4} key={key}>
+                                  <Box sx={{ textAlign: "center" }}>
+                                    <Typography
+                                      variant="h6"
+                                      color="primary.main"
+                                      fontWeight="bold">
+                                      {value}
+                                    </Typography>
+                                    <Typography
+                                      variant="caption"
+                                      color="text.secondary">
+                                      {key.charAt(0).toUpperCase() +
+                                        key.slice(1)}
+                                    </Typography>
+                                  </Box>
+                                </Grid>
+                              )
+                            )}
                           </Grid>
 
                           <Stack direction="row" spacing={2}>
@@ -824,8 +895,7 @@ export default function Home() {
                               size="small"
                               startIcon={<FaExternalLinkAlt />}
                               href={project.links.live}
-                              sx={{ borderRadius: 2 }}
-                            >
+                              sx={{ borderRadius: 2 }}>
                               Live Demo
                             </Button>
                             {project.links.github && (
@@ -834,8 +904,7 @@ export default function Home() {
                                 size="small"
                                 startIcon={<FaGithub />}
                                 href={project.links.github}
-                                sx={{ borderRadius: 2 }}
-                              >
+                                sx={{ borderRadius: 2 }}>
                                 Code
                               </Button>
                             )}
@@ -858,14 +927,12 @@ export default function Home() {
         sx={{
           py: 10,
           background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${theme.palette.secondary.main}08 100%)`,
-        }}
-      >
+        }}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             <Typography
               variant="h2"
               sx={{
@@ -875,8 +942,7 @@ export default function Home() {
                 background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-              }}
-            >
+              }}>
               Client Testimonials
             </Typography>
             <Typography
@@ -887,8 +953,7 @@ export default function Home() {
                 color: "text.secondary",
                 maxWidth: "600px",
                 mx: "auto",
-              }}
-            >
+              }}>
               What industry leaders say about working with me
             </Typography>
 
@@ -898,8 +963,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
+                    transition={{ duration: 0.6, delay: index * 0.1 }}>
                     <Card
                       sx={{
                         p: 3,
@@ -912,25 +976,30 @@ export default function Home() {
                           transform: "translateY(-5px)",
                           boxShadow: `0 20px 40px ${theme.palette.primary.main}20`,
                         },
-                      }}
-                    >
-                      <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                        <FaQuoteLeft size={24} color={theme.palette.primary.main} />
+                      }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                        <FaQuoteLeft
+                          size={24}
+                          color={theme.palette.primary.main}
+                        />
                       </Box>
-                      
-                      <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.6, fontStyle: "italic" }}>
+
+                      <Typography
+                        variant="body1"
+                        sx={{ mb: 3, lineHeight: 1.6, fontStyle: "italic" }}>
                         "{testimonial.text}"
                       </Typography>
 
-                      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                         <Avatar
                           sx={{
                             width: 50,
                             height: 50,
                             mr: 2,
                             background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                          }}
-                        >
+                          }}>
                           {testimonial.name.charAt(0)}
                         </Avatar>
                         <Box>
@@ -945,7 +1014,11 @@ export default function Home() {
 
                       <Box sx={{ display: "flex", alignItems: "center" }}>
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <FaStar key={i} size={16} color={theme.palette.primary.main} />
+                          <FaStar
+                            key={i}
+                            size={16}
+                            color={theme.palette.primary.main}
+                          />
                         ))}
                       </Box>
                     </Card>
@@ -964,8 +1037,7 @@ export default function Home() {
           py: 10,
           bgcolor: "background.paper",
           background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}10 100%)`,
-        }}
-      >
+        }}>
         <Container maxWidth="lg">
           <Typography
             variant="h2"
@@ -976,8 +1048,7 @@ export default function Home() {
               background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-            }}
-          >
+            }}>
             Let's Build Something Amazing
           </Typography>
           <Typography
@@ -988,25 +1059,39 @@ export default function Home() {
               color: "text.secondary",
               maxWidth: "600px",
               mx: "auto",
-            }}
-          >
-            Ready to transform your ideas into reality? Let's discuss your next project.
+            }}>
+            Ready to transform your ideas into reality? Let's discuss your next
+            project.
           </Typography>
 
           <Grid container spacing={6} alignItems="center">
             <Grid item xs={12} md={6}>
               <Stack spacing={4}>
                 {[
-                  { icon: <FaEnvelope />, title: "Email", value: "bilal@example.com", href: "mailto:bilal@example.com" },
-                  { icon: <FaPhone />, title: "Phone", value: "+1 (555) 123-4567", href: "tel:+15551234567" },
-                  { icon: <FaMapMarkerAlt />, title: "Location", value: "San Francisco, CA", href: "#" },
+                  {
+                    icon: <FaEnvelope />,
+                    title: "Email",
+                    value: "bilal@example.com",
+                    href: "mailto:bilal@example.com",
+                  },
+                  {
+                    icon: <FaPhone />,
+                    title: "Phone",
+                    value: "+1 (555) 123-4567",
+                    href: "tel:+15551234567",
+                  },
+                  {
+                    icon: <FaMapMarkerAlt />,
+                    title: "Location",
+                    value: "San Francisco, CA",
+                    href: "#",
+                  },
                 ].map((contact, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                  >
+                    transition={{ duration: 0.6, delay: index * 0.1 }}>
                     <Paper
                       sx={{
                         p: 3,
@@ -1018,16 +1103,14 @@ export default function Home() {
                           transform: "translateX(10px)",
                           boxShadow: 3,
                         },
-                      }}
-                    >
+                      }}>
                       <Avatar
                         sx={{
                           bgcolor: "primary.main",
                           mr: 3,
                           width: 50,
                           height: 50,
-                        }}
-                      >
+                        }}>
                         {contact.icon}
                       </Avatar>
                       <Box>
@@ -1048,8 +1131,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-              >
+                transition={{ duration: 0.8 }}>
                 <Paper sx={{ p: 4, borderRadius: 4 }}>
                   <Typography variant="h5" fontWeight="bold" sx={{ mb: 3 }}>
                     Send a Message
@@ -1086,8 +1168,7 @@ export default function Home() {
                         "&:hover": {
                           transform: "translateY(-2px)",
                         },
-                      }}
-                    >
+                      }}>
                       Send Message
                     </Button>
                   </Stack>
