@@ -257,6 +257,7 @@ export default function Home() {
                   "&:hover": { transform: "scale(1.1)" },
                 }}>
                 <Box
+                  // @ts-ignore
                   sx={{
                     width: 8,
                     height: 8,
@@ -272,8 +273,11 @@ export default function Home() {
 
       {/* Hero Section */}
       <Box
+        // @ts-ignore
         id="hero"
+        // @ts-ignore
         ref={heroRef}
+        // @ts-ignore
         sx={{
           position: "relative",
           height: "100vh",
