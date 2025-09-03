@@ -1,8 +1,4 @@
-"use client";
-
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import theme from "./theme"; // Import your theme file
+import "./globals.css";
 import { metadata } from "./metadata";
 import Script from "next/script";
 
@@ -55,11 +51,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
+      <body className="bg-slate-900 text-white antialiased min-h-screen">
+        {children}
       </body>
     </html>
   );
