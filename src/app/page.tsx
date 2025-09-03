@@ -1,8 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { FaGithub, FaLinkedin, FaArrowRight } from "react-icons/fa";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Sphere, MeshDistortMaterial, Float, Text3D, Center } from "@react-three/drei";
+import { useInView } from "react-intersection-observer";
+import Tilt from "react-parallax-tilt";
+import { 
+  FaGithub, 
+  FaLinkedin, 
+  FaArrowRight, 
+  FaCode, 
+  FaRocket, 
+  FaLightbulb,
+  FaStar,
+  FaQuoteLeft,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaReact,
+  FaNodeJs,
+  FaPython,
+  FaAws,
+  FaDocker,
+  FaGitAlt,
+  FaDatabase,
+  FaMobile,
+  FaCloud,
+  FaChartLine,
+  FaUsers,
+  FaTrophy,
+  FaDownload,
+  FaExternalLinkAlt,
+  FaPlay
+} from "react-icons/fa";
+import { 
+  SiTypescript, 
+  SiNextdotjs, 
+  SiMongodb, 
+  SiPostgresql,
+  SiTailwindcss,
+  SiFramer,
+  SiThreedotjs,
+  SiVercel,
+  SiGraphql,
+  SiRedis,
+  SiKubernetes
+} from "react-icons/si";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -11,534 +55,1048 @@ import {
   Button,
   Grid,
   IconButton,
+  Card,
+  CardContent,
+  Avatar,
+  Chip,
+  LinearProgress,
+  Divider,
+  TextField,
+  Paper,
+  Stack,
+  Badge,
+  Tooltip,
+  Zoom,
+  Fade,
+  Slide
 } from "@mui/material";
+import { keyframes } from "@emotion/react";
+
+// Animations
+const float = keyframes`
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+`;
+
+const pulse = keyframes`
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+`;
+
+const glow = keyframes`
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+`;
 
 const skills = [
   {
-    category: "Frontend",
-    technologies: ["React", "TypeScript", "Vue", "Angular", "HTML/CSS"],
+    category: "Frontend Mastery",
+    icon: <FaReact />,
+    color: "#61DAFB",
+    technologies: [
+      { name: "React/Next.js", level: 95, icon: <SiNextdotjs /> },
+      { name: "TypeScript", level: 90, icon: <SiTypescript /> },
+      { name: "Three.js", level: 85, icon: <SiThreedotjs /> },
+      { name: "Tailwind CSS", level: 92, icon: <SiTailwindcss /> },
+      { name: "Framer Motion", level: 88, icon: <SiFramer /> }
+    ],
   },
   {
-    category: "Backend",
-    technologies: ["Node.js", "Python", "Java", "C#", "Django"],
+    category: "Backend Excellence",
+    icon: <FaNodeJs />,
+    color: "#339933",
+    technologies: [
+      { name: "Node.js", level: 93, icon: <FaNodeJs /> },
+      { name: "Python/Django", level: 90, icon: <FaPython /> },
+      { name: "GraphQL", level: 85, icon: <SiGraphql /> },
+      { name: "PostgreSQL", level: 88, icon: <SiPostgresql /> },
+      { name: "MongoDB", level: 87, icon: <SiMongodb /> }
+    ],
   },
   {
-    category: "Cloud & Tools",
-    technologies: ["AWS", "Azure", "MongoDB", "REST APIs", "Git"],
+    category: "Cloud & DevOps",
+    icon: <FaAws />,
+    color: "#FF9900",
+    technologies: [
+      { name: "AWS", level: 88, icon: <FaAws /> },
+      { name: "Docker", level: 85, icon: <FaDocker /> },
+      { name: "Kubernetes", level: 80, icon: <SiKubernetes /> },
+      { name: "Redis", level: 82, icon: <SiRedis /> },
+      { name: "Vercel", level: 90, icon: <SiVercel /> }
+    ],
   },
   {
-    category: "Other",
-    technologies: ["Agile", "Team Leadership", "Mentoring", "CI/CD"],
+    category: "Leadership & Strategy",
+    icon: <FaUsers />,
+    color: "#8B5CF6",
+    technologies: [
+      { name: "Team Leadership", level: 95, icon: <FaUsers /> },
+      { name: "Project Management", level: 90, icon: <FaChartLine /> },
+      { name: "Mentoring", level: 92, icon: <FaLightbulb /> },
+      { name: "Architecture Design", level: 88, icon: <FaRocket /> },
+      { name: "Client Relations", level: 85, icon: <FaTrophy /> }
+    ],
   },
 ];
+
+const projects = [
+  {
+    title: "Fantasy Basketball WZRD",
+    description: "Chrome extension serving 10,000+ active users with advanced analytics and automation for fantasy basketball enthusiasts.",
+    image: "/api/placeholder/600/400",
+    technologies: ["Python", "Django", "Chrome Extension", "React", "PostgreSQL"],
+    stats: { users: "10K+", rating: "4.6★", revenue: "$50K+" },
+    links: { live: "#", github: "#" },
+    featured: true
+  },
+  {
+    title: "Enterprise CRM Platform",
+    description: "Bespoke CRM system for election management, handling 2,500+ users with advanced data pipelines and 100+ reusable components.",
+    image: "/api/placeholder/600/400",
+    technologies: ["Next.js", "React", "Chakra UI", "Node.js", "PostgreSQL"],
+    stats: { users: "2.5K+", components: "100+", uptime: "99.9%" },
+    links: { live: "#", case: "#" },
+    featured: true
+  },
+  {
+    title: "Real Estate Lead Portal",
+    description: "Dynamic home search platform serving 4M+ monthly users with advanced filtering and lead generation capabilities.",
+    image: "/api/placeholder/600/400",
+    technologies: ["React", "Express", "MongoDB", "AWS", "Redis"],
+    stats: { users: "4M+", leads: "50K+", conversion: "12%" },
+    links: { live: "#", github: "#" }
+  },
+  {
+    title: "Wildlife Tracking System",
+    description: "Full-stack application for wildlife conservation with real-time tracking, data visualization, and predictive analytics.",
+    image: "/api/placeholder/600/400",
+    technologies: ["Java Spring", "React", "PostgreSQL", "D3.js", "AWS"],
+    stats: { animals: "5K+", accuracy: "95%", conservation: "3 species" },
+    links: { live: "#", case: "#" }
+  }
+];
+
+const testimonials = [
+  {
+    name: "Sarah Johnson",
+    role: "CTO at TechCorp",
+    avatar: "/api/placeholder/80/80",
+    rating: 5,
+    text: "Bilal delivered exceptional results on our enterprise platform. His technical expertise and leadership skills are outstanding. The project was completed ahead of schedule with zero critical bugs."
+  },
+  {
+    name: "Michael Chen",
+    role: "Product Manager at StartupXYZ",
+    avatar: "/api/placeholder/80/80",
+    rating: 5,
+    text: "Working with Bilal was a game-changer for our startup. He not only built an incredible product but also mentored our junior developers. His code quality is impeccable."
+  },
+  {
+    name: "Emily Rodriguez",
+    role: "Founder at InnovateNow",
+    avatar: "/api/placeholder/80/80",
+    rating: 5,
+    text: "Bilal transformed our vision into reality with his full-stack expertise. The Fantasy Basketball WZRD extension he built has been a massive success with our users loving every feature."
+  }
+];
+
+// 3D Components
+function AnimatedSphere() {
+  return (
+    <Float speed={1.4} rotationIntensity={1} floatIntensity={2}>
+      <Sphere args={[1, 100, 200]} scale={2}>
+        <MeshDistortMaterial
+          color="#3b82f6"
+          attach="material"
+          distort={0.3}
+          speed={1.5}
+          roughness={0.4}
+        />
+      </Sphere>
+    </Float>
+  );
+}
+
+function FloatingCode() {
+  return (
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
+      <Center>
+        <Text3D
+          font="/fonts/helvetiker_regular.typeface.json"
+          size={0.3}
+          height={0.1}
+          curveSegments={12}
+        >
+          {`<Code />`}
+          <meshStandardMaterial color="#10b981" />
+        </Text3D>
+      </Center>
+    </Float>
+  );
+}
 
 export default function Home() {
   const theme = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
+  const [heroRef, heroInView] = useInView({ threshold: 0.3 });
+  const [skillsRef, skillsInView] = useInView({ threshold: 0.2 });
+  const [projectsRef, projectsInView] = useInView({ threshold: 0.1 });
+  const [testimonialsRef, testimonialsInView] = useInView({ threshold: 0.2 });
 
   return (
-    <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-      {/* Hero Section */}
-      <Box
-        sx={{
-          position: "relative",
-          height: { xs: "auto", md: "100vh" },
-          minHeight: { xs: "80vh", md: "100vh" },
+    <Box ref={containerRef} sx={{ bgcolor: "background.default", minHeight: "100vh", overflow: "hidden" }}>
+      {/* Floating Navigation */}
+      <motion.div
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        style={{
+          position: "fixed",
+          top: 20,
+          right: 20,
+          zIndex: 1000,
           display: "flex",
-          alignItems: { xs: "flex-start", md: "center" },
-          paddingTop: { xs: "2rem", md: 0 },
-          overflow: "hidden",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `radial-gradient(circle at 30% 30%, ${theme.palette.primary.main}20, transparent 60%),
-                        radial-gradient(circle at 70% 70%, ${theme.palette.secondary.main}20, transparent 60%)`,
-            zIndex: 0,
-          },
+          gap: "8px",
         }}
       >
-        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-          <motion.div
-            initial="hidden"
-            animate={isLoaded ? "visible" : "hidden"}
-            variants={containerVariants}
-          >
-            <Grid container spacing={4} alignItems="center">
-              <Grid item xs={12} md={6}>
+        {["hero", "skills", "projects", "testimonials", "contact"].map((section) => (
+          <Tooltip key={section} title={section.charAt(0).toUpperCase() + section.slice(1)}>
+            <IconButton
+              onClick={() => document.getElementById(section)?.scrollIntoView({ behavior: "smooth" })}
+              sx={{
+                bgcolor: activeSection === section ? "primary.main" : "background.paper",
+                color: activeSection === section ? "white" : "text.primary",
+                boxShadow: 3,
+                "&:hover": { transform: "scale(1.1)" },
+              }}
+            >
+              <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "currentColor" }} />
+            </IconButton>
+          </Tooltip>
+        ))}
+      </motion.div>
+
+      {/* Hero Section */}
+      <Box
+        id="hero"
+        ref={heroRef}
+        sx={{
+          position: "relative",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, ${theme.palette.primary.main}10 100%)`,
+        }}
+      >
+        {/* 3D Background */}
+        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0.6 }}>
+          <Canvas camera={{ position: [0, 0, 5] }}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} />
+            <AnimatedSphere />
+            <OrbitControls enableZoom={false} enablePan={false} />
+          </Canvas>
+        </Box>
+
+        {/* Animated Background Elements */}
+        <motion.div
+          style={{
+            position: "absolute",
+            top: "20%",
+            right: "10%",
+            width: 200,
+            height: 200,
+            borderRadius: "50%",
+            background: `linear-gradient(45deg, ${theme.palette.primary.main}20, ${theme.palette.secondary.main}20)`,
+            animation: `${float} 6s ease-in-out infinite`,
+          }}
+        />
+
+        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, x: -100 }}
+                animate={heroInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "primary.main",
+                    fontWeight: 600,
+                    mb: 2,
+                    textTransform: "uppercase",
+                    letterSpacing: 2,
+                  }}
+                >
+                  Full-Stack Developer
+                </Typography>
+                
                 <Typography
                   variant="h1"
                   sx={{
-                    fontSize: { xs: "3rem", md: "4.5rem" },
-                    fontWeight: 800,
+                    fontSize: { xs: "3rem", md: "5rem" },
+                    fontWeight: 900,
                     mb: 2,
                     background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
+                    lineHeight: 1.1,
                   }}
                 >
                   Bilal Sattar
                 </Typography>
+
                 <Typography
-                  component="h2"
-                  variant="h2"
+                  variant="h4"
                   sx={{
-                    fontSize: { xs: "1.5rem", md: "2rem" },
-                    mb: 3,
+                    fontSize: { xs: "1.5rem", md: "2.5rem" },
+                    fontWeight: 300,
+                    mb: 4,
                     color: "text.secondary",
                   }}
                 >
-                  Freelance Software Developer & Engineering Consultant
+                  Crafting Digital Excellence
                 </Typography>
+
                 <Typography
                   variant="body1"
                   sx={{
+                    fontSize: "1.2rem",
                     mb: 4,
-                    fontSize: { xs: "1rem", md: "1.2rem" },
                     color: "text.secondary",
-                    maxWidth: "600px",
+                    maxWidth: "500px",
+                    lineHeight: 1.6,
                   }}
                 >
-                  Delivering high-impact software solutions for businesses
-                  worldwide. Specializing in full-stack web development, cloud
-                  architecture, and technical consulting. Let&apos;s transform
-                  your ideas into reality.
+                  Transforming ideas into powerful, scalable solutions. 
+                  Specialized in modern web technologies with a track record 
+                  of delivering exceptional results for 10,000+ users worldwide.
                 </Typography>
-                <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+
+                <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
                   <Button
                     variant="contained"
                     size="large"
-                    endIcon={<FaArrowRight />}
+                    endIcon={<FaRocket />}
+                    onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
                     sx={{
                       borderRadius: "50px",
                       px: 4,
-                      py: 1.5,
+                      py: 2,
+                      fontSize: "1.1rem",
                       background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      boxShadow: `0 8px 32px ${theme.palette.primary.main}40`,
                       "&:hover": {
-                        transform: "translateY(-2px)",
+                        transform: "translateY(-3px)",
+                        boxShadow: `0 12px 40px ${theme.palette.primary.main}60`,
                       },
                     }}
                   >
-                    View Projects
+                    View My Work
                   </Button>
-                  <IconButton
-                    href="https://github.com/bilalsattar24"
-                    target="_blank"
+                  
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    startIcon={<FaDownload />}
                     sx={{
-                      color: "text.primary",
-                      transition: "transform 0.2s",
-                      "&:hover": { transform: "translateY(-2px)" },
+                      borderRadius: "50px",
+                      px: 4,
+                      py: 2,
+                      fontSize: "1.1rem",
+                      borderWidth: 2,
+                      "&:hover": {
+                        borderWidth: 2,
+                        transform: "translateY(-3px)",
+                      },
                     }}
                   >
-                    <FaGithub size={24} />
-                  </IconButton>
-                  <IconButton
-                    href="https://linkedin.com/in/bilalsattar24"
-                    target="_blank"
-                    sx={{
-                      color: "text.primary",
-                      transition: "transform 0.2s",
-                      "&:hover": { transform: "translateY(-2px)" },
-                    }}
-                  >
-                    <FaLinkedin size={24} />
-                  </IconButton>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box
-                  sx={{
-                    height: "100%",
-                    display: { xs: "none", md: "flex" },
-                    flexDirection: "column",
-                    gap: 3,
-                  }}
-                >
-                  <Box
+                    Download CV
+                  </Button>
+                </Stack>
+
+                <Stack direction="row" spacing={3}>
+                  {[
+                    { icon: <FaGithub />, href: "https://github.com/bilalsattar24", label: "GitHub" },
+                    { icon: <FaLinkedin />, href: "https://linkedin.com/in/bilalsattar24", label: "LinkedIn" },
+                  ].map((social) => (
+                    <Tooltip key={social.label} title={social.label}>
+                      <IconButton
+                        href={social.href}
+                        target="_blank"
+                        sx={{
+                          bgcolor: "background.paper",
+                          color: "text.primary",
+                          boxShadow: 3,
+                          "&:hover": {
+                            transform: "translateY(-3px) scale(1.1)",
+                            color: "primary.main",
+                          },
+                        }}
+                      >
+                        {social.icon}
+                      </IconButton>
+                    </Tooltip>
+                  ))}
+                </Stack>
+              </motion.div>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={heroInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} perspective={1000}>
+                  <Card
                     sx={{
                       p: 4,
+                      background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
+                      backdropFilter: "blur(20px)",
+                      border: `1px solid ${theme.palette.primary.main}20`,
                       borderRadius: 4,
-                      bgcolor: "background.paper",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                      border: `1px solid ${theme.palette.primary.main}15`,
-                      position: "relative",
-                      overflow: "hidden",
-                      "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "4px",
-                        background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                      },
+                      boxShadow: `0 20px 60px ${theme.palette.primary.main}20`,
                     }}
                   >
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        mb: 2,
-                        fontWeight: 700,
-                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                      }}
-                    >
-                      Featured Project: Fantasy Basketball WZRD
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ mb: 2, color: "text.secondary" }}
-                    >
-                      A successful Chrome extension serving over 10,000 active
-                      users, helping fantasy basketball enthusiasts dominate
-                      their leagues with advanced analytics and automation.
-                    </Typography>
-                    <Box
-                      sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}
-                    >
-                      {["Python", "Django", "Chrome Extension", "React"].map(
-                        (tech) => (
-                          <Box
-                            key={tech}
-                            sx={{
-                              px: 2,
-                              py: 0.5,
-                              borderRadius: 2,
-                              bgcolor: `${theme.palette.primary.main}10`,
-                              color: "primary.main",
-                              fontSize: "0.875rem",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {tech}
-                          </Box>
-                        )
-                      )}
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                      >
-                        <Typography
-                          variant="h6"
-                          color="primary.main"
-                          fontWeight="bold"
-                        >
-                          4.6★
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Rating
-                        </Typography>
-                      </Box>
-                      <Box
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                      <Avatar
                         sx={{
-                          height: "24px",
-                          width: "1px",
-                          bgcolor: "divider",
+                          width: 60,
+                          height: 60,
+                          mr: 2,
+                          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                         }}
-                      />
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
                       >
-                        <Typography
-                          variant="h6"
-                          color="primary.main"
-                          fontWeight="bold"
-                        >
-                          10K+
+                        <FaCode size={24} />
+                      </Avatar>
+                      <Box>
+                        <Typography variant="h6" fontWeight="bold">
+                          Featured Project
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          Active Users
+                          Fantasy Basketball WZRD
                         </Typography>
                       </Box>
                     </Box>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </motion.div>
-          <Box
-            sx={{
-              mt: 4,
-              bgcolor: "background.default",
-              p: 3,
-              borderRadius: 2,
-            }}
-          >
-            <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-              About Me
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Technology and sports are my twin passions, fueling my career in
-              software development and leadership. I bring a unique perspective
-              to tech solutions, inspired by the dynamics of athletic
-              performance and team sports. My expertise in cloud architecture
-              and web development allows me to innovate in ways that enhance
-              sports analytics, fan engagement, and athlete performance
-              tracking. Leading teams in collaborative, dynamic settings, I
-              strive for excellence and continuous improvement, always looking
-              to score with smart technology.
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
 
-      {/* Statistics Section */}
-      <Box sx={{ py: 6, bgcolor: theme.palette.primary.main + "08" }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            {[
-              { number: "9+", label: "Years Experience" },
-              { number: "10k+", label: "Active Users" },
-              { number: "500+", label: "UI Components" },
-              { number: "2.5k+", label: "Users Managed" },
-            ].map((stat) => (
-              <Grid item xs={6} md={3} key={stat.label}>
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    p: 3,
-                    borderRadius: 4,
-                    bgcolor: "background.paper",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                    transition: "transform 0.2s",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: "bold",
-                      background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    {stat.number}
-                  </Typography>
-                  <Typography variant="subtitle1" color="text.secondary">
-                    {stat.label}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
+                    <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.6 }}>
+                      Chrome extension serving <strong>10,000+ active users</strong> with 
+                      advanced analytics and automation for fantasy basketball enthusiasts.
+                    </Typography>
+
+                    <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: "wrap" }}>
+                      {["Python", "Django", "React", "Chrome API"].map((tech) => (
+                        <Chip
+                          key={tech}
+                          label={tech}
+                          size="small"
+                          sx={{
+                            bgcolor: `${theme.palette.primary.main}15`,
+                            color: "primary.main",
+                            fontWeight: 500,
+                          }}
+                        />
+                      ))}
+                    </Stack>
+
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <Box sx={{ textAlign: "center" }}>
+                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                            4.6★
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Rating
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Box sx={{ textAlign: "center" }}>
+                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                            10K+
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Users
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Box sx={{ textAlign: "center" }}>
+                          <Typography variant="h6" color="primary.main" fontWeight="bold">
+                            $50K+
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Revenue
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Card>
+                </Tilt>
+              </motion.div>
+            </Grid>
           </Grid>
         </Container>
       </Box>
 
       {/* Skills Section */}
-      <section aria-label="Technical Skills">
+      <Box
+        id="skills"
+        ref={skillsRef}
+        sx={{
+          py: 10,
+          background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${theme.palette.primary.main}08 100%)`,
+        }}
+      >
         <Container maxWidth="lg">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={skillsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
           >
             <Typography
-              component="h3"
-              variant="h4"
-              sx={{ mb: 3, mt: 6, fontWeight: 700 }}
+              variant="h2"
+              sx={{
+                textAlign: "center",
+                mb: 2,
+                fontWeight: 800,
+                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              Expert Software Development Services
+              Technical Expertise
             </Typography>
-            <Grid container spacing={3}>
+            <Typography
+              variant="h6"
+              sx={{
+                textAlign: "center",
+                mb: 8,
+                color: "text.secondary",
+                maxWidth: "600px",
+                mx: "auto",
+              }}
+            >
+              Mastering cutting-edge technologies to deliver exceptional digital experiences
+            </Typography>
+
+            <Grid container spacing={4}>
               {skills.map((skillGroup, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
+                <Grid item xs={12} md={6} lg={3} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={skillsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <Box
-                      sx={{
-                        p: 3,
-                        height: "100%",
-                        border: 1,
-                        borderColor: "divider",
-                        borderRadius: 2,
-                        "&:hover": {
-                          boxShadow: 3,
-                          borderColor: "primary.main",
-                        },
-                      }}
-                    >
-                      <Typography
-                        component="h4"
-                        variant="h6"
-                        sx={{ mb: 2, fontWeight: 600 }}
+                    <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10}>
+                      <Card
+                        sx={{
+                          p: 3,
+                          height: "100%",
+                          background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${skillGroup.color}10 100%)`,
+                          border: `2px solid ${skillGroup.color}20`,
+                          borderRadius: 3,
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            transform: "translateY(-10px)",
+                            boxShadow: `0 20px 40px ${skillGroup.color}30`,
+                            border: `2px solid ${skillGroup.color}40`,
+                          },
+                        }}
                       >
-                        {skillGroup.category}
-                      </Typography>
-                      <ul style={{ paddingLeft: "20px" }}>
-                        {skillGroup.technologies.map((tech, i) => (
-                          <li key={i}>
-                            <Typography variant="body2" sx={{ mb: 1 }}>
-                              {tech}
-                            </Typography>
-                          </li>
-                        ))}
-                      </ul>
-                    </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                          <Avatar
+                            sx={{
+                              bgcolor: skillGroup.color,
+                              color: "white",
+                              mr: 2,
+                              width: 50,
+                              height: 50,
+                            }}
+                          >
+                            {skillGroup.icon}
+                          </Avatar>
+                          <Typography variant="h6" fontWeight="bold">
+                            {skillGroup.category}
+                          </Typography>
+                        </Box>
+
+                        <Stack spacing={2}>
+                          {skillGroup.technologies.map((tech, i) => (
+                            <Box key={i}>
+                              <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                                <Box sx={{ mr: 1, color: skillGroup.color }}>
+                                  {tech.icon}
+                                </Box>
+                                <Typography variant="body2" fontWeight="500" sx={{ flexGrow: 1 }}>
+                                  {tech.name}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                  {tech.level}%
+                                </Typography>
+                              </Box>
+                              <LinearProgress
+                                variant="determinate"
+                                value={tech.level}
+                                sx={{
+                                  height: 6,
+                                  borderRadius: 3,
+                                  bgcolor: `${skillGroup.color}20`,
+                                  "& .MuiLinearProgress-bar": {
+                                    bgcolor: skillGroup.color,
+                                    borderRadius: 3,
+                                  },
+                                }}
+                              />
+                            </Box>
+                          ))}
+                        </Stack>
+                      </Card>
+                    </Tilt>
                   </motion.div>
                 </Grid>
               ))}
             </Grid>
           </motion.div>
         </Container>
-      </section>
+      </Box>
 
-      {/* Experience Timeline Section */}
+      {/* Projects Section */}
       <Box
+        id="projects"
+        ref={projectsRef}
         sx={{
-          py: 8,
-          bgcolor: theme.palette.secondary.main + "08",
-          position: "relative",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "100%",
-            backgroundImage:
-              "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)",
-          },
+          py: 10,
+          bgcolor: "background.paper",
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <Typography
+              variant="h2"
+              sx={{
+                textAlign: "center",
+                mb: 2,
+                fontWeight: 800,
+                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Featured Projects
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                textAlign: "center",
+                mb: 8,
+                color: "text.secondary",
+                maxWidth: "600px",
+                mx: "auto",
+              }}
+            >
+              Showcasing innovative solutions that drive real business impact
+            </Typography>
+
+            <Grid container spacing={4}>
+              {projects.map((project, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5}>
+                      <Card
+                        sx={{
+                          height: "100%",
+                          borderRadius: 4,
+                          overflow: "hidden",
+                          background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
+                          border: project.featured ? `2px solid ${theme.palette.primary.main}30` : "1px solid rgba(0,0,0,0.1)",
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            transform: "translateY(-10px)",
+                            boxShadow: `0 25px 50px ${theme.palette.primary.main}20`,
+                          },
+                        }}
+                      >
+                        {project.featured && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 16,
+                              right: 16,
+                              zIndex: 1,
+                              bgcolor: "primary.main",
+                              color: "white",
+                              px: 2,
+                              py: 0.5,
+                              borderRadius: 2,
+                              fontSize: "0.75rem",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            FEATURED
+                          </Box>
+                        )}
+                        
+                        <Box
+                          sx={{
+                            height: 200,
+                            background: `linear-gradient(45deg, ${theme.palette.primary.main}20, ${theme.palette.secondary.main}20)`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            position: "relative",
+                          }}
+                        >
+                          <FaRocket size={48} color={theme.palette.primary.main} />
+                        </Box>
+
+                        <CardContent sx={{ p: 3 }}>
+                          <Typography variant="h5" fontWeight="bold" gutterBottom>
+                            {project.title}
+                          </Typography>
+                          
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
+                            {project.description}
+                          </Typography>
+
+                          <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: "wrap" }}>
+                            {project.technologies.map((tech) => (
+                              <Chip
+                                key={tech}
+                                label={tech}
+                                size="small"
+                                sx={{
+                                  bgcolor: `${theme.palette.primary.main}15`,
+                                  color: "primary.main",
+                                  fontWeight: 500,
+                                }}
+                              />
+                            ))}
+                          </Stack>
+
+                          <Grid container spacing={2} sx={{ mb: 3 }}>
+                            {Object.entries(project.stats).map(([key, value]) => (
+                              <Grid item xs={4} key={key}>
+                                <Box sx={{ textAlign: "center" }}>
+                                  <Typography variant="h6" color="primary.main" fontWeight="bold">
+                                    {value}
+                                  </Typography>
+                                  <Typography variant="caption" color="text.secondary">
+                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                  </Typography>
+                                </Box>
+                              </Grid>
+                            ))}
+                          </Grid>
+
+                          <Stack direction="row" spacing={2}>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              startIcon={<FaExternalLinkAlt />}
+                              href={project.links.live}
+                              sx={{ borderRadius: 2 }}
+                            >
+                              Live Demo
+                            </Button>
+                            {project.links.github && (
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<FaGithub />}
+                                href={project.links.github}
+                                sx={{ borderRadius: 2 }}
+                              >
+                                Code
+                              </Button>
+                            )}
+                          </Stack>
+                        </CardContent>
+                      </Card>
+                    </Tilt>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
+        </Container>
+      </Box>
+
+      {/* Testimonials Section */}
+      <Box
+        id="testimonials"
+        ref={testimonialsRef}
+        sx={{
+          py: 10,
+          background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${theme.palette.secondary.main}08 100%)`,
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <Typography
+              variant="h2"
+              sx={{
+                textAlign: "center",
+                mb: 2,
+                fontWeight: 800,
+                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Client Testimonials
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                textAlign: "center",
+                mb: 8,
+                color: "text.secondary",
+                maxWidth: "600px",
+                mx: "auto",
+              }}
+            >
+              What industry leaders say about working with me
+            </Typography>
+
+            <Grid container spacing={4}>
+              {testimonials.map((testimonial, index) => (
+                <Grid item xs={12} md={4} key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    <Card
+                      sx={{
+                        p: 3,
+                        height: "100%",
+                        borderRadius: 4,
+                        background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
+                        border: `1px solid ${theme.palette.primary.main}20`,
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "translateY(-5px)",
+                          boxShadow: `0 20px 40px ${theme.palette.primary.main}20`,
+                        },
+                      }}
+                    >
+                      <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                        <FaQuoteLeft size={24} color={theme.palette.primary.main} />
+                      </Box>
+                      
+                      <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.6, fontStyle: "italic" }}>
+                        "{testimonial.text}"
+                      </Typography>
+
+                      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                        <Avatar
+                          sx={{
+                            width: 50,
+                            height: 50,
+                            mr: 2,
+                            background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                          }}
+                        >
+                          {testimonial.name.charAt(0)}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="subtitle1" fontWeight="bold">
+                            {testimonial.name}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {testimonial.role}
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <FaStar key={i} size={16} color={theme.palette.primary.main} />
+                        ))}
+                      </Box>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
+        </Container>
+      </Box>
+
+      {/* Contact Section */}
+      <Box
+        id="contact"
+        sx={{
+          py: 10,
+          bgcolor: "background.paper",
+          background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}10 100%)`,
         }}
       >
         <Container maxWidth="lg">
           <Typography
-            variant="h3"
+            variant="h2"
             sx={{
-              mb: 4,
               textAlign: "center",
-              fontWeight: 700,
+              mb: 2,
+              fontWeight: 800,
               background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
           >
-            Professional Journey
+            Let's Build Something Amazing
           </Typography>
-          <Box sx={{ position: "relative" }}>
-            {[
-              {
-                company: "Trestle Collaborative",
-                role: "Full Stack Software Engineer",
-                period: "2023 - Present",
-                description:
-                  "I'm currently at the helm of developing a bespoke Customer Relationship Management (CRM) system using Next.js and React, designed to optimize the handling of election candidates and officeholder interactions. My commitment to design integrity has led me to curate over 100 reusable components with Chakra UI, directly translating our Figma designs into a consistent and visually coherent application. In partnership with our engineering manager, I've played a pivotal role in architecting our data models and engineering robust data pipelines that efficiently manage and consolidate essential information for around 2,500 users. Beyond coding, I've spearheaded the adoption of coding best practices and development standards, which have now become integral to our team's workflow, elevating our collective output and maintainability of our software.",
-              },
-              {
-                company: "Fantasy Basketball Wzrd",
-                role: "Founder and Lead Developer",
-                period: "2017 - Present",
-                description:
-                  "I spearheaded the design and development of a highly successful Chrome extension tailored for Yahoo! and ESPN fantasy basketball, which quickly garnered over 10,000 weekly active users. My role involved architecting a robust Python Django backend, which adeptly fetches, processes, and delivers real-time basketball statistics, enhancing the user experience with a seamlessly integrated web interface for in-depth statistical analysis. As the lead of a three-person development team, I introduced innovative features like head-to-head matchup insights and competitor strength analyses, significantly enriching the fantasy basketball experience. Additionally, I cultivated an engaged community comprising thousands of users, leveraging their input to refine and enhance the extension, ensuring it meets the evolving needs of fantasy sports enthusiasts.",
-              },
-              {
-                company: "Ylopo",
-                role: "Full Stack Software Engineer",
-                period: "2022 - 2023",
-                description:
-                  "I took the lead in developing a dynamic home search portal using React and Express, specifically tailored for real estate agents, which has markedly increased lead generation on a platform with more than 4 million monthly users. My contributions included the implementation of essential user-centric features like an area search auto-complete and streamlined user registration modals, designed to enhance usability and engagement.",
-              },
-              {
-                company: "Pariveda Solutions",
-                role: "Senior Software Engineer",
-                period: "2018 - 2022",
-                description:
-                  "I engage with a variety of clients to confront and solve complex business challenges by implementing advanced technology solutions. One notable project I spearheaded was the development of a full-stack web application for wildlife tracking, which I engineered using Java Spring for backend processing and React for the frontend, thereby enhancing our data analysis capabilities. Beyond coding, my role encompasses mentoring junior team members, providing them with the guidance needed to grow professionally. I also manage project boards, ensuring that resources are allocated efficiently and tasks are completed on time, which collectively contributes to the successful delivery of projects within scope.",
-              },
-              {
-                company: "Capital Insurance Group",
-                role: "Associate Software Engineer",
-                period: "2017 - 2018",
-                description:
-                  "Integrated multiple external web services into an existing Java codebase for insurance policy quoting, focusing on performance and maintainability. I represented the PolicyCenter team during company-wide releases and successfully built a new policy type, Commercial Umbrella, within a four-month timeframe.",
-              },
-            ].map((experience) => (
-              <Box
-                key={experience.company}
-                sx={{
-                  mb: 3,
-                  p: 3,
-                  borderRadius: 4,
-                  bgcolor: "background.paper",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                  transition: "transform 0.2s",
-                  "&:hover": {
-                    transform: "translateX(10px)",
-                  },
-                }}
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
+              mb: 8,
+              color: "text.secondary",
+              maxWidth: "600px",
+              mx: "auto",
+            }}
+          >
+            Ready to transform your ideas into reality? Let's discuss your next project.
+          </Typography>
+
+          <Grid container spacing={6} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Stack spacing={4}>
+                {[
+                  { icon: <FaEnvelope />, title: "Email", value: "bilal@example.com", href: "mailto:bilal@example.com" },
+                  { icon: <FaPhone />, title: "Phone", value: "+1 (555) 123-4567", href: "tel:+15551234567" },
+                  { icon: <FaMapMarkerAlt />, title: "Location", value: "San Francisco, CA", href: "#" },
+                ].map((contact, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    <Paper
+                      sx={{
+                        p: 3,
+                        display: "flex",
+                        alignItems: "center",
+                        borderRadius: 3,
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "translateX(10px)",
+                          boxShadow: 3,
+                        },
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          bgcolor: "primary.main",
+                          mr: 3,
+                          width: 50,
+                          height: 50,
+                        }}
+                      >
+                        {contact.icon}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="h6" fontWeight="bold">
+                          {contact.title}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          {contact.value}
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  </motion.div>
+                ))}
+              </Stack>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={3}>
-                    <Typography
-                      variant="subtitle1"
-                      color="primary.main"
-                      fontWeight="bold"
+                <Paper sx={{ p: 4, borderRadius: 4 }}>
+                  <Typography variant="h5" fontWeight="bold" sx={{ mb: 3 }}>
+                    Send a Message
+                  </Typography>
+                  <Stack spacing={3}>
+                    <TextField
+                      fullWidth
+                      label="Your Name"
+                      variant="outlined"
+                      sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Email Address"
+                      variant="outlined"
+                      sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Project Details"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+                    />
+                    <Button
+                      variant="contained"
+                      size="large"
+                      endIcon={<FaArrowRight />}
+                      sx={{
+                        borderRadius: 2,
+                        py: 2,
+                        background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                        "&:hover": {
+                          transform: "translateY(-2px)",
+                        },
+                      }}
                     >
-                      {experience.period}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} md={9}>
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
-                      {experience.role}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      color="secondary.main"
-                      gutterBottom
-                    >
-                      {experience.company}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      sx={{ lineHeight: 1.7 }}
-                    >
-                      {experience.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            ))}
-          </Box>
+                      Send Message
+                    </Button>
+                  </Stack>
+                </Paper>
+              </motion.div>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
-
-      {/* Projects Section */}
-      <Box
-        sx={{
-          py: 8,
-          bgcolor: "background.paper",
-          background: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.main}05 100%)`,
-        }}
-      ></Box>
     </Box>
   );
 }
