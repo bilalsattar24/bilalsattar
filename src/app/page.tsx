@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -18,8 +18,6 @@ import {
   FaCode,
   FaRocket,
   FaLightbulb,
-  FaStar,
-  FaQuoteLeft,
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
@@ -47,7 +45,6 @@ import {
   SiRedis,
   SiKubernetes,
 } from "react-icons/si";
-
 
 const skills = [
   {
@@ -242,9 +239,7 @@ export default function Home() {
         </div>
 
         {/* Animated Background Elements */}
-        <motion.div
-          className="absolute top-1/4 right-1/12 w-48 h-48 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 animate-float"
-        />
+        <motion.div className="absolute top-1/4 right-1/12 w-48 h-48 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 animate-float" />
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -334,34 +329,40 @@ export default function Home() {
 
                   <p className="text-gray-300 mb-6 leading-relaxed">
                     Chrome extension serving{" "}
-                    <strong className="text-blue-400">10,000+ active users</strong> with advanced
-                    analytics and automation for fantasy basketball
-                    enthusiasts.
+                    <strong className="text-blue-400">
+                      10,000+ active users
+                    </strong>{" "}
+                    with advanced analytics and automation for fantasy
+                    basketball enthusiasts.
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {["Python", "Django", "React", "Chrome API"].map(
-                      (tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-blue-500/15 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20">
-                          {tech}
-                        </span>
-                      )
-                    )}
+                    {["Python", "Django", "React", "Chrome API"].map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-blue-500/15 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
 
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-400">4.6★</div>
+                      <div className="text-2xl font-bold text-blue-400">
+                        4.6★
+                      </div>
                       <div className="text-xs text-gray-400">Rating</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-400">10K+</div>
+                      <div className="text-2xl font-bold text-blue-400">
+                        10K+
+                      </div>
                       <div className="text-xs text-gray-400">Users</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-400">$50K+</div>
+                      <div className="text-2xl font-bold text-blue-400">
+                        $50K+
+                      </div>
                       <div className="text-xs text-gray-400">Revenue</div>
                     </div>
                   </div>
@@ -398,9 +399,11 @@ export default function Home() {
                   animate={skillsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: index * 0.1 }}>
                   <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10}>
-                    <div className={`p-6 h-full ${skillGroup.bgColor} ${skillGroup.borderColor} border-2 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-opacity-60`}>
+                    <div
+                      className={`p-6 h-full ${skillGroup.bgColor} ${skillGroup.borderColor} border-2 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-opacity-60`}>
                       <div className="flex items-center mb-6">
-                        <div className={`w-12 h-12 ${skillGroup.color} bg-white/10 rounded-full flex items-center justify-center mr-4`}>
+                        <div
+                          className={`w-12 h-12 ${skillGroup.color} bg-white/10 rounded-full flex items-center justify-center mr-4`}>
                           {skillGroup.icon}
                         </div>
                         <h3 className="text-xl font-bold text-white">
@@ -423,8 +426,11 @@ export default function Home() {
                               </span>
                             </div>
                             <div className="w-full bg-gray-700/50 rounded-full h-2">
-                              <div 
-                                className={`h-2 rounded-full transition-all duration-1000 ${skillGroup.color.replace('text-', 'bg-')}`}
+                              <div
+                                className={`h-2 rounded-full transition-all duration-1000 ${skillGroup.color.replace(
+                                  "text-",
+                                  "bg-"
+                                )}`}
                                 style={{ width: `${tech.level}%` }}
                               />
                             </div>
@@ -465,11 +471,12 @@ export default function Home() {
                   animate={projectsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: index * 0.1 }}>
                   <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5}>
-                    <div className={`h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/10 to-blue-500/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 ${
-                      project.featured
-                        ? "border-2 border-blue-500/30"
-                        : "border border-white/10"
-                    } relative`}>
+                    <div
+                      className={`h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/10 to-blue-500/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 ${
+                        project.featured
+                          ? "border-2 border-blue-500/30"
+                          : "border border-white/10"
+                      } relative`}>
                       {project.featured && (
                         <div className="absolute top-4 right-4 z-10 bg-blue-500 text-white px-3 py-1 rounded-lg text-xs font-bold">
                           FEATURED
@@ -500,18 +507,16 @@ export default function Home() {
                         </div>
 
                         <div className="grid grid-cols-3 gap-4 mb-6">
-                          {Object.entries(project.stats).map(
-                            ([key, value]) => (
-                              <div key={key} className="text-center">
-                                <div className="text-xl font-bold text-blue-400">
-                                  {value}
-                                </div>
-                                <div className="text-xs text-gray-400 capitalize">
-                                  {key}
-                                </div>
+                          {Object.entries(project.stats).map(([key, value]) => (
+                            <div key={key} className="text-center">
+                              <div className="text-xl font-bold text-blue-400">
+                                {value}
                               </div>
-                            )
-                          )}
+                              <div className="text-xs text-gray-400 capitalize">
+                                {key}
+                              </div>
+                            </div>
+                          ))}
                         </div>
 
                         <div className="flex gap-3">
@@ -576,9 +581,7 @@ export default function Home() {
                         <p className="text-gray-400 text-sm">
                           {testimonial.role}
                         </p>
-                        <p className="text-blue-400 text-sm">
-                          Company Name
-                        </p>
+                        <p className="text-blue-400 text-sm">Company Name</p>
                       </div>
                     </div>
 
@@ -597,7 +600,7 @@ export default function Home() {
                     </div>
 
                     <p className="text-gray-300 italic leading-relaxed">
-                      "{testimonial.text}"
+                      &quot;{testimonial.text}&quot;
                     </p>
                   </div>
                 </motion.div>
@@ -613,10 +616,10 @@ export default function Home() {
         className="py-20 bg-gradient-to-br from-slate-900 to-blue-900/10">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl md:text-6xl font-black text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Let's Build Something Amazing
+            Let&apos;s Build Something Amazing
           </h2>
           <p className="text-xl text-center mb-16 text-gray-400 max-w-2xl mx-auto">
-            Ready to transform your ideas into reality? Let's discuss your
+            Ready to transform your ideas into reality? Let&apos;s discuss your
             next project.
           </p>
 
@@ -627,7 +630,7 @@ export default function Home() {
                   icon: <FaEnvelope />,
                   title: "Email",
                   value: "bilal@example.com",
-                  href: "mailto:bilal@example.com",
+                  href: "mailto:bilalsattar24@gmail.com",
                 },
                 {
                   icon: <FaPhone />,
@@ -655,9 +658,7 @@ export default function Home() {
                       <h3 className="text-lg font-bold text-white">
                         {contact.title}
                       </h3>
-                      <p className="text-gray-400">
-                        {contact.value}
-                      </p>
+                      <p className="text-gray-400">{contact.value}</p>
                     </div>
                   </div>
                 </motion.div>
