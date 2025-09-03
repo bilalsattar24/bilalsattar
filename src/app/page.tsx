@@ -1,15 +1,13 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
   Sphere,
   MeshDistortMaterial,
   Float,
-  Text3D,
-  Center,
 } from "@react-three/drei";
 import { useInView } from "react-intersection-observer";
 import Tilt from "react-parallax-tilt";
@@ -73,16 +71,6 @@ import { keyframes } from "@emotion/react";
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-`;
-
-const glow = keyframes`
-  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
 `;
 
 const skills = [
@@ -224,43 +212,8 @@ function AnimatedSphere() {
   );
 }
 
-function FloatingCode() {
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <Center>
-        <Text3D
-          font="/fonts/helvetiker_regular.typeface.json"
-          size={0.3}
-          height={0.1}
-          curveSegments={12}>
-          {`<Code />`}
-          <meshStandardMaterial color="#10b981" />
-        </Text3D>
-      </Center>
-    </Float>
-  );
-}
-
 export default function Home() {
   const theme = useTheme();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  useEffect(() => {
-    setIsLoaded(true);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const [heroRef, heroInView] = useInView({ threshold: 0.3 });
   const [skillsRef, skillsInView] = useInView({ threshold: 0.2 });
@@ -268,10 +221,9 @@ export default function Home() {
   const [testimonialsRef, testimonialsInView] = useInView({ threshold: 0.2 });
 
   return (
-    <Box
-      ref={containerRef}
-      sx={{
-        bgcolor: "background.default",
+    <div
+      style={{
+        backgroundColor: "var(--mui-palette-background-default)",
         minHeight: "100vh",
         overflow: "hidden",
       }}>
@@ -299,11 +251,8 @@ export default function Home() {
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
                 sx={{
-                  bgcolor:
-                    activeSection === section
-                      ? "primary.main"
-                      : "background.paper",
-                  color: activeSection === section ? "white" : "text.primary",
+                  bgcolor: "background.paper",
+                  color: "text.primary",
                   boxShadow: 3,
                   "&:hover": { transform: "scale(1.1)" },
                 }}>
@@ -988,7 +937,7 @@ export default function Home() {
                       <Typography
                         variant="body1"
                         sx={{ mb: 3, lineHeight: 1.6, fontStyle: "italic" }}>
-                        "{testimonial.text}"
+                        &ldquo;{testimonial.text}&rdquo;
                       </Typography>
 
                       <Box
@@ -1049,7 +998,7 @@ export default function Home() {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}>
-            Let's Build Something Amazing
+            Let&apos;s Build Something Amazing
           </Typography>
           <Typography
             variant="h6"
@@ -1060,8 +1009,8 @@ export default function Home() {
               maxWidth: "600px",
               mx: "auto",
             }}>
-            Ready to transform your ideas into reality? Let's discuss your next
-            project.
+            Ready to transform your ideas into reality? Let&apos;s discuss your
+            next project.
           </Typography>
 
           <Grid container spacing={6} alignItems="center">
@@ -1178,6 +1127,6 @@ export default function Home() {
           </Grid>
         </Container>
       </Box>
-    </Box>
+    </div>
   );
 }
