@@ -262,7 +262,7 @@ export default function Home() {
               <p className="text-xl mb-8 text-gray-400 max-w-lg leading-relaxed">
                 Transforming ideas into powerful, scalable solutions.
                 Specialized in modern web technologies with a track record of
-                delivering exceptional results for 10,000+ users worldwide.
+                delivering exceptional results for millions of users worldwide.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
