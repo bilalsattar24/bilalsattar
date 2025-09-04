@@ -155,21 +155,21 @@ const projects = [
 const testimonials = [
   {
     name: "Sarah Johnson",
-    role: "CTO at TechCorp",
+    role: "CTO",
     avatar: "/api/placeholder/80/80",
     rating: 5,
     text: "Bilal delivered exceptional results on our enterprise platform. His technical expertise and leadership skills are outstanding. The project was completed ahead of schedule with zero critical bugs.",
   },
   {
     name: "Michael Chen",
-    role: "Product Manager at StartupXYZ",
+    role: "Product Manager",
     avatar: "/api/placeholder/80/80",
     rating: 5,
     text: "Working with Bilal was a game-changer for our startup. He not only built an incredible product but also mentored our junior developers. His code quality is impeccable.",
   },
   {
     name: "Emily Rodriguez",
-    role: "Founder at InnovateNow",
+    role: "Founder",
     avatar: "/api/placeholder/80/80",
     rating: 5,
     text: "Bilal transformed our vision into reality with his full-stack expertise. The Fantasy Basketball WZRD extension he built has been a massive success with our users loving every feature.",
