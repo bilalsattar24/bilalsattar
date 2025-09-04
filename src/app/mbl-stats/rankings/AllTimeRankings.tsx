@@ -1,26 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  CircularProgress,
-  Alert,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
 import Papa from "papaparse";
 import { motion } from "framer-motion";
 
@@ -139,7 +119,6 @@ const AllTimeRankingsPage = () => {
         playerMap.set(fullName, player);
       }
 
-      // Aggregate stats, converting to number and handling potential null/undefined
       player.GP += Number(row.GP) || 0;
       player.PTS += Number(row.PTS) || 0;
       player.REB += Number(row.REB) || 0;
@@ -157,156 +136,119 @@ const AllTimeRankingsPage = () => {
     });
 
     const sortedPlayers = Array.from(playerMap.values()).sort((a, b) => {
-      // Sort in descending order based on the selected sortBy criterion
       const valA = a[sortBy];
       const valB = b[sortBy];
-
       if (typeof valA === "string" && typeof valB === "string") {
-        return valB.localeCompare(valA); // For descending order
+        return valB.localeCompare(valA);
       }
-
       return (Number(valB) || 0) - (Number(valA) || 0);
     });
 
-    return sortedPlayers.slice(0, 25); // Get top 25
+    return sortedPlayers.slice(0, 25);
   }, [playerData, sortBy]);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (loading) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <CircularProgress />
-        </Box>
-        <Typography variant="h6" align="center" sx={{ mt: 2 }}>
-          Loading player stats...
-        </Typography>
-      </Container>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-center mt-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+        <p className="text-center text-lg mt-2">Loading player stats...</p>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Alert severity="error">{error}</Alert>
-      </Container>
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <div className="container mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}>
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          align="center"
-          sx={{
-            fontWeight: "bold",
-            color: "primary.main",
-            mb: 3,
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-          }}>
+        <h1 className="text-4xl font-bold text-center text-blue-600 mb-6" style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.1)" }}>
           MBL All-Time Top 25 Player Rankings
-        </Typography>
+        </h1>
       </motion.div>
 
-      <Box sx={{ mb: 3, display: "flex", justifyContent: "center" }}>
-        <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-          <InputLabel>Sort By</InputLabel>
-          <Select
+      <div className="mb-6 flex justify-center">
+        <div className="relative">
+          <label htmlFor="sort-by" className="sr-only">Sort By</label>
+          <select
+            id="sort-by"
             value={sortBy}
-            onChange={(e) =>
-              setSortBy(e.target.value as keyof AggregatedPlayerStats)
-            }
-            label="Sort By">
-            <MenuItem value="PTS">Total Points</MenuItem>
-            <MenuItem value="REB">Total Rebounds</MenuItem>
-            <MenuItem value="AST">Total Assists</MenuItem>
-            <MenuItem value="STL">Total Steals</MenuItem>
-            <MenuItem value="BLK">Total Blocks</MenuItem>
-            <MenuItem value="GP">Games Played</MenuItem>
-            <MenuItem value="FGM">Field Goals Made</MenuItem>
-            <MenuItem value="FGA">Field Goals Attempted</MenuItem>
-            <MenuItem value="3PM">Three Pointers Made</MenuItem>
-            <MenuItem value="3PA">Three Pointers Attempted</MenuItem>
-            <MenuItem value="FTM">Free Throws Made</MenuItem>
-            <MenuItem value="FTA">Free Throws Attempted</MenuItem>
-            <MenuItem value="TO">Turnovers</MenuItem>
-            <MenuItem value="PF">Personal Fouls</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+            onChange={(e) => setSortBy(e.target.value as keyof AggregatedPlayerStats)}
+            className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 min-w-[200px]">
+            <option value="PTS">Total Points</option>
+            <option value="REB">Total Rebounds</option>
+            <option value="AST">Total Assists</option>
+            <option value="STL">Total Steals</option>
+            <option value="BLK">Total Blocks</option>
+            <option value="GP">Games Played</option>
+            <option value="FGM">Field Goals Made</option>
+            <option value="FGA">Field Goals Attempted</option>
+            <option value="3PM">Three Pointers Made</option>
+            <option value="3PA">Three Pointers Attempted</option>
+            <option value="FTM">Free Throws Made</option>
+            <option value="FTA">Free Throws Attempted</option>
+            <option value="TO">Turnovers</option>
+            <option value="PF">Personal Fouls</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+          </div>
+        </div>
+      </div>
 
-      <Paper elevation={3} sx={{ p: 2, borderRadius: "12px" }}>
-        <TableContainer>
-          <Table aria-label="all-time rankings table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontWeight: "bold" }}>Rank</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Player</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  GP
-                </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  PTS
-                </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  REB
-                </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  AST
-                </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  STL
-                </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
-                  BLK
-                </TableCell>
-                {!isMobile && (
-                  <>
-                    <TableCell sx={{ fontWeight: "bold" }} align="right">
-                      TO
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }} align="right">
-                      PF
-                    </TableCell>
-                  </>
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {aggregatedStats.map((player, index) => (
-                <TableRow
+      <div className="shadow-lg rounded-xl p-2 bg-white overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rank</th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Player</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">GP</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">PTS</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">REB</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">AST</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">STL</th>
+              <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">BLK</th>
+              <th className="hidden sm:table-cell px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">TO</th>
+              <th className="hidden sm:table-cell px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">PF</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {aggregatedStats.map((player, index) => {
+              const isTopThree = index < 3;
+              const rankColor = [
+                'bg-yellow-100/50',
+                'bg-gray-200/50',
+                'bg-orange-200/50'
+              ][index] || '';
+
+              return (
+                <motion.tr
                   key={player.fullName}
-                  component={motion.tr}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   whileHover={{ scale: 1.01 }}
-                  sx={{
-                    backgroundColor:
-                      index < 3
-                        ? theme.palette.primary.light + "20"
-                        : "inherit",
-                    "&:hover": {
-                      backgroundColor: theme.palette.action.hover,
-                    },
-                  }}>
-                  <TableCell>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      {index + 1}
-                      {index < 3 && (
-                        <Box
-                          sx={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
+                  className={`${rankColor} hover:bg-gray-100`}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <span className={`font-bold ${isTopThree ? 'text-lg' : ''}`}>{index + 1}</span>
+                      {isTopThree && (
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{
                             backgroundColor:
                               index === 0
                                 ? "#FFD700"
@@ -316,64 +258,26 @@ const AllTimeRankingsPage = () => {
                           }}
                         />
                       )}
-                    </Box>
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: index < 3 ? "bold" : "normal" }}>
+                    </div>
+                  </td>
+                  <td className={`px-6 py-4 whitespace-nowrap ${isTopThree ? 'font-bold' : ''}`}>
                     {player.fullName}
-                  </TableCell>
-                  <TableCell align="right">
-                    {player.GP.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: sortBy === "PTS" ? "bold" : "normal" }}>
-                    {player.PTS.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: sortBy === "REB" ? "bold" : "normal" }}>
-                    {player.REB.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: sortBy === "AST" ? "bold" : "normal" }}>
-                    {player.AST.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: sortBy === "STL" ? "bold" : "normal" }}>
-                    {player.STL.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: sortBy === "BLK" ? "bold" : "normal" }}>
-                    {player.BLK.toLocaleString()}
-                  </TableCell>
-                  {!isMobile && (
-                    <>
-                      <TableCell
-                        align="right"
-                        sx={{
-                          fontWeight: sortBy === "TO" ? "bold" : "normal",
-                        }}>
-                        {player.TO.toLocaleString()}
-                      </TableCell>
-                      <TableCell
-                        align="right"
-                        sx={{
-                          fontWeight: sortBy === "PF" ? "bold" : "normal",
-                        }}>
-                        {player.PF.toLocaleString()}
-                      </TableCell>
-                    </>
-                  )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Container>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right">{player.GP.toLocaleString()}</td>
+                  <td className={`px-6 py-4 whitespace-nowrap text-right ${sortBy === "PTS" ? 'font-bold' : ''}`}>{player.PTS.toLocaleString()}</td>
+                  <td className={`px-6 py-4 whitespace-nowrap text-right ${sortBy === "REB" ? 'font-bold' : ''}`}>{player.REB.toLocaleString()}</td>
+                  <td className={`px-6 py-4 whitespace-nowrap text-right ${sortBy === "AST" ? 'font-bold' : ''}`}>{player.AST.toLocaleString()}</td>
+                  <td className={`px-6 py-4 whitespace-nowrap text-right ${sortBy === "STL" ? 'font-bold' : ''}`}>{player.STL.toLocaleString()}</td>
+                  <td className={`px-6 py-4 whitespace-nowrap text-right ${sortBy === "BLK" ? 'font-bold' : ''}`}>{player.BLK.toLocaleString()}</td>
+                  <td className={`hidden sm:table-cell px-6 py-4 whitespace-nowrap text-right ${sortBy === "TO" ? 'font-bold' : ''}`}>{player.TO.toLocaleString()}</td>
+                  <td className={`hidden sm:table-cell px-6 py-4 whitespace-nowrap text-right ${sortBy === "PF" ? 'font-bold' : ''}`}>{player.PF.toLocaleString()}</td>
+                </motion.tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

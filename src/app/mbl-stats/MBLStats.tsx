@@ -1,40 +1,7 @@
-// @ts-nocheck
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Card,
-  CardContent,
-  Grid,
-  Chip,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination,
-  useTheme,
-  useMediaQuery,
-  Skeleton,
-  Alert,
-} from "@mui/material";
-import {
-  Search as SearchIcon,
-  FilterList as FilterIcon,
-  Person as PersonIcon,
-  TrendingUp as TrendingUpIcon,
-  Sports as SportsIcon,
-} from "@mui/icons-material";
+import { Search, Filter, User, TrendingUp, BarChart2 } from 'lucide-react';
 import Papa from "papaparse";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -57,8 +24,6 @@ interface PlayerStats {
 }
 
 const MBLStatsPage = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [data, setData] = useState<PlayerStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,45 +33,17 @@ const MBLStatsPage = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
 
-  // Load CSV data
   useEffect(() => {
     const loadData = async () => {
       try {
         const response = await fetch("/stats.csv");
-        if (!response.ok) {
-          throw new Error("Failed to load stats data");
-        }
+        if (!response.ok) throw new Error("Failed to load stats data");
         const csvText = await response.text();
-
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
-          transformHeader: (header, index) => {
-            if (header.toLowerCase() === "season") {
-              const isSecondSeason =
-                csvText
-                  .split("\n")[0]
-                  .split(",")
-                  .map((h) => h.toLowerCase().trim())
-                  .indexOf("season", index + 1) === -1;
-              if (isSecondSeason) {
-                return "Season";
-              }
-              return `ignore_season_${index}`;
-            }
-            return header;
-          },
           complete: (results) => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const cleanedData = (results.data as unknown[]).map((row: any) => {
-              Object.keys(row).forEach((key) => {
-                if (key.startsWith("ignore_season_")) {
-                  delete row[key];
-                }
-              });
-              return row as PlayerStats;
-            });
-            setData(cleanedData);
+            setData(results.data as PlayerStats[]);
             setLoading(false);
           },
           error: (error: Error) => {
@@ -119,494 +56,241 @@ const MBLStatsPage = () => {
         setLoading(false);
       }
     };
-
     loadData();
   }, []);
 
-  // Get unique seasons and divisions
   const { seasons, divisions } = useMemo(() => {
     const seasonsSet = new Set<string>();
     const divisionsSet = new Set<string>();
-
     data.forEach((player) => {
-      if (player.Season && player.Season.trim()) {
-        seasonsSet.add(player.Season.trim());
-      }
-      if (player.DIV && player.DIV.trim()) {
-        divisionsSet.add(player.DIV.trim());
-      }
+      if (player.Season?.trim()) seasonsSet.add(player.Season.trim());
+      if (player.DIV?.trim()) divisionsSet.add(player.DIV.trim());
     });
-
     return {
       seasons: Array.from(seasonsSet).sort(),
       divisions: Array.from(divisionsSet).sort(),
     };
   }, [data]);
 
-  // Filter data based on search and filters
   const filteredData = useMemo(() => {
     return data.filter((player) => {
-      // Search filter (first name or last name)
       const searchTerms = searchTerm.toLowerCase().split(" ").filter(Boolean);
-      const fullName = `${player["First Name"] || ""} ${
-        player["Last Name"] || ""
-      }`.toLowerCase();
-
-      const searchMatch =
-        searchTerm === "" ||
-        searchTerms.every((term) => fullName.includes(term));
-
-      // Season filter
-      const seasonMatch =
-        selectedSeason === "all" || player.Season === selectedSeason;
-
-      // Division filter
-      const divisionMatch =
-        selectedDivision === "all" || player.DIV === selectedDivision;
-
+      const fullName = `${player["First Name"] || ""} ${player["Last Name"] || ""}`.toLowerCase();
+      const searchMatch = searchTerm === "" || searchTerms.every((term) => fullName.includes(term));
+      const seasonMatch = selectedSeason === "all" || player.Season === selectedSeason;
+      const divisionMatch = selectedDivision === "all" || player.DIV === selectedDivision;
       return searchMatch && seasonMatch && divisionMatch;
     });
   }, [data, searchTerm, selectedSeason, selectedDivision]);
 
-  // Paginated data
   const paginatedData = useMemo(() => {
     const startIndex = page * rowsPerPage;
     return filteredData.slice(startIndex, startIndex + rowsPerPage);
   }, [filteredData, page, rowsPerPage]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangePage = (newPage: number) => setPage(newPage);
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const getStatColor = (stat: string, value: string) => {
     const numValue = parseFloat(value) || 0;
-    if (stat === "PTS" && numValue > 150) return theme.palette.success.main;
-    if (stat === "REB" && numValue > 50) return theme.palette.info.main;
-    if (stat === "AST" && numValue > 30) return theme.palette.warning.main;
-    if (stat === "STL" && numValue > 20) return theme.palette.secondary.main;
-    return theme.palette.text.primary;
+    if (stat === "PTS" && numValue > 150) return 'text-green-500';
+    if (stat === "REB" && numValue > 50) return 'text-blue-500';
+    if (stat === "AST" && numValue > 30) return 'text-yellow-500';
+    if (stat === "STL" && numValue > 20) return 'text-purple-500';
+    return 'text-gray-800 dark:text-gray-200';
   };
 
   if (loading) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Box sx={{ mb: 4 }}>
-          <Skeleton variant="text" width={300} height={60} />
-          <Skeleton variant="text" width={500} height={30} />
-        </Box>
-        <Grid container spacing={3}>
-          {[...Array(6)].map((_, i) => (
-            <Grid item xs={12} sm={6} md={4} key={i}>
-              <Skeleton variant="rectangular" height={200} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-center mt-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+        <p className="text-center text-lg mt-2">Loading player stats...</p>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ mb: 4 }}>
-          {error}
-        </Alert>
-      </Container>
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        py: 4,
-      }}>
-      <Container maxWidth="xl">
-        {/* Header */}
-        <motion.div
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}>
-          <Box sx={{ textAlign: "center", mb: 6 }}>
-            <Typography
-              variant={isMobile ? "h3" : "h2"}
-              component="h1"
-              sx={{
-                fontWeight: "bold",
-                color: "white",
-                mb: 2,
-                textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
-              }}>
-              <SportsIcon
-                sx={{ fontSize: "inherit", mr: 2, verticalAlign: "middle" }}
-              />
-              MBL Player Stats
-            </Typography>
-            {!isMobile && (
-              <Typography
-                variant="h6"
-                sx={{
-                  color: "rgba(255,255,255,0.9)",
-                  maxWidth: 600,
-                  mx: "auto",
-                }}>
-                Explore comprehensive player statistics across all seasons and
-                divisions
-              </Typography>
-            )}
-          </Box>
-        </motion.div>
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            <BarChart2 className="inline-block h-10 w-10 sm:h-12 sm:w-12 mr-3 align-middle" />
+            MBL Player Stats
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg text-gray-400">
+            Explore comprehensive player statistics across all seasons and divisions.
+          </p>
+        </motion.header>
 
-        {/* Stats Overview Cards */}
-        {!isMobile && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}>
-            <Grid container spacing={3} sx={{ mb: 4 }}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    background: "linear-gradient(45deg, #FF6B6B, #FF8E8E)",
-                    color: "white",
-                    textAlign: "center",
-                  }}>
-                  <CardContent>
-                    <PersonIcon sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      {data.length}
-                    </Typography>
-                    <Typography variant="body2">Total Records</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    background: "linear-gradient(45deg, #4ECDC4, #44A08D)",
-                    color: "white",
-                    textAlign: "center",
-                  }}>
-                  <CardContent>
-                    <TrendingUpIcon sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      {seasons.length}
-                    </Typography>
-                    <Typography variant="body2">Seasons</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    background: "linear-gradient(45deg, #A8E6CF, #7FCDCD)",
-                    color: "white",
-                    textAlign: "center",
-                  }}>
-                  <CardContent>
-                    <FilterIcon sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      {divisions.length}
-                    </Typography>
-                    <Typography variant="body2">Divisions</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    background: "linear-gradient(45deg, #FFD93D, #FF6B6B)",
-                    color: "white",
-                    textAlign: "center",
-                  }}>
-                  <CardContent>
-                    <SearchIcon sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      {filteredData.length}
-                    </Typography>
-                    <Typography variant="body2">Filtered Results</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </motion.div>
-        )}
-
-        {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}>
-          <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }}>
-            <Grid container spacing={3} alignItems="center">
-              <Grid item xs={12} md={4}>
-                <TextField
-                  fullWidth
-                  label="Search Players"
-                  variant="outlined"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <SearchIcon sx={{ mr: 1, color: "action.active" }} />
-                    ),
-                  }}
-                  placeholder="Search by first or last name..."
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Season</InputLabel>
-                  <Select
-                    value={selectedSeason}
-                    label="Season"
-                    onChange={(e) => setSelectedSeason(e.target.value)}>
-                    <MenuItem value="all">All Seasons</MenuItem>
-                    {seasons.map((season) => (
-                      <MenuItem key={season} value={season}>
-                        {season}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Division</InputLabel>
-                  <Select
-                    value={selectedDivision}
-                    label="Division"
-                    onChange={(e) => setSelectedDivision(e.target.value)}>
-                    <MenuItem value="all">All Divisions</MenuItem>
-                    {divisions.map((division) => (
-                      <MenuItem key={division} value={division}>
-                        Division {division}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Paper>
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <StatCard icon={<User />} title="Total Records" value={data.length} color="from-red-500 to-red-600" />
+            <StatCard icon={<TrendingUp />} title="Seasons" value={seasons.length} color="from-green-500 to-green-600" />
+            <StatCard icon={<Filter />} title="Divisions" value={divisions.length} color="from-blue-500 to-blue-600" />
+            <StatCard icon={<Search />} title="Filtered" value={filteredData.length} color="from-yellow-500 to-yellow-600" />
         </motion.div>
 
-        {/* Results Table */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl shadow-lg mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <SelectControl label="Season" value={selectedSeason} onChange={setSelectedSeason} options={seasons} />
+            <SelectControl label="Division" value={selectedDivision} onChange={setSelectedDivision} options={divisions.map(d => `Division ${d}`)} originalOptions={divisions} />
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}>
-          <Paper sx={{ borderRadius: 3 }}>
-            <TableContainer>
-              <Table stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      Player
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      Season
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      Div
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      Team
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      GP
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      PTS
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      REB
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      AST
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      STL
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      BLK
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: "bold",
-                        bgcolor: "primary.main",
-                        color: "white",
-                      }}>
-                      TSP
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-700">
+                <thead className="bg-gray-700/50">
+                  <tr>
+                    {['Player', 'Season', 'Div', 'Team', 'GP', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'TSP'].map(header => (
+                      <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">{header}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-700">
                   <AnimatePresence>
                     {paginatedData.map((player, index) => (
-                      <TableRow
+                      <motion.tr
                         key={`${player["First Name"]}-${player["Last Name"]}-${player.Season}-${index}`}
-                        component={motion.tr}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
-                        sx={{
-                          "&:hover": {
-                            bgcolor: "action.hover",
-                            transform: "scale(1.01)",
-                            transition: "all 0.2s ease-in-out",
-                          },
-                        }}>
-                        <TableCell>
-                          <Box>
-                            <Typography variant="body2" fontWeight="bold">
-                              {player["First Name"]} {player["Last Name"]}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={player.Season || "N/A"}
-                            size="small"
-                            color="primary"
-                            variant="outlined"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={player.DIV || "N/A"}
-                            size="small"
-                            color="secondary"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Typography variant="body2" color="text.secondary">
-                            {player.Team || "N/A"}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{player.GP || "0"}</TableCell>
-                        <TableCell>
-                          <Typography
-                            variant="body2"
-                            fontWeight="bold"
-                            sx={{ color: getStatColor("PTS", player.PTS) }}>
-                            {player.PTS || "0"}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: getStatColor("REB", player.REB) }}>
-                            {player.REB || "0"}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: getStatColor("AST", player.AST) }}>
-                            {player.AST || "0"}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: getStatColor("STL", player.STL) }}>
-                            {player.STL || "0"}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{player.BLK || "0"}</TableCell>
-                        <TableCell>
-                          <Typography variant="body2" fontWeight="bold">
-                            {player.TSP || "0"}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
+                        className="hover:bg-gray-700/50 transition-colors duration-200">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{player["First Name"]} {player["Last Name"]}</td>
+                        <td className="px-6 py-4 whitespace-nowrap"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-600/30 text-purple-300">{player.Season || 'N/A'}</span></td>
+                        <td className="px-6 py-4 whitespace-nowrap"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-600/30 text-pink-300">{player.DIV || 'N/A'}</span></td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{player.Team || 'N/A'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{player.GP || '0'}</td>
+                        <td className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${getStatColor("PTS", player.PTS)}`}>{player.PTS || '0'}</td>
+                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("REB", player.REB)}`}>{player.REB || '0'}</td>
+                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("AST", player.AST)}`}>{player.AST || '0'}</td>
+                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("STL", player.STL)}`}>{player.STL || '0'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{player.BLK || '0'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-300">{player.TSP || '0'}</td>
+                      </motion.tr>
                     ))}
                   </AnimatePresence>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 50, 100]}
-              component="div"
-              count={filteredData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              sx={{ borderTop: 1, borderColor: "divider" }}
-            />
-          </Paper>
+                </tbody>
+              </table>
+            </div>
+            <div className="bg-gray-700/50 px-4 py-3 flex items-center justify-between sm:px-6 border-t border-gray-700">
+              <div className="flex-1 flex justify-between sm:hidden">
+                <button onClick={() => handleChangePage(page - 1)} disabled={page === 0} className="relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 disabled:opacity-50">Previous</button>
+                <button onClick={() => handleChangePage(page + 1)} disabled={page >= Math.ceil(filteredData.length / rowsPerPage) - 1} className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 disabled:opacity-50">Next</button>
+              </div>
+              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-400">
+                    Showing <span className="font-medium">{page * rowsPerPage + 1}</span> to <span className="font-medium">{Math.min((page + 1) * rowsPerPage, filteredData.length)}</span> of <span className="font-medium">{filteredData.length}</span> results
+                  </p>
+                </div>
+                <div>
+                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <button onClick={() => handleChangePage(page - 1)} disabled={page === 0} className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-600 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700 disabled:opacity-50">Previous</button>
+                    <select value={rowsPerPage} onChange={handleChangeRowsPerPage} className="bg-gray-800 border-gray-600 text-gray-300 text-sm focus:ring-purple-500 focus:border-purple-500">
+                      {[10, 25, 50, 100].map(size => <option key={size} value={size}>Show {size}</option>)}
+                    </select>
+                    <button onClick={() => handleChangePage(page + 1)} disabled={page >= Math.ceil(filteredData.length / rowsPerPage) - 1} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-600 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700 disabled:opacity-50">Next</button>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
-        {/* Footer */}
-        <Box sx={{ textAlign: "center", mt: 6, color: "white" }}>
-          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            MBL Player Statistics Dashboard • {filteredData.length} players
-            displayed
-          </Typography>
-        </Box>
-      </Container>
-    </Box>
+        <footer className="text-center mt-10 text-gray-500 text-sm">
+          <p>MBL Player Statistics Dashboard • {filteredData.length} players displayed</p>
+        </footer>
+      </div>
+    </div>
   );
 };
+
+interface StatCardProps {
+  icon: React.ReactElement;
+  title: string;
+  value: number | string;
+  color: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ icon, title, value, color }) => (
+  <div className={`bg-gradient-to-br ${color} p-4 rounded-xl shadow-lg text-white`}>
+    <div className="flex items-center">
+      <div className="p-3 bg-black/20 rounded-lg mr-4">{React.cloneElement(icon, { className: "h-6 w-6" })}</div>
+      <div>
+        <p className="text-sm font-medium text-gray-200">{title}</p>
+        <p className="text-2xl font-bold">{value}</p>
+      </div>
+    </div>
+  </div>
+);
+
+interface SelectControlProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+  originalOptions?: string[];
+}
+
+const SelectControl: React.FC<SelectControlProps> = ({ label, value, onChange, options, originalOptions }) => (
+  <div className="relative">
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-3 appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500"
+    >
+      <option value="all">All {label}s</option>
+      {(originalOptions || options).map((opt, i) => (
+        <option key={opt} value={opt}>{options[i]}</option>
+      ))}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+    </div>
+  </div>
+);
 
 export default MBLStatsPage;
