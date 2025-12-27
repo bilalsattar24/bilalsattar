@@ -64,14 +64,6 @@ export async function POST(request: NextRequest) {
       member,
     });
 
-    // Keep only top 100 entries.
-    // Redis ranks are ascending (lowest score = rank 0). We want to remove the
-    // extra lowest entries only when we exceed 100 total.
-    const count = await redis.zcard(LEADERBOARD_KEY);
-    if (count > 100) {
-      await redis.zremrangebyrank(LEADERBOARD_KEY, 0, count - 101);
-    }
-
     const newEntry: LeaderboardEntry = {
       name: name.trim(),
       score,
