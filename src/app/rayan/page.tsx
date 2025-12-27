@@ -27,9 +27,9 @@ export default function RayanTrivia() {
 
   // Calculate points based on time taken (0-10 seconds)
   const calculatePoints = (timeInSeconds: number): number => {
-    if (timeInSeconds >= 10) return 5; // Minimum points after 10 seconds
-    // Linear scale: 100 points at 0 seconds, down to 5 points at 10 seconds
-    const points = Math.max(5, Math.round(100 - timeInSeconds * 9.5));
+    if (timeInSeconds >= 10) return 50; // Minimum points after 10 seconds
+    // Linear scale: 100 points at 0 seconds, down to 50 points at 10 seconds
+    const points = Math.max(50, Math.round(100 - timeInSeconds * 5));
     return points;
   };
 
@@ -152,7 +152,7 @@ export default function RayanTrivia() {
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && startGame()}
-                  className="w-full px-6 py-4 text-lg rounded-2xl border-4 border-purple-300 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-6 py-4 text-lg text-gray-900 placeholder:text-gray-500 rounded-2xl border-4 border-purple-300 focus:border-purple-500 focus:outline-none transition-colors"
                   maxLength={30}
                 />
 
