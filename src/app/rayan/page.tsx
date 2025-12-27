@@ -158,13 +158,21 @@ export default function RayanTrivia() {
                 initial={{ y: -20 }}
                 animate={{ y: 0 }}
                 transition={{ delay: 0.2, type: "spring" }}
-                className="text-center mb-8">
+                className="text-center mb-6">
+                <div className="text-6xl mb-4">🎂🎈🎉</div>
                 <h1 className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
-                  🎉 Rayan&apos;s
+                  Rayan&apos;s Birthday
                 </h1>
-                <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-600">
-                  Birthday Trivia!
+                <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-600 mb-4">
+                  Trivia Challenge!
                 </h2>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-2xl font-bold text-purple-600">
+                  Thank you for joining the party! 🥳
+                </motion.p>
               </motion.div>
 
               <motion.div
@@ -172,11 +180,44 @@ export default function RayanTrivia() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
                 className="space-y-6">
-                <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6">
-                  <p className="text-gray-700 text-lg text-center font-medium">
-                    🏆 Test your knowledge about the birthday star!
-                    <br />⚡ Answer quickly to score more points!
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 border-2 border-purple-300">
+                  <h3 className="text-xl font-black text-purple-800 mb-3 text-center">
+                    📚 What You&apos;ll Be Quizzed On:
+                  </h3>
+                  <p className="text-gray-700 text-base text-center font-medium leading-relaxed">
+                    Test your knowledge about Rayan, his favorite things, and
+                    fun kindergarten facts! From Paw Patrol to shapes, colors,
+                    and more!
                   </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-100 to-yellow-100 rounded-2xl p-6 border-2 border-orange-300">
+                  <h3 className="text-xl font-black text-orange-800 mb-3 text-center">
+                    🎮 Game Rules:
+                  </h3>
+                  <ul className="text-gray-700 text-base space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-600 font-bold">⚡</span>
+                      <span>
+                        <strong>Speed Matters:</strong> Answer quickly to earn
+                        more points! (50-100 points per question)
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-600 font-bold">🎯</span>
+                      <span>
+                        <strong>One Shot Only:</strong> You only get ONE attempt
+                        per question, so choose carefully!
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-600 font-bold">🏆</span>
+                      <span>
+                        <strong>Beat the Best:</strong> Your final score goes on
+                        the leaderboard!
+                      </span>
+                    </li>
+                  </ul>
                 </div>
 
                 <input
