@@ -226,7 +226,7 @@ export default function RayanTrivia() {
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && startGame()}
-                  className="w-full px-6 py-4 text-lg text-gray-900 placeholder:text-gray-500 rounded-2xl border-4 border-purple-300 focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full px-6 py-4 text-lg text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 rounded-2xl border-4 border-purple-300 focus:border-purple-500 focus:outline-none transition-colors"
                   maxLength={30}
                 />
 
