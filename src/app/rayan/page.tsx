@@ -68,6 +68,10 @@ export default function RayanTrivia() {
     }
   };
 
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
+
   const saveScore = async () => {
     try {
       await fetch("/api/leaderboard", {
@@ -242,6 +246,57 @@ export default function RayanTrivia() {
                   className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold text-xl py-5 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
                   View Leaderboard 🏅
                 </button>
+              </motion.div>
+
+              {/* Leaderboard Preview */}
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-8">
+                <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4 text-center">
+                  🏆 Top Players
+                </h3>
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {leaderboard.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4 bg-gray-50 rounded-2xl">
+                      No scores yet. Be the first to play! 🎮
+                    </p>
+                  ) : (
+                    leaderboard.slice(0, 10).map((entry, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.03 }}
+                        className={`flex items-center justify-between p-3 rounded-xl text-sm ${
+                          index === 0
+                            ? "bg-gradient-to-r from-yellow-200 to-yellow-300 border-2 border-yellow-400"
+                            : index === 1
+                            ? "bg-gradient-to-r from-gray-200 to-gray-300 border-2 border-gray-400"
+                            : index === 2
+                            ? "bg-gradient-to-r from-orange-200 to-orange-300 border-2 border-orange-400"
+                            : "bg-gray-100 border border-gray-300"
+                        }`}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg font-black w-6">
+                            {index === 0
+                              ? "🥇"
+                              : index === 1
+                              ? "🥈"
+                              : index === 2
+                              ? "🥉"
+                              : `${index + 1}.`}
+                          </span>
+                          <span className="font-bold">{entry.name}</span>
+                        </div>
+                        <span className="font-black text-purple-600">
+                          {entry.score} 🌟
+                        </span>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
               </motion.div>
             </motion.div>
           )}
