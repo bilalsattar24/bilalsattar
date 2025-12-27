@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { redis } from "@/lib/redis";
 
 export interface LeaderboardEntry {
   name: string;
@@ -8,22 +7,36 @@ export interface LeaderboardEntry {
   timestamp: string;
 }
 
-const LEADERBOARD_FILE = path.join(process.cwd(), "public", "leaderboard.json");
+const LEADERBOARD_KEY = "rayan-trivia:leaderboard";
 
 export async function GET() {
   try {
-    const fileContents = await fs.readFile(LEADERBOARD_FILE, "utf-8");
-    const leaderboard: LeaderboardEntry[] = JSON.parse(fileContents);
+    // Get top 100 scores with their scores using zrange with REV option
+    const results = await redis.zrange(LEADERBOARD_KEY, 0, 99, {
+      withScores: true,
+      rev: true,
+    });
 
-    // Sort by score descending
-    const sorted = leaderboard.sort((a, b) => b.score - a.score);
+    // Format results into LeaderboardEntry array
+    const leaderboard: LeaderboardEntry[] = [];
 
-    return NextResponse.json(sorted);
-  } catch (error) {
-    // If file doesn't exist, return empty array
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return NextResponse.json([]);
+    for (let i = 0; i < results.length; i += 2) {
+      const memberData = results[i] as string;
+      const score = results[i + 1] as number;
+
+      // Parse the member data (format: "name|timestamp")
+      const [name, timestamp] = memberData.split("|");
+
+      leaderboard.push({
+        name,
+        score,
+        timestamp,
+      });
     }
+
+    return NextResponse.json(leaderboard);
+  } catch (error) {
+    console.error("Failed to read leaderboard:", error);
     return NextResponse.json(
       { error: "Failed to read leaderboard" },
       { status: 500 }
@@ -39,38 +52,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
 
-    let leaderboard: LeaderboardEntry[] = [];
+    const timestamp = new Date().toISOString();
 
-    // Read existing leaderboard
-    try {
-      const fileContents = await fs.readFile(LEADERBOARD_FILE, "utf-8");
-      leaderboard = JSON.parse(fileContents);
-    } catch (error) {
-      // File doesn't exist yet, start with empty array
-      if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-        throw error;
-      }
-    }
+    // Create a unique member by combining name and timestamp
+    // This allows multiple entries from the same person
+    const member = `${name.trim()}|${timestamp}`;
 
-    // Add new entry
+    // Add score to Redis sorted set using zadd
+    await redis.zadd(LEADERBOARD_KEY, {
+      score,
+      member,
+    });
+
+    // Keep only top 100 entries
+    // Remove entries beyond rank 100
+    await redis.zremrangebyrank(LEADERBOARD_KEY, 0, -101);
+
     const newEntry: LeaderboardEntry = {
       name: name.trim(),
       score,
-      timestamp: new Date().toISOString(),
+      timestamp,
     };
-
-    leaderboard.push(newEntry);
-
-    // Sort by score descending
-    leaderboard.sort((a, b) => b.score - a.score);
-
-    // Keep top 100 entries
-    if (leaderboard.length > 100) {
-      leaderboard = leaderboard.slice(0, 100);
-    }
-
-    // Write back to file
-    await fs.writeFile(LEADERBOARD_FILE, JSON.stringify(leaderboard, null, 2));
 
     return NextResponse.json({ success: true, entry: newEntry });
   } catch (error) {
