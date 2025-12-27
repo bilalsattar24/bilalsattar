@@ -23,7 +23,32 @@ export default function RayanTrivia() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [showFunFact, setShowFunFact] = useState(false);
 
-  const currentQuestion = triviaQuestions[currentQuestionIndex];
+  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
+
+  const currentQuestion = shuffledQuestions[currentQuestionIndex];
+
+  const shuffleArray = <T,>(items: T[]): T[] => {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const buildShuffledQuestions = (): Question[] => {
+    const shuffled = shuffleArray(triviaQuestions).map((q) => {
+      const correctOption = q.options[q.correctAnswer];
+      const options = shuffleArray(q.options);
+      const correctAnswer = options.findIndex((opt) => opt === correctOption);
+      return {
+        ...q,
+        options,
+        correctAnswer,
+      };
+    });
+    return shuffled;
+  };
 
   // Calculate points based on time taken (0-10 seconds)
   const calculatePoints = (timeInSeconds: number): number => {
@@ -58,12 +83,19 @@ export default function RayanTrivia() {
 
   const startGame = () => {
     if (playerName.trim()) {
+      setShuffledQuestions(buildShuffledQuestions());
+      setCurrentQuestionIndex(0);
+      setScore(0);
+      setSelectedAnswer(null);
+      setIsCorrect(null);
+      setShowFunFact(false);
       setGameState("playing");
       setQuestionStartTime(Date.now());
     }
   };
 
   const handleAnswer = (answerIndex: number) => {
+    if (!currentQuestion) return;
     if (selectedAnswer !== null) return; // Already answered
 
     const timeElapsed = (Date.now() - questionStartTime) / 1000;
@@ -80,7 +112,7 @@ export default function RayanTrivia() {
 
     // Move to next question after delay
     setTimeout(() => {
-      if (currentQuestionIndex < triviaQuestions.length - 1) {
+      if (currentQuestionIndex < shuffledQuestions.length - 1) {
         setCurrentQuestionIndex((prev) => prev + 1);
         setSelectedAnswer(null);
         setIsCorrect(null);
@@ -102,6 +134,7 @@ export default function RayanTrivia() {
     setSelectedAnswer(null);
     setIsCorrect(null);
     setShowFunFact(false);
+    setShuffledQuestions([]);
   };
 
   const viewLeaderboard = async () => {
@@ -173,7 +206,7 @@ export default function RayanTrivia() {
           )}
 
           {/* Playing Screen */}
-          {gameState === "playing" && (
+          {gameState === "playing" && currentQuestion && (
             <motion.div
               key="playing"
               initial={{ opacity: 0, x: 100 }}
@@ -185,7 +218,7 @@ export default function RayanTrivia() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-bold text-gray-600">
                     Question {currentQuestionIndex + 1} of{" "}
-                    {triviaQuestions.length}
+                    {shuffledQuestions.length}
                   </span>
                   <span className="text-sm font-bold text-purple-600">
                     Score: {score} 🌟
@@ -196,7 +229,8 @@ export default function RayanTrivia() {
                     initial={{ width: 0 }}
                     animate={{
                       width: `${
-                        ((currentQuestionIndex + 1) / triviaQuestions.length) *
+                        ((currentQuestionIndex + 1) /
+                          shuffledQuestions.length) *
                         100
                       }%`,
                     }}
