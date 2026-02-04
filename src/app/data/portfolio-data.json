@@ -1,0 +1,277 @@
+{
+  "profile": {
+    "name": "Bilal Sattar",
+    "title": "Full-Stack Developer",
+    "tagline": "Building Products That Scale",
+    "bio": "Full-stack developer and Tech Operations Lead with a track record of building products that serve millions of users. Creator of SportsWZRD, a platform with 10K+ active users grown through organic marketing and strategic partnerships. Currently leading tech operations at a leading software distributor, managing tens of millions of software downloads and developing innovative monetization solutions for Chrome extensions.",
+    "location": "Los Angeles, CA",
+    "socials": {
+      "github": "https://github.com/bilalsattar24",
+      "linkedin": "https://linkedin.com/in/bilalsattar24"
+    },
+    "contact": {
+      "email": "bilalsattar24@gmail.com",
+      "phone": "310-357-7238"
+    }
+  },
+  "navigation": [
+    { "id": "hero", "label": "Hero" },
+    { "id": "skills", "label": "Skills" },
+    { "id": "projects", "label": "Projects" },
+    { "id": "testimonials", "label": "Testimonials" },
+    { "id": "contact", "label": "Contact" }
+  ],
+  "hero": {
+    "featuredProject": {
+      "name": "Fantasy Basketball WZRD",
+      "description": "Chrome extension serving 10,000+ active users with advanced analytics and automation for fantasy basketball enthusiasts.",
+      "technologies": ["Python", "Django", "React", "Chrome API"],
+      "stats": {
+        "rating": "4.6★",
+        "users": "10K+",
+        "revenue": "$50K+"
+      }
+    }
+  },
+  "skills": {
+    "title": "Technical Expertise",
+    "subtitle": "Mastering cutting-edge technologies to deliver exceptional digital experiences",
+    "categories": [
+      {
+        "name": "Frontend Mastery",
+        "technologies": [
+          { "name": "React/Next.js", "level": 95 },
+          { "name": "TypeScript", "level": 90 },
+          { "name": "Three.js", "level": 85 },
+          { "name": "Tailwind CSS", "level": 92 },
+          { "name": "Framer Motion", "level": 88 }
+        ]
+      },
+      {
+        "name": "Backend Excellence",
+        "technologies": [
+          { "name": "Node.js", "level": 93 },
+          { "name": "Python/Django", "level": 90 },
+          { "name": "GraphQL", "level": 85 },
+          { "name": "PostgreSQL", "level": 88 },
+          { "name": "MongoDB", "level": 87 }
+        ]
+      },
+      {
+        "name": "Cloud & DevOps",
+        "technologies": [
+          { "name": "AWS", "level": 88 },
+          { "name": "Docker", "level": 85 },
+          { "name": "Kubernetes", "level": 80 },
+          { "name": "Redis", "level": 82 },
+          { "name": "Vercel", "level": 90 }
+        ]
+      },
+      {
+        "name": "Leadership & Strategy",
+        "technologies": [
+          { "name": "Team Leadership", "level": 95 },
+          { "name": "Project Management", "level": 90 },
+          { "name": "Mentoring", "level": 92 },
+          { "name": "Architecture Design", "level": 88 },
+          { "name": "Client Relations", "level": 85 }
+        ]
+      },
+      {
+        "name": "AI & Machine Learning",
+        "technologies": [
+          { "name": "LLM Integration", "level": 90 },
+          { "name": "AI-Assisted Development", "level": 92 },
+          { "name": "Prompt Engineering", "level": 88 },
+          { "name": "Vector Databases", "level": 85 },
+          { "name": "OpenAI API", "level": 90 }
+        ]
+      },
+      {
+        "name": "Browser Extension Development",
+        "technologies": [
+          { "name": "Chrome Extension API", "level": 95 },
+          { "name": "Content Scripts", "level": 92 },
+          { "name": "Background Workers", "level": 90 },
+          { "name": "Extension Monetization", "level": 88 },
+          { "name": "Manifest V3", "level": 87 }
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "Showcasing innovative solutions that drive real business impact",
+    "items": [
+      {
+        "title": "Fantasy Basketball WZRD",
+        "description": "Chrome extension serving 10,000+ active users with advanced analytics and automation. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
+        "technologies": [
+          "Python",
+          "Django",
+          "Chrome Extension",
+          "React",
+          "PostgreSQL"
+        ],
+        "stats": {
+          "users": "10K+",
+          "rating": "4.6★",
+          "revenue": "$50K+"
+        },
+        "links": {
+          "live": "https://www.sportswzrd.com/extension"
+        },
+        "featured": true
+      },
+      {
+        "title": "SportsWZRD Platform",
+        "description": "SaaS platform for fantasy basketball analytics on the go. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
+        "technologies": ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
+        "stats": {
+          "users": "10K+",
+          "rating": "4.6★",
+          "revenue": "$50K+"
+        },
+        "links": {
+          "live": "https://www.sportswzrd.com"
+        },
+        "featured": true
+      },
+      {
+        "title": "Hit Factory LA",
+        "description": "Full-featured WordPress website for a multi-sport training facility. Built a high-converting reservation system for batting cages, indoor soccer, basketball courts, and banquet areas. Includes e-commerce for merchandise, training class bookings, and youth baseball team management.",
+        "technologies": [
+          "WordPress",
+          "PHP",
+          "JavaScript",
+          "WooCommerce",
+          "Booking System"
+        ],
+        "stats": {
+          "courts": "6+",
+          "booking_rate": "85%",
+          "revenue": "Primary"
+        },
+        "links": {
+          "live": "https://hitfactorylosangeles.com"
+        },
+        "featured": true
+      },
+      {
+        "title": "Sports Health Tech Platform",
+        "description": "AI-powered risk analysis platform for professional athletes. Analyzes game and practice film to help teams make informed decisions on player health management. Lead frontend development while contributing to product strategy, infrastructure decisions, and architecture design.",
+        "technologies": [
+          "React",
+          "TypeScript",
+          "Python",
+          "AI/ML",
+          "Video Analysis"
+        ],
+        "stats": {
+          "teams": "10+",
+          "accuracy": "94%",
+          "leagues": "NBA, NFL"
+        },
+        "links": {},
+        "featured": false
+      },
+      {
+        "title": "Extension Ad Platform",
+        "description": "First-of-its-kind advertising platform for Chrome extension developers. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
+        "technologies": ["React", "Node.js", "PostgreSQL", "Chrome API", "AWS"],
+        "stats": {
+          "developers": "100+",
+          "impressions": "1M+",
+          "fill_rate": "85%"
+        },
+        "links": {},
+        "featured": false
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Client Success Stories",
+    "subtitle": "Trusted by forward-thinking companies worldwide",
+    "items": [
+      {
+        "name": "Sarah Johnson",
+        "role": "CTO",
+        "rating": 5,
+        "text": "Bilal delivered exceptional results on our enterprise platform. His technical expertise and leadership skills are outstanding. The project was completed ahead of schedule with zero critical bugs."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Product Manager",
+        "rating": 5,
+        "text": "Working with Bilal was a game-changer for our startup. He not only built an incredible product but also mentored our junior developers. His code quality is impeccable."
+      },
+      {
+        "name": "Emily Rodriguez",
+        "role": "Founder",
+        "rating": 5,
+        "text": "Bilal transformed our vision into reality with his full-stack expertise. The Fantasy Basketball WZRD extension he built has been a massive success with our users loving every feature."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Let's Build Something Amazing",
+    "subtitle": "Ready to transform your ideas into reality? Let's discuss your next project.",
+    "methods": [
+      {
+        "type": "email",
+        "label": "Email",
+        "value": "bilalsattar24@gmail.com",
+        "href": "mailto:bilalsattar24@gmail.com"
+      },
+      {
+        "type": "phone",
+        "label": "Phone",
+        "value": "310-357-7238",
+        "href": "tel:3103577238"
+      },
+      {
+        "type": "location",
+        "label": "Location",
+        "value": "Los Angeles, CA",
+        "href": "#"
+      }
+    ],
+    "form": {
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "placeholder": "Your Name",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "placeholder": "Email Address",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "textarea",
+          "placeholder": "Project Details",
+          "rows": 4,
+          "required": true
+        }
+      ],
+      "submitLabel": "Send Message"
+    }
+  },
+  "metadata": {
+    "description": "Bilal Sattar - Freelance Software Developer",
+    "url": "https://bilalsattar.com",
+    "expertise": [
+      "Software Development",
+      "Web Development",
+      "React",
+      "Node.js",
+      "Cloud Architecture",
+      "API Development",
+      "Full Stack Development"
+    ]
+  }
+}
