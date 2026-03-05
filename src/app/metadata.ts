@@ -2,6 +2,7 @@ export const metadata = {
   title: "Bilal Sattar | Freelance Software Developer & Engineering Consultant",
   description:
     "Expert freelance software developer delivering high-impact solutions. Specializing in full-stack development, cloud architecture, and technical consulting. Transform your ideas into reality.",
+  metadataBase: new URL("https://bilalsattar.com"),
   keywords: [
     "freelance software developer",
     "freelance web developer",
