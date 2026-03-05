@@ -1,7 +1,20 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { Search, Filter, User, TrendingUp, BarChart2 } from 'lucide-react';
+import {
+  BarChart2,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  Flame,
+  Search,
+  Shield,
+  Sparkles,
+  Target,
+  Trophy,
+  User,
+} from "lucide-react";
 import Papa from "papaparse";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,6 +35,12 @@ interface PlayerStats {
   TF: string;
   TSP: string;
 }
+
+const cardMotion = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+};
 
 const MBLStatsPage = () => {
   const [data, setData] = useState<PlayerStats[]>([]);
@@ -46,26 +65,29 @@ const MBLStatsPage = () => {
             setData(results.data as PlayerStats[]);
             setLoading(false);
           },
-          error: (error: Error) => {
-            setError("Error parsing CSV data: " + error.message);
+          error: (parseError: Error) => {
+            setError(`Error parsing CSV data: ${parseError.message}`);
             setLoading(false);
           },
         });
       } catch (err) {
-        setError("Error loading data: " + (err as Error).message);
+        setError(`Error loading data: ${(err as Error).message}`);
         setLoading(false);
       }
     };
+
     loadData();
   }, []);
 
   const { seasons, divisions } = useMemo(() => {
     const seasonsSet = new Set<string>();
     const divisionsSet = new Set<string>();
+
     data.forEach((player) => {
       if (player.Season?.trim()) seasonsSet.add(player.Season.trim());
       if (player.DIV?.trim()) divisionsSet.add(player.DIV.trim());
     });
+
     return {
       seasons: Array.from(seasonsSet).sort(),
       divisions: Array.from(divisionsSet).sort(),
@@ -75,10 +97,16 @@ const MBLStatsPage = () => {
   const filteredData = useMemo(() => {
     return data.filter((player) => {
       const searchTerms = searchTerm.toLowerCase().split(" ").filter(Boolean);
-      const fullName = `${player["First Name"] || ""} ${player["Last Name"] || ""}`.toLowerCase();
-      const searchMatch = searchTerm === "" || searchTerms.every((term) => fullName.includes(term));
-      const seasonMatch = selectedSeason === "all" || player.Season === selectedSeason;
-      const divisionMatch = selectedDivision === "all" || player.DIV === selectedDivision;
+      const fullName =
+        `${player["First Name"] || ""} ${player["Last Name"] || ""}`.toLowerCase();
+      const searchMatch =
+        searchTerm === "" ||
+        searchTerms.every((term) => fullName.includes(term));
+      const seasonMatch =
+        selectedSeason === "all" || player.Season === selectedSeason;
+      const divisionMatch =
+        selectedDivision === "all" || player.DIV === selectedDivision;
+
       return searchMatch && seasonMatch && divisionMatch;
     });
   }, [data, searchTerm, selectedSeason, selectedDivision]);
@@ -88,160 +116,453 @@ const MBLStatsPage = () => {
     return filteredData.slice(startIndex, startIndex + rowsPerPage);
   }, [filteredData, page, rowsPerPage]);
 
-  const handleChangePage = (newPage: number) => setPage(newPage);
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const summary = useMemo(() => {
+    const uniquePlayers = new Set(
+      data.map((player) =>
+        `${player["First Name"] || ""} ${player["Last Name"] || ""}`.trim(),
+      ),
+    );
+
+    const topScorer = data.reduce<PlayerStats | null>((best, player) => {
+      const currentPoints = parseFloat(player.PTS) || 0;
+      const bestPoints = best ? parseFloat(best.PTS) || 0 : -1;
+      return currentPoints > bestPoints ? player : best;
+    }, null);
+
+    const bestEfficiency = data.reduce<PlayerStats | null>((best, player) => {
+      const currentTsp = parseFloat(player.TSP) || 0;
+      const bestTsp = best ? parseFloat(best.TSP) || 0 : -1;
+      return currentTsp > bestTsp ? player : best;
+    }, null);
+
+    const topRebounder = data.reduce<PlayerStats | null>((best, player) => {
+      const currentRebounds = parseFloat(player.REB) || 0;
+      const bestRebounds = best ? parseFloat(best.REB) || 0 : -1;
+      return currentRebounds > bestRebounds ? player : best;
+    }, null);
+
+    const topPlaymaker = data.reduce<PlayerStats | null>((best, player) => {
+      const currentAssists = parseFloat(player.AST) || 0;
+      const bestAssists = best ? parseFloat(best.AST) || 0 : -1;
+      return currentAssists > bestAssists ? player : best;
+    }, null);
+
+    return {
+      uniquePlayers: uniquePlayers.size,
+      topScorer,
+      bestEfficiency,
+      topRebounder,
+      topPlaymaker,
+    };
+  }, [data]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / rowsPerPage));
+  const startRow = filteredData.length === 0 ? 0 : page * rowsPerPage + 1;
+  const endRow = Math.min((page + 1) * rowsPerPage, filteredData.length);
+
+  const handleChangePage = (newPage: number) => {
+    if (newPage < 0 || newPage >= totalPages) return;
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const getStatColor = (stat: string, value: string) => {
     const numValue = parseFloat(value) || 0;
-    if (stat === "PTS" && numValue > 150) return 'text-green-500';
-    if (stat === "REB" && numValue > 50) return 'text-blue-500';
-    if (stat === "AST" && numValue > 30) return 'text-yellow-500';
-    if (stat === "STL" && numValue > 20) return 'text-purple-500';
-    return 'text-gray-800 dark:text-gray-200';
+    if (stat === "PTS" && numValue > 150) return "text-orange-300";
+    if (stat === "REB" && numValue > 50) return "text-cyan-300";
+    if (stat === "AST" && numValue > 30) return "text-lime-300";
+    if (stat === "STL" && numValue > 20) return "text-fuchsia-300";
+    return "text-slate-200";
   };
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center mt-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="min-h-screen bg-[#07111f] px-4 py-20 text-slate-100 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl rounded-[2rem] border border-white/10 bg-[rgba(9,17,30,0.82)] p-10 text-center shadow-[0_30px_100px_rgba(0,0,0,0.45)] backdrop-blur">
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-2 border-slate-600 border-t-orange-400" />
+          <p className="mt-6 text-lg font-medium tracking-[0.02em] text-slate-300">
+            Loading player stats...
+          </p>
         </div>
-        <p className="text-center text-lg mt-2">Loading player stats...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
+      <div className="min-h-screen bg-[#07111f] px-4 py-20 text-slate-100 sm:px-6 lg:px-8">
+        <div
+          className="mx-auto max-w-4xl rounded-[2rem] border border-red-500/30 bg-red-500/10 px-6 py-5 text-red-200 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+          role="alert">
+          <strong className="font-semibold">Error: </strong>
+          <span>{error}</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.20),_transparent_18%),radial-gradient(circle_at_80%_10%,_rgba(14,165,233,0.14),_transparent_18%),linear-gradient(180deg,_#06101d_0%,_#0b1526_48%,_#121f34_100%)] px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-10">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-            <BarChart2 className="inline-block h-10 w-10 sm:h-12 sm:w-12 mr-3 align-middle" />
-            MBL Player Stats
-          </h1>
-          <p className="max-w-2xl mx-auto text-lg text-gray-400">
-            Explore comprehensive player statistics across all seasons and divisions.
-          </p>
+          className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(10,18,31,0.96),rgba(16,27,45,0.92))] px-6 py-8 shadow-[0_30px_120px_rgba(0,0,0,0.40)] sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute -right-16 top-8 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl animate-float" />
+          <div className="pointer-events-none absolute bottom-0 left-1/3 h-24 w-24 rounded-full bg-sky-400/15 blur-3xl animate-float [animation-delay:1s]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-orange-400/40 to-transparent" />
+
+          <div className="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-orange-400/20 bg-orange-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-orange-200">
+                <BarChart2 className="h-4 w-4" />
+                MBL analytics
+              </div>
+              <h1 className="mt-6 text-[clamp(2.9rem,7vw,5.8rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white">
+                Own the scoreboard.
+              </h1>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                A standalone basketball stats app for exploring player output
+                across seasons, divisions, and team contexts with a sharper,
+                game-night visual system.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                  {data.length} stat lines loaded
+                </span>
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                  {summary.uniquePlayers} unique players
+                </span>
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                  {seasons.length} seasons tracked
+                </span>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <InsightCard
+                icon={<Flame className="h-5 w-5" />}
+                label="Scoring leader"
+                value={
+                  summary.topScorer
+                    ? `${summary.topScorer["First Name"]} ${summary.topScorer["Last Name"]}`
+                    : "N/A"
+                }
+                detail={
+                  summary.topScorer
+                    ? `${summary.topScorer.PTS || "0"} points`
+                    : "Awaiting data"
+                }
+                tone="orange"
+              />
+              <InsightCard
+                icon={<Target className="h-5 w-5" />}
+                label="Efficiency leader"
+                value={
+                  summary.bestEfficiency
+                    ? `${summary.bestEfficiency.TSP || "0"}`
+                    : "N/A"
+                }
+                detail={
+                  summary.bestEfficiency
+                    ? `${summary.bestEfficiency["First Name"]} ${summary.bestEfficiency["Last Name"]}`
+                    : "Awaiting data"
+                }
+                tone="blue"
+              />
+            </div>
+          </div>
         </motion.header>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <StatCard icon={<User />} title="Total Records" value={data.length} color="from-red-500 to-red-600" />
-            <StatCard icon={<TrendingUp />} title="Seasons" value={seasons.length} color="from-green-500 to-green-600" />
-            <StatCard icon={<Filter />} title="Divisions" value={divisions.length} color="from-blue-500 to-blue-600" />
-            <StatCard icon={<Search />} title="Filtered" value={filteredData.length} color="from-yellow-500 to-yellow-600" />
+          {...cardMotion}
+          transition={{ ...cardMotion.transition, delay: 0.12 }}
+          className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard
+            icon={<User />}
+            title="Records"
+            value={data.length}
+            tone="orange"
+          />
+          <StatCard
+            icon={<Calendar />}
+            title="Seasons"
+            value={seasons.length}
+            tone="slate"
+          />
+          <StatCard
+            icon={<Shield />}
+            title="Divisions"
+            value={divisions.length}
+            tone="blue"
+          />
+          <StatCard
+            icon={<Sparkles />}
+            title="Filtered"
+            value={filteredData.length}
+            tone="dark"
+          />
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl shadow-lg mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {...cardMotion}
+          transition={{ ...cardMotion.transition, delay: 0.18 }}
+          className="mt-8 grid gap-4 lg:grid-cols-3">
+          <LeaderCard
+            icon={<Trophy className="h-5 w-5" />}
+            title="Top rebounder"
+            player={summary.topRebounder}
+            statLabel="REB"
+            statValue={summary.topRebounder?.REB || "0"}
+          />
+          <LeaderCard
+            icon={<Target className="h-5 w-5" />}
+            title="Top playmaker"
+            player={summary.topPlaymaker}
+            statLabel="AST"
+            statValue={summary.topPlaymaker?.AST || "0"}
+          />
+          <LeaderCard
+            icon={<Filter className="h-5 w-5" />}
+            title="Current filter state"
+            value={selectedSeason === "all" ? "All seasons" : selectedSeason}
+            secondary={
+              selectedDivision === "all"
+                ? "All divisions"
+                : `Division ${selectedDivision}`
+            }
+            statLabel="ROWS"
+            statValue={`${filteredData.length}`}
+          />
+        </motion.div>
+
+        <motion.section
+          {...cardMotion}
+          transition={{ ...cardMotion.transition, delay: 0.24 }}
+          className="mt-8 rounded-[2rem] border border-white/10 bg-[rgba(8,16,29,0.82)] p-5 shadow-[0_25px_80px_rgba(0,0,0,0.34)] backdrop-blur sm:p-6">
+          <div className="mb-5 flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-200">
+                Controls
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+                Dial in the matchup.
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-slate-400">
+              Search by player name, narrow by season and division, and jump
+              through the results without losing momentum.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               <input
                 type="text"
-                placeholder="Search by name..."
+                placeholder="Search by player name..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPage(0);
+                }}
+                className="w-full rounded-[1rem] border border-white/10 bg-slate-950/70 py-3 pl-11 pr-4 text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-orange-400/50 focus:bg-slate-950"
               />
             </div>
-            <SelectControl label="Season" value={selectedSeason} onChange={setSelectedSeason} options={seasons} />
-            <SelectControl label="Division" value={selectedDivision} onChange={setSelectedDivision} options={divisions.map(d => `Division ${d}`)} originalOptions={divisions} />
+            <SelectControl
+              label="Season"
+              value={selectedSeason}
+              onChange={(value) => {
+                setSelectedSeason(value);
+                setPage(0);
+              }}
+              options={seasons}
+            />
+            <SelectControl
+              label="Division"
+              value={selectedDivision}
+              onChange={(value) => {
+                setSelectedDivision(value);
+                setPage(0);
+              }}
+              options={divisions.map((d) => `Division ${d}`)}
+              originalOptions={divisions}
+            />
           </div>
-        </motion.div>
+        </motion.section>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-700">
-                <thead className="bg-gray-700/50">
-                  <tr>
-                    {['Player', 'Season', 'Div', 'Team', 'GP', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'TSP'].map(header => (
-                      <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-700">
-                  <AnimatePresence>
-                    {paginatedData.map((player, index) => (
-                      <motion.tr
-                        key={`${player["First Name"]}-${player["Last Name"]}-${player.Season}-${index}`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                        className="hover:bg-gray-700/50 transition-colors duration-200">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{player["First Name"]} {player["Last Name"]}</td>
-                        <td className="px-6 py-4 whitespace-nowrap"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-600/30 text-purple-300">{player.Season || 'N/A'}</span></td>
-                        <td className="px-6 py-4 whitespace-nowrap"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-600/30 text-pink-300">{player.DIV || 'N/A'}</span></td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{player.Team || 'N/A'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{player.GP || '0'}</td>
-                        <td className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${getStatColor("PTS", player.PTS)}`}>{player.PTS || '0'}</td>
-                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("REB", player.REB)}`}>{player.REB || '0'}</td>
-                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("AST", player.AST)}`}>{player.AST || '0'}</td>
-                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatColor("STL", player.STL)}`}>{player.STL || '0'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{player.BLK || '0'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-300">{player.TSP || '0'}</td>
-                      </motion.tr>
-                    ))}
-                  </AnimatePresence>
-                </tbody>
-              </table>
+        <motion.section
+          {...cardMotion}
+          transition={{ ...cardMotion.transition, delay: 0.28 }}
+          className="mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(8,16,29,0.88)] shadow-[0_25px_90px_rgba(0,0,0,0.38)] backdrop-blur">
+          <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-200">
+                Box score view
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+                Full stat sheet.
+              </h2>
             </div>
-            <div className="bg-gray-700/50 px-4 py-3 flex items-center justify-between sm:px-6 border-t border-gray-700">
-              <div className="flex-1 flex justify-between sm:hidden">
-                <button onClick={() => handleChangePage(page - 1)} disabled={page === 0} className="relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 disabled:opacity-50">Previous</button>
-                <button onClick={() => handleChangePage(page + 1)} disabled={page >= Math.ceil(filteredData.length / rowsPerPage) - 1} className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 disabled:opacity-50">Next</button>
-              </div>
-              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">
-                    Showing <span className="font-medium">{page * rowsPerPage + 1}</span> to <span className="font-medium">{Math.min((page + 1) * rowsPerPage, filteredData.length)}</span> of <span className="font-medium">{filteredData.length}</span> results
-                  </p>
-                </div>
-                <div>
-                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <button onClick={() => handleChangePage(page - 1)} disabled={page === 0} className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-600 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700 disabled:opacity-50">Previous</button>
-                    <select value={rowsPerPage} onChange={handleChangeRowsPerPage} className="bg-gray-800 border-gray-600 text-gray-300 text-sm focus:ring-purple-500 focus:border-purple-500">
-                      {[10, 25, 50, 100].map(size => <option key={size} value={size}>Show {size}</option>)}
-                    </select>
-                    <button onClick={() => handleChangePage(page + 1)} disabled={page >= Math.ceil(filteredData.length / rowsPerPage) - 1} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-600 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700 disabled:opacity-50">Next</button>
-                  </nav>
-                </div>
-              </div>
+            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                {filteredData.length} matching rows
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                {selectedSeason === "all" ? "All seasons" : selectedSeason}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                {selectedDivision === "all"
+                  ? "All divisions"
+                  : `Division ${selectedDivision}`}
+              </span>
             </div>
           </div>
-        </motion.div>
 
-        <footer className="text-center mt-10 text-gray-500 text-sm">
-          <p>MBL Player Statistics Dashboard • {filteredData.length} players displayed</p>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-separate border-spacing-0">
+              <thead>
+                <tr className="bg-[rgba(255,255,255,0.04)] text-slate-400">
+                  {[
+                    "Player",
+                    "Season",
+                    "Div",
+                    "Team",
+                    "GP",
+                    "PTS",
+                    "REB",
+                    "AST",
+                    "STL",
+                    "BLK",
+                    "TSP",
+                  ].map((header) => (
+                    <th
+                      key={header}
+                      className="whitespace-nowrap px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <AnimatePresence initial={false}>
+                  {paginatedData.map((player, index) => (
+                    <motion.tr
+                      key={`${player["First Name"]}-${player["Last Name"]}-${player.Season}-${index}`}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -14 }}
+                      transition={{
+                        duration: 0.26,
+                        delay: Math.min(index * 0.015, 0.18),
+                      }}
+                      className="border-b border-white/5 bg-[rgba(255,255,255,0.01)] transition hover:bg-[rgba(249,115,22,0.08)]">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-white">
+                        {player["First Name"]} {player["Last Name"]}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <span className="inline-flex rounded-full bg-orange-500/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-orange-200 ring-1 ring-orange-400/20">
+                          {player.Season || "N/A"}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <span className="inline-flex rounded-full bg-sky-500/12 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200 ring-1 ring-sky-400/20">
+                          {player.DIV || "N/A"}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-300">
+                        {player.Team || "N/A"}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-300">
+                        {player.GP || "0"}
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-5 py-4 text-sm font-semibold ${getStatColor("PTS", player.PTS)}`}>
+                        {player.PTS || "0"}
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-5 py-4 text-sm ${getStatColor("REB", player.REB)}`}>
+                        {player.REB || "0"}
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-5 py-4 text-sm ${getStatColor("AST", player.AST)}`}>
+                        {player.AST || "0"}
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-5 py-4 text-sm ${getStatColor("STL", player.STL)}`}>
+                        {player.STL || "0"}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-300">
+                        {player.BLK || "0"}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-white">
+                        {player.TSP || "0"}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="text-sm text-slate-400">
+              Showing{" "}
+              <span className="font-semibold text-white">{startRow}</span> to{" "}
+              <span className="font-semibold text-white">{endRow}</span> of{" "}
+              <span className="font-semibold text-white">
+                {filteredData.length}
+              </span>{" "}
+              results
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <select
+                value={rowsPerPage}
+                onChange={handleChangeRowsPerPage}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 outline-none transition focus:border-orange-400/50">
+                {[10, 25, 50, 100].map((size) => (
+                  <option key={size} value={size}>
+                    Show {size}
+                  </option>
+                ))}
+              </select>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleChangePage(page - 1)}
+                  disabled={page === 0}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </button>
+                <span className="px-2 text-sm text-slate-400">
+                  Page {page + 1} / {totalPages}
+                </span>
+                <button
+                  onClick={() => handleChangePage(page + 1)}
+                  disabled={page >= totalPages - 1}
+                  className="inline-flex items-center gap-2 rounded-full border border-orange-400/20 bg-orange-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-40">
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <footer className="px-1 py-8 text-center text-sm text-slate-500">
+          <p>
+            MBL Player Statistics Dashboard • {filteredData.length} rows
+            currently displayed
+          </p>
         </footer>
       </div>
     </div>
@@ -252,17 +573,111 @@ interface StatCardProps {
   icon: React.ReactElement;
   title: string;
   value: number | string;
-  color: string;
+  tone: "dark" | "orange" | "blue" | "slate";
 }
 
-const StatCard: React.FC<StatCardProps> = ({ icon, title, value, color }) => (
-  <div className={`bg-gradient-to-br ${color} p-4 rounded-xl shadow-lg text-white`}>
-    <div className="flex items-center">
-      <div className="p-3 bg-black/20 rounded-lg mr-4">{React.cloneElement(icon, { className: "h-6 w-6" })}</div>
-      <div>
-        <p className="text-sm font-medium text-gray-200">{title}</p>
-        <p className="text-2xl font-bold">{value}</p>
+const StatCard: React.FC<StatCardProps> = ({ icon, title, value, tone }) => {
+  const tones = {
+    dark: "bg-[linear-gradient(135deg,rgba(15,23,42,0.96),rgba(30,41,59,0.96))] text-white border border-white/10",
+    orange:
+      "bg-[linear-gradient(135deg,rgba(249,115,22,0.96),rgba(234,88,12,0.96))] text-white",
+    blue: "bg-[linear-gradient(135deg,rgba(14,165,233,0.94),rgba(3,105,161,0.94))] text-white",
+    slate: "bg-[rgba(15,23,42,0.86)] text-white border border-white/10",
+  };
+
+  return (
+    <div
+      className={`rounded-[1.5rem] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.28)] ${tones[tone]}`}>
+      <div className="flex items-center gap-4">
+        <div className="rounded-[1rem] bg-black/15 p-3">
+          {React.cloneElement(icon, { className: "h-5 w-5" })}
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-80">
+            {title}
+          </p>
+          <p className="mt-1 text-3xl font-semibold tracking-[-0.04em]">
+            {value}
+          </p>
+        </div>
       </div>
+    </div>
+  );
+};
+
+interface InsightCardProps {
+  icon: React.ReactElement;
+  label: string;
+  value: string;
+  detail: string;
+  tone: "orange" | "blue";
+}
+
+const InsightCard: React.FC<InsightCardProps> = ({
+  icon,
+  label,
+  value,
+  detail,
+  tone,
+}) => (
+  <div
+    className={`rounded-[1.5rem] border p-5 text-left shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur ${tone === "orange" ? "border-orange-400/20 bg-orange-500/10" : "border-sky-400/20 bg-sky-500/10"}`}>
+    <div className="flex items-center gap-3 text-slate-200">
+      <div className="rounded-full border border-white/10 p-2">{icon}</div>
+      <span className="text-xs font-semibold uppercase tracking-[0.24em]">
+        {label}
+      </span>
+    </div>
+    <div className="mt-6 text-xl font-semibold tracking-[-0.03em] text-white">
+      {value}
+    </div>
+    <div className="mt-2 text-sm leading-6 text-slate-300">{detail}</div>
+  </div>
+);
+
+interface LeaderCardProps {
+  icon: React.ReactElement;
+  title: string;
+  player?: PlayerStats | null;
+  value?: string;
+  secondary?: string;
+  statLabel: string;
+  statValue: string;
+}
+
+const LeaderCard: React.FC<LeaderCardProps> = ({
+  icon,
+  title,
+  player,
+  value,
+  secondary,
+  statLabel,
+  statValue,
+}) => (
+  <div className="rounded-[1.5rem] border border-white/10 bg-[rgba(255,255,255,0.04)] p-5 shadow-[0_18px_50px_rgba(0,0,0,0.24)]">
+    <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3 text-slate-200">
+        <div className="rounded-full border border-white/10 p-2">{icon}</div>
+        <span className="text-xs font-semibold uppercase tracking-[0.24em]">
+          {title}
+        </span>
+      </div>
+      <div className="rounded-full border border-orange-400/20 bg-orange-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-200">
+        {statLabel}
+      </div>
+    </div>
+    <div className="mt-6 text-xl font-semibold tracking-[-0.03em] text-white">
+      {value ||
+        (player ? `${player["First Name"]} ${player["Last Name"]}` : "N/A")}
+    </div>
+    <div className="mt-2 text-sm text-slate-400">
+      {secondary ||
+        (player
+          ? `${player.Team || "No team"} • ${player.Season || "No season"}`
+          : "Awaiting data")}
+    </div>
+    <div className="mt-5 text-3xl font-black tracking-[-0.04em] text-orange-300">
+      {statValue}
     </div>
   </div>
 );
@@ -275,20 +690,35 @@ interface SelectControlProps {
   originalOptions?: string[];
 }
 
-const SelectControl: React.FC<SelectControlProps> = ({ label, value, onChange, options, originalOptions }) => (
+const SelectControl: React.FC<SelectControlProps> = ({
+  label,
+  value,
+  onChange,
+  options,
+  originalOptions,
+}) => (
   <div className="relative">
+    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+      {label}
+    </label>
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-3 appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500"
-    >
+      className="w-full appearance-none rounded-[1rem] border border-white/10 bg-slate-950/70 px-4 py-3 pr-10 text-slate-100 outline-none transition focus:border-orange-400/50 focus:bg-slate-950">
       <option value="all">All {label}s</option>
       {(originalOptions || options).map((opt, i) => (
-        <option key={opt} value={opt}>{options[i]}</option>
+        <option key={opt} value={opt}>
+          {options[i]}
+        </option>
       ))}
     </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+    <div className="pointer-events-none absolute inset-y-0 right-0 top-7 flex items-center px-3 text-slate-500">
+      <svg
+        className="h-4 w-4 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20">
+        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+      </svg>
     </div>
   </div>
 );
