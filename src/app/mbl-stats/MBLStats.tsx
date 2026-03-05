@@ -226,7 +226,7 @@ const MBLStatsPage = () => {
                 MBL analytics
               </div>
               <h1 className="mt-6 text-[clamp(2.9rem,7vw,5.8rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white">
-                Own the scoreboard.
+                MBL Stats
               </h1>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
                 A standalone basketball stats app for exploring player output
