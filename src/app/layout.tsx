@@ -2,6 +2,8 @@ import "./globals.css";
 import { metadata } from "./metadata";
 import Script from "next/script";
 
+export { metadata };
+
 export default function RootLayout({
   children,
 }: {
@@ -13,7 +15,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content={metadata.keywords} />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://bilalsattar.com" />
         <Script
           id="json-ld"
           type="application/ld+json"
