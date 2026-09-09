@@ -44,16 +44,16 @@ const process = [
   },
 ];
 
-const featuredProjects = portfolio.projects.items.slice(0, 3);
+const selectedProjects = portfolio.projects.items;
 const coreCapabilities = portfolio.skills.categories.slice(0, 4);
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(218,165,32,0.18),_transparent_22%),radial-gradient(circle_at_80%_20%,_rgba(119,89,54,0.14),_transparent_20%),linear-gradient(180deg,_#f7f1e8_0%,_#efe5d5_42%,_#ded1bd_100%)] text-stone-950 selection:bg-stone-900 selection:text-stone-50">
-      <div className="mx-auto max-w-[92rem] px-5 pb-10 pt-5 sm:px-8 lg:px-10">
+    <main className="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(218,165,32,0.18),_transparent_22%),radial-gradient(circle_at_80%_20%,_rgba(119,89,54,0.14),_transparent_20%),linear-gradient(180deg,_#f7f1e8_0%,_#efe5d5_42%,_#ded1bd_100%)] text-stone-950 selection:bg-stone-900 selection:text-stone-50">
+      <div className="mx-auto w-full max-w-[92rem] px-4 pb-10 pt-5 sm:px-8 lg:px-10">
         <header className="sticky top-4 z-50 mb-8">
-          <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-stone-900/10 bg-[rgba(250,246,239,0.82)] px-4 py-3 shadow-[0_20px_60px_rgba(90,67,38,0.10)] backdrop-blur md:px-6">
-            <a href="#top" className="flex items-center gap-3">
+          <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-3 rounded-full border border-stone-900/10 bg-[rgba(250,246,239,0.82)] px-3 py-3 shadow-[0_20px_60px_rgba(90,67,38,0.10)] backdrop-blur sm:px-4 md:px-6">
+            <a href="#top" className="flex shrink-0 items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-950 text-sm font-semibold uppercase tracking-[0.25em] text-stone-50">
                 BS
               </span>
@@ -81,7 +81,7 @@ export default function Home() {
 
             <a
               href={`mailto:${portfolio.profile.contact.email}`}
-              className="inline-flex items-center gap-2 rounded-full bg-stone-950 px-4 py-2 text-sm font-medium text-stone-50 transition hover:bg-stone-800">
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-stone-950 px-3 py-2 text-sm font-medium text-stone-50 transition hover:bg-stone-800 sm:px-4">
               Start a project
               <ArrowRight className="h-4 w-4" />
             </a>
@@ -90,10 +90,12 @@ export default function Home() {
 
         <section
           id="top"
-          className="reveal reveal-1 relative grid gap-10 overflow-hidden rounded-[2rem] border border-stone-900/10 bg-[linear-gradient(135deg,rgba(255,251,245,0.9),rgba(237,226,208,0.9))] px-6 py-8 shadow-[0_30px_120px_rgba(90,67,38,0.12)] lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:py-10">
-          <div className="pointer-events-none absolute -right-16 top-10 h-40 w-40 rounded-full bg-[rgba(124,98,71,0.12)] blur-3xl animate-float" />
-          <div className="pointer-events-none absolute bottom-8 left-1/3 h-24 w-24 rounded-full bg-[rgba(218,165,32,0.14)] blur-2xl [animation-delay:1.2s] animate-float" />
-          <div className="flex flex-col justify-between gap-10">
+          className="reveal reveal-1 relative grid min-w-0 gap-10 rounded-[2rem] border border-stone-900/10 bg-[linear-gradient(135deg,rgba(255,251,245,0.9),rgba(237,226,208,0.9))] px-4 py-8 shadow-[0_30px_120px_rgba(90,67,38,0.12)] sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:py-10">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
+            <div className="absolute -right-16 top-10 h-40 w-40 rounded-full bg-[rgba(124,98,71,0.12)] blur-3xl animate-float" />
+            <div className="absolute bottom-8 left-1/3 h-24 w-24 rounded-full bg-[rgba(218,165,32,0.14)] blur-2xl [animation-delay:1.2s] animate-float" />
+          </div>
+          <div className="relative flex min-w-0 flex-col justify-between gap-10">
             <div className="space-y-8">
               <div className="reveal reveal-2 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-stone-600">
                 <span className="rounded-full border border-stone-900/10 bg-stone-50/80 px-3 py-2">
@@ -105,10 +107,10 @@ export default function Home() {
               </div>
 
               <div className="reveal reveal-3 max-w-4xl space-y-6">
-                <p className="max-w-xl text-sm font-medium uppercase tracking-[0.32em] text-stone-500">
+                <p className="max-w-xl text-sm font-medium uppercase tracking-[0.18em] text-stone-500 sm:tracking-[0.32em]">
                   Boutique engineering for ambitious digital products
                 </p>
-                <h1 className="max-w-5xl text-[clamp(3.4rem,9vw,7.5rem)] font-semibold uppercase leading-[0.94] tracking-[-0.05em] text-stone-950">
+                <h1 className="max-w-5xl break-words text-[clamp(2.35rem,11vw,7.5rem)] font-semibold uppercase leading-[0.94] tracking-[-0.05em] text-stone-950">
                   Build the product people remember.
                 </h1>
                 <p className="max-w-2xl text-lg leading-8 text-stone-700 sm:text-xl">
@@ -166,14 +168,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="reveal reveal-4 grid gap-5 lg:grid-rows-[auto_1fr]">
-            <div className="rounded-[1.75rem] border border-stone-900/10 bg-stone-950 p-6 text-stone-50 shadow-[0_20px_60px_rgba(34,24,13,0.25)] transition duration-700 hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(34,24,13,0.28)]">
+          <div className="reveal reveal-4 relative grid min-w-0 gap-5 lg:grid-rows-[auto_1fr]">
+            <div className="min-w-0 rounded-[1.75rem] border border-stone-900/10 bg-stone-950 p-5 text-stone-50 shadow-[0_20px_60px_rgba(34,24,13,0.25)] transition duration-700 hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(34,24,13,0.28)] sm:p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-300">
                 Current spotlight
               </p>
               <div className="mt-5 grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-end">
-                <div>
-                  <h2 className="text-2xl font-semibold tracking-[-0.04em]">
+                <div className="min-w-0">
+                  <h2 className="text-2xl font-semibold tracking-[-0.04em] break-words">
                     {portfolio.hero.featuredProject.name}
                   </h2>
                   <p className="mt-3 max-w-xl text-sm leading-7 text-stone-300">
@@ -199,9 +201,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-[0.9fr_1.1fr]">
-              <div className="flex min-h-[22rem] flex-col justify-between rounded-[1.75rem] border border-stone-900/10 bg-[rgba(250,246,239,0.88)] p-6 transition duration-700 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(90,67,38,0.14)]">
-                <div>
+            <div className="grid min-w-0 gap-5 md:grid-cols-[0.9fr_1.1fr]">
+              <div className="flex min-w-0 flex-col gap-8 rounded-[1.75rem] border border-stone-900/10 bg-[rgba(250,246,239,0.88)] p-5 transition duration-700 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(90,67,38,0.14)] sm:p-6 md:min-h-[22rem] md:justify-between md:gap-0">
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">
                     Engagements
                   </p>
@@ -275,17 +277,16 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-xl text-base leading-7 text-stone-700">
-              A mix of owned products, client platforms, and specialized systems
-              built to grow audiences, unlock monetization, and support
-              ambitious operators.
+              Owned products, technical operations at Playanext, and client
+              systems across sports, commerce, and media.
             </p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
+            {selectedProjects.map((project, index) => (
               <article
                 key={project.title}
-                className={`reveal flex h-full flex-col justify-between rounded-[1.8rem] border border-stone-900/10 p-6 shadow-[0_18px_60px_rgba(90,67,38,0.08)] transition duration-700 hover:-translate-y-2 hover:shadow-[0_28px_80px_rgba(90,67,38,0.14)] ${
+                className={`reveal flex h-full min-w-0 flex-col justify-between rounded-[1.8rem] border border-stone-900/10 p-6 shadow-[0_18px_60px_rgba(90,67,38,0.08)] transition duration-700 hover:-translate-y-2 hover:shadow-[0_28px_80px_rgba(90,67,38,0.14)] ${
                   index === 0
                     ? "bg-stone-950 text-stone-50 lg:col-span-2"
                     : "bg-[rgba(250,246,239,0.82)] text-stone-900"
@@ -293,12 +294,13 @@ export default function Home() {
                 style={{ animationDelay: `${0.15 * (index + 1)}s` }}>
                 <div>
                   <div className="flex items-start justify-between gap-6">
-                    <div>
+                    <div className="min-w-0">
                       <p
                         className={`text-xs font-semibold uppercase tracking-[0.28em] ${index === 0 ? "text-stone-400" : "text-stone-500"}`}>
-                        {project.featured ? "Featured platform" : "Project"}
+                        {project.kind ??
+                          (project.featured ? "Featured platform" : "Project")}
                       </p>
-                      <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em]">
+                      <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] break-words">
                         {project.title}
                       </h3>
                     </div>
@@ -341,7 +343,7 @@ export default function Home() {
                         </div>
                         <div
                           className={`mt-1 text-xs uppercase tracking-[0.24em] ${index === 0 ? "text-stone-400" : "text-stone-500"}`}>
-                          {label.replace("_", " ")}
+                          {label.replaceAll("_", " ")}
                         </div>
                       </div>
                     ))}
@@ -470,9 +472,10 @@ export default function Home() {
               to support it.
             </p>
             <p className="max-w-2xl text-base leading-7 text-stone-700">
-              From owned platforms like SportsWZRD to client systems in sports,
-              media, and web software, my focus stays the same: build something
-              sharp, stable, and commercially useful.
+              From owned platforms like SportsWZRD and Playa Yield to client
+              systems for OnSport AI, Dennis CW, and local businesses, my focus
+              stays the same: build something sharp, stable, and commercially
+              useful.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">

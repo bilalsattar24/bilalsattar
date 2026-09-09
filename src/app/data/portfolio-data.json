@@ -3,7 +3,7 @@
     "name": "Bilal Sattar",
     "title": "Full-Stack Developer",
     "tagline": "Building Products That Scale",
-    "bio": "Full-stack developer and Tech Operations Lead with a track record of building products that serve millions of users. Creator of SportsWZRD, a platform with 10K+ active users grown through organic marketing and strategic partnerships. Currently leading tech operations at a leading software distributor, managing tens of millions of software downloads and developing innovative monetization solutions for Chrome extensions.",
+    "bio": "Full-stack developer and Tech Operations Lead with a track record of building products that serve millions of users. Creator of SportsWZRD, a platform with 10K+ active users grown through organic marketing and strategic partnerships. Currently leading technical operations at Playanext, a global software distribution company, and built Playa Yield, a Chrome extension monetization platform for developers.",
     "location": "Los Angeles, CA",
     "socials": {
       "github": "https://github.com/bilalsattar24",
@@ -104,7 +104,92 @@
     "subtitle": "Showcasing innovative solutions that drive real business impact",
     "items": [
       {
+        "title": "Playanext",
+        "kind": "Technical operations",
+        "description": "Technical operations for Playanext, a global software distribution company. The platform places complementary software offers in install flows and inside live products so publishers can acquire users and earn incremental revenue. I also built Playa Yield, the company's Chrome extension monetization platform.",
+        "technologies": [
+          "Node.js",
+          "React",
+          "Chrome API",
+          "AWS",
+          "AdTech"
+        ],
+        "stats": {
+          "role": "Tech ops",
+          "channels": "Install + in-product",
+          "product": "Playa Yield"
+        },
+        "links": {
+          "live": "https://www.playanext.com/"
+        },
+        "featured": true
+      },
+      {
+        "title": "Playa Yield",
+        "kind": "Product build",
+        "description": "Chrome extension monetization platform I created at Playanext. Developers drop in a Manifest V3-compliant SDK and earn from policy-safe ads in popups, side panels, and internal pages—no search injection, no extra permissions. High-volume impressions and real revenue for extension developers.",
+        "technologies": [
+          "TypeScript",
+          "Chrome Extension",
+          "Node.js",
+          "React",
+          "SDK"
+        ],
+        "stats": {
+          "compliance": "Manifest V3",
+          "surfaces": "Popup + panel",
+          "outcome": "Developer revenue"
+        },
+        "links": {
+          "live": "https://www.playayield.com/"
+        },
+        "featured": true
+      },
+      {
+        "title": "OnSport AI",
+        "kind": "Client platform",
+        "description": "Injury tracking and prevention software for NBA teams, professional golf, soccer, and international basketball. The system captures player movement from television feeds, reads patterns in the motion, scores injury risk, and presents the analysis in a clear, decision-ready interface for performance staff.",
+        "technologies": [
+          "React",
+          "TypeScript",
+          "Python",
+          "Computer Vision",
+          "AI/ML"
+        ],
+        "stats": {
+          "sports": "NBA+",
+          "input": "TV feeds",
+          "focus": "Injury risk"
+        },
+        "links": {
+          "live": "https://onsport.ai/"
+        },
+        "featured": true
+      },
+      {
+        "title": "Dennis CW",
+        "kind": "Client platform",
+        "description": "Custom site for Tesla YouTuber Dennis CW: automatic blog posts from YouTube videos, an email newsletter, a crowdsourced Tesla insurance rate tracker, and PDF checklist sales with instant email delivery after purchase.",
+        "technologies": [
+          "Next.js",
+          "YouTube API",
+          "Stripe",
+          "Email",
+          "Custom CMS"
+        ],
+        "stats": {
+          "publishing": "YouTube to blog",
+          "commerce": "PDF checklists",
+          "insurance": "Rate tracker"
+        },
+        "links": {
+          "live": "https://www.denniscw.com/"
+        },
+        "featured": true
+      },
+      {
         "title": "Fantasy Basketball WZRD",
+        "kind": "Owned product",
         "description": "Chrome extension serving 10,000+ active users with advanced analytics and automation. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
         "technologies": [
           "Python",
@@ -125,6 +210,7 @@
       },
       {
         "title": "SportsWZRD Platform",
+        "kind": "Owned product",
         "description": "SaaS platform for fantasy basketball analytics on the go. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
         "technologies": ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
         "stats": {
@@ -138,7 +224,29 @@
         "featured": true
       },
       {
+        "title": "Vital Detail Supplies",
+        "kind": "Client store",
+        "description": "Shopify store for a San Gabriel Valley auto-detailing supplier. Stood up the full online shop: catalog organization, shipping, and marketing materials so the physical store could sell the same inventory online.",
+        "technologies": [
+          "Shopify",
+          "Liquid",
+          "eCommerce",
+          "Shipping",
+          "Brand"
+        ],
+        "stats": {
+          "platform": "Shopify",
+          "scope": "Full store",
+          "ops": "Ship + marketing"
+        },
+        "links": {
+          "live": "https://www.vitaldetailsupplies.com/"
+        },
+        "featured": false
+      },
+      {
         "title": "Hit Factory LA",
+        "kind": "Client site",
         "description": "Full-featured WordPress website for a multi-sport training facility. Built a high-converting reservation system for batting cages, indoor soccer, basketball courts, and banquet areas. Includes e-commerce for merchandise, training class bookings, and youth baseball team management.",
         "technologies": [
           "WordPress",
@@ -158,31 +266,19 @@
         "featured": true
       },
       {
-        "title": "Sports Health Tech Platform",
-        "description": "AI-powered risk analysis platform for professional athletes. Analyzes game and practice film to help teams make informed decisions on player health management. Lead frontend development while contributing to product strategy, infrastructure decisions, and architecture design.",
+        "title": "Madera",
+        "kind": "Client systems",
+        "description": "Multiple WordPress implementations for Madera. Custom sites and ongoing builds for the client, covering new properties, refinements, and the operational pieces that keep each site usable after launch.",
         "technologies": [
-          "React",
-          "TypeScript",
-          "Python",
-          "AI/ML",
-          "Video Analysis"
+          "WordPress",
+          "PHP",
+          "JavaScript",
+          "Custom Themes"
         ],
         "stats": {
-          "teams": "10+",
-          "accuracy": "94%",
-          "leagues": "NBA, NFL"
-        },
-        "links": {},
-        "featured": false
-      },
-      {
-        "title": "Extension Ad Platform",
-        "description": "First-of-its-kind advertising platform for Chrome extension developers. Built and operate the entire business: product development, customer support, business operations, financial management, and infrastructure scaling.",
-        "technologies": ["React", "Node.js", "PostgreSQL", "Chrome API", "AWS"],
-        "stats": {
-          "developers": "100+",
-          "impressions": "1M+",
-          "fill_rate": "85%"
+          "platform": "WordPress",
+          "scope": "Multiple sites",
+          "type": "Custom builds"
         },
         "links": {},
         "featured": false
