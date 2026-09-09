@@ -277,7 +277,7 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-xl text-base leading-7 text-stone-700">
-              Owned products, technical operations at Playanext, and client
+              Owned products, technical operations at PlayaNext, and client
               systems across sports, commerce, and media.
             </p>
           </div>
@@ -472,8 +472,8 @@ export default function Home() {
               to support it.
             </p>
             <p className="max-w-2xl text-base leading-7 text-stone-700">
-              From owned platforms like SportsWZRD and Playa Yield to client
-              systems for OnSport AI, Dennis CW, and local businesses, my focus
+              From owned platforms like SportsWZRD and PlayaYield to client
+              systems for OnSport AI, DennisCW, and local businesses, my focus
               stays the same: build something sharp, stable, and commercially
               useful.
             </p>

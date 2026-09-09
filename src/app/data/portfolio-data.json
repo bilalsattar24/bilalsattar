@@ -3,7 +3,7 @@
     "name": "Bilal Sattar",
     "title": "Full-Stack Developer",
     "tagline": "Building Products That Scale",
-    "bio": "Full-stack developer and Tech Operations Lead with a track record of building products that serve millions of users. Creator of SportsWZRD, a platform with 10K+ active users grown through organic marketing and strategic partnerships. Currently leading technical operations at Playanext, a global software distribution company, and built Playa Yield, a Chrome extension monetization platform for developers.",
+    "bio": "Full-stack developer and Tech Operations Lead with a track record of building products that serve millions of users. Creator of SportsWZRD, a platform with 10K+ active users grown through organic marketing and strategic partnerships. Currently leading technical operations at PlayaNext, which delivers millions of monthly individual software installs, and built PlayaYield, a Chrome extension monetization platform for developers.",
     "location": "Los Angeles, CA",
     "socials": {
       "github": "https://github.com/bilalsattar24",
@@ -104,9 +104,9 @@
     "subtitle": "Showcasing innovative solutions that drive real business impact",
     "items": [
       {
-        "title": "Playanext",
+        "title": "PlayaNext",
         "kind": "Technical operations",
-        "description": "Technical operations for Playanext, a global software distribution company. The platform places complementary software offers in install flows and inside live products so publishers can acquire users and earn incremental revenue. I also built Playa Yield, the company's Chrome extension monetization platform.",
+        "description": "Technical operations for PlayaNext, a global software distribution company that delivers millions of monthly individual software installs. The platform places complementary software offers in install flows and inside live products so publishers can acquire users and earn incremental revenue. I also built PlayaYield, the company's Chrome extension monetization platform.",
         "technologies": [
           "Node.js",
           "React",
@@ -115,9 +115,9 @@
           "AdTech"
         ],
         "stats": {
-          "role": "Tech ops",
+          "monthly_installs": "Millions",
           "channels": "Install + in-product",
-          "product": "Playa Yield"
+          "product": "PlayaYield"
         },
         "links": {
           "live": "https://www.playanext.com/"
@@ -125,9 +125,9 @@
         "featured": true
       },
       {
-        "title": "Playa Yield",
+        "title": "PlayaYield",
         "kind": "Product build",
-        "description": "Chrome extension monetization platform I created at Playanext. Developers drop in a Manifest V3-compliant SDK and earn from policy-safe ads in popups, side panels, and internal pages—no search injection, no extra permissions. High-volume impressions and real revenue for extension developers.",
+        "description": "Chrome extension monetization platform I created at PlayaNext. Developers drop in a Manifest V3-compliant SDK and earn from policy-safe ads in popups, side panels, and internal pages—no search injection, no extra permissions. High-volume impressions and real revenue for extension developers.",
         "technologies": [
           "TypeScript",
           "Chrome Extension",
@@ -167,9 +167,9 @@
         "featured": true
       },
       {
-        "title": "Dennis CW",
+        "title": "DennisCW",
         "kind": "Client platform",
-        "description": "Custom site for Tesla YouTuber Dennis CW: automatic blog posts from YouTube videos, an email newsletter, a crowdsourced Tesla insurance rate tracker, and PDF checklist sales with instant email delivery after purchase.",
+        "description": "Custom site for Tesla YouTuber DennisCW: automatic blog posts from YouTube videos, an email newsletter, a crowdsourced Tesla insurance rate tracker, and PDF checklist sales with instant email delivery after purchase.",
         "technologies": [
           "Next.js",
           "YouTube API",
@@ -266,9 +266,9 @@
         "featured": true
       },
       {
-        "title": "Madera",
+        "title": "Modera",
         "kind": "Client systems",
-        "description": "Multiple WordPress implementations for Madera. Custom sites and ongoing builds for the client, covering new properties, refinements, and the operational pieces that keep each site usable after launch.",
+        "description": "Multiple WordPress implementations for Modera. Custom sites and ongoing builds for the client, covering new properties, refinements, and the operational pieces that keep each site usable after launch.",
         "technologies": [
           "WordPress",
           "PHP",
