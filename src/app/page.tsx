@@ -472,10 +472,10 @@ export default function Home() {
               to support it.
             </p>
             <p className="max-w-2xl text-base leading-7 text-stone-700">
-              From owned platforms like SportsWZRD and PlayaYield to client
-              systems for OnSport AI, DennisCW, and local businesses, my focus
-              stays the same: build something sharp, stable, and commercially
-              useful.
+              From owned platforms like SportsWZRD, Hoopkeep, and PlayaYield to
+              client systems for OnSport AI, DennisCW, and local businesses, my
+              focus stays the same: build something sharp, stable, and
+              commercially useful.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
