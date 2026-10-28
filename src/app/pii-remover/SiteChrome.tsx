@@ -39,6 +39,9 @@ export function SiteChrome({
               <a href="/#work" className="transition hover:text-stone-950">
                 Selected Work
               </a>
+              <a href="/#ai" className="transition hover:text-stone-950">
+                AI
+              </a>
               <a
                 href="/#capabilities"
                 className="transition hover:text-stone-950">

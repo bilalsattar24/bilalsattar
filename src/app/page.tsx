@@ -40,8 +40,35 @@ const process = [
     step: "03",
     title: "Ship with leverage",
     description:
-      "I build systems teams can extend, operators can trust, and customers can feel immediately through performance and polish.",
+      "I use coding agents and generative tools to move faster, then leave systems teams can extend, operators can trust, and customers can feel immediately.",
   },
+];
+
+const aiPractice = [
+  {
+    title: "Cursor is home base",
+    description:
+      "Most of the building happens in Cursor. Codex and Devin Desktop are in the same rotation, including Devin back when that app was Windsurf.",
+  },
+  {
+    title: "The wider toolkit",
+    description:
+      "I work in Grok and Grokbot, along with the other main agents, and I use image generation when a product needs visuals as well as code.",
+  },
+  {
+    title: "The product stays mine",
+    description:
+      "I decide what to build, direct the agents, and own what ships. Fluency is knowing which tool gets the task, and when to take it back.",
+  },
+];
+
+const aiTools = [
+  "Cursor",
+  "Codex",
+  "Devin Desktop",
+  "Grok",
+  "Grokbot",
+  "Image generation",
 ];
 
 const selectedProjects = portfolio.projects.items;
@@ -65,6 +92,9 @@ export default function Home() {
             <nav className="hidden items-center gap-6 text-sm font-medium text-stone-600 md:flex">
               <a href="#work" className="transition hover:text-stone-950">
                 Selected Work
+              </a>
+              <a href="#ai" className="transition hover:text-stone-950">
+                AI
               </a>
               <a
                 href="#capabilities"
@@ -239,8 +269,8 @@ export default function Home() {
                       Positioning
                     </p>
                     <p className="mt-3 text-base leading-7 text-stone-800">
-                      Product-minded engineer. Technical operator. Builder of
-                      businesses, not just interfaces.
+                      Product-minded engineer. Technical operator. Fluent with
+                      the AI tools that actually ship software.
                     </p>
                   </div>
                 </div>
@@ -355,8 +385,49 @@ export default function Home() {
         </section>
 
         <section
+          id="ai"
+          className="reveal reveal-2 grid gap-10 pb-10 pt-24 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+          <div className="space-y-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-stone-500">
+              AI practice
+            </p>
+            <h2 className="text-[clamp(2.4rem,5vw,4.2rem)] font-semibold uppercase leading-[0.96] tracking-[-0.05em] text-stone-950">
+              I use the tools. I still own the product.
+            </h2>
+            <p className="max-w-md text-base leading-7 text-stone-700">
+              The work above was built with AI in the loop. That is how I
+              build, and the products are still the point.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {aiTools.map((tool) => (
+                <span
+                  key={tool}
+                  className="rounded-full border border-stone-900/10 bg-[rgba(250,246,239,0.8)] px-3 py-2 text-xs font-medium text-stone-700">
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-5">
+            {aiPractice.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[1.6rem] border border-stone-900/10 bg-[rgba(250,246,239,0.72)] p-6 transition duration-700 hover:-translate-y-1 hover:bg-[rgba(255,249,241,0.9)] hover:shadow-[0_20px_50px_rgba(90,67,38,0.12)]">
+                <h3 className="text-2xl font-semibold tracking-[-0.04em] text-stone-900">
+                  {item.title}
+                </h3>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-700">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
           id="capabilities"
-          className="reveal reveal-2 grid gap-10 py-24 lg:grid-cols-[0.78fr_1.22fr]">
+          className="reveal reveal-2 grid gap-10 pb-24 pt-10 lg:grid-cols-[0.78fr_1.22fr]">
           <div className="space-y-5">
             <p className="text-sm font-semibold uppercase tracking-[0.32em] text-stone-500">
               Core capabilities
@@ -475,7 +546,8 @@ export default function Home() {
               From owned platforms like SportsWZRD, Hoopkeep, and PlayaYield to
               client systems for OnSport AI, DennisCW, and local businesses, my
               focus stays the same: build something sharp, stable, and
-              commercially useful.
+              commercially useful. AI is part of how I get there. I direct it,
+              and I am accountable for what ships.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">

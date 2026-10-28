@@ -78,7 +78,7 @@
         ]
       },
       {
-        "name": "AI & Machine Learning",
+        "name": "AI-native building",
         "technologies": [
           { "name": "LLM Integration", "level": 90 },
           { "name": "AI-Assisted Development", "level": 92 },
