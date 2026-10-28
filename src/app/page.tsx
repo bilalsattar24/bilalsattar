@@ -56,6 +56,11 @@ const aiPractice = [
       "I work in Grok and Grokbot, along with the other main agents, and I use image generation when a product needs visuals as well as code.",
   },
   {
+    title: "Voice and support agents",
+    description:
+      "I have also worked with voice agents and customer support agents, the kind that handle a real conversation. Same standard: direct the agent, then own what a person actually hears or reads.",
+  },
+  {
     title: "The product stays mine",
     description:
       "I decide what to build, direct the agents, and own what ships. Fluency is knowing which tool gets the task, and when to take it back.",
@@ -68,6 +73,8 @@ const aiTools = [
   "Devin Desktop",
   "Grok",
   "Grokbot",
+  "Voice agents",
+  "Support agents",
   "Image generation",
 ];
 
